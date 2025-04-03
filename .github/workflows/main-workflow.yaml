@@ -1,0 +1,17 @@
+name: main workflow
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: "eu-west-2"
+
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  test-step:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run stuff
+        run: echo "this is working"
