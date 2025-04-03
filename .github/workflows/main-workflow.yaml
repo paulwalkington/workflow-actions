@@ -18,7 +18,15 @@ jobs:
       - name: "Checkout repository"
         uses: actions/checkout@v3
 
-      - run: gh workflow run branch-workflow.yaml --ref extra-branch
+      - name: Generate .tfvars File
+        run: echo "${{ github.event.client_payload.name }}"
+
+      # - run: gh workflow run branch-workflow.yaml --ref extra-branch
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     ISSUE: ${{ github.event.issue.html_url }}
+
+      - run: echo '${{ github.event.client_payload.name }}' | gh workflow run branch-workflow.yaml --ref extra-branch --json
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}

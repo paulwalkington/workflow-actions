@@ -2,6 +2,9 @@ name: branch workflow
 
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        required: true
   repository_dispatch:
     types: [pull-request-event]
 
@@ -19,3 +22,6 @@ jobs:
     steps:
       - name: Run stuff
         run: echo "this is working for me"
+
+      - name: echo message
+        run: echo "${{ github.event.inputs.name }}
