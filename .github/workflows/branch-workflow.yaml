@@ -15,8 +15,7 @@ permissions:
 jobs:
   comment:
     runs-on: ubuntu-latest
+
     steps:
-      - run: gh pr list
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          ISSUE: ${{ github.event.issue.html_url }}
+      - name: Run stuff
+        run: echo "this is working"
