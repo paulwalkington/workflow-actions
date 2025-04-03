@@ -8,10 +8,7 @@ on:
 env:
   AWS_REGION: "eu-west-2"
 
-permissions:
-  id-token: write
-  contents: read
-  actions: write
+permissions: write-all
 
 jobs:
   main-run:
