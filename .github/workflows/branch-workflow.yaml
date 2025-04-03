@@ -11,9 +11,12 @@ env:
 permissions:
   id-token: write
   contents: read
+
 jobs:
-  test-step:
+  comment:
     runs-on: ubuntu-latest
     steps:
-      - name: Run stuff
-        run: echo "this is working"
+      - run: gh pr list
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.html_url }}
