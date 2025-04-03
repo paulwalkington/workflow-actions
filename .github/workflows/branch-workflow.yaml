@@ -3,7 +3,7 @@ name: main workflow
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [main-event]
+    types: [pull-request-event]
 
 env:
   AWS_REGION: "eu-west-2"
