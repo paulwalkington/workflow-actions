@@ -42,3 +42,8 @@ jobs:
           echo $avm_aws_account_email
           echo $avm_aws_account_alias
           echo $avm_org_ou_name
+
+          echo "---extra"
+
+          json_data="${{ github.event.inputs.data }}" 
+          echo $json_data
