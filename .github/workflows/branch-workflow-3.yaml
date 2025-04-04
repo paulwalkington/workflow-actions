@@ -25,16 +25,7 @@ jobs:
 
       - name: echo message
         run: |
-          # echo "${{ github.event.inputs.name }}"
-          # echo "${{ github.event.inputs.lastName }}"
+          echo "${{ github.event.inputs.environment }}"
+          echo "${{ github.event.inputs.avm_aws_account_name }}"
 
-          name="${{ github.event.inputs.name }}"
-          lastName="${{ github.event.inputs.lastName }}"
-
-          cat <<EOF > etc/my-new-file.tf
-          $name
-          $lastName
-          EOF
-
-          value="`cat etc/my-new-file.tf`"
-          echo "$value"
+          echo "${{ github.event.inputs.alternate_contacts }}"
