@@ -2,6 +2,11 @@ name: branch workflow 3
 
 on:
   workflow_dispatch:
+    inputs:
+      name:
+        required: true
+      lastName:
+        required: true
   repository_dispatch:
     types: [pull-request-event-3]
 
