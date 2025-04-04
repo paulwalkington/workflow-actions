@@ -52,10 +52,11 @@ jobs:
           echo "${{ fromJson(github.event.inputs.data).environment }}"
           echo "${{ fromJson(github.event.inputs.data).alternate_contacts }}"
 
-          echo "some extra stuff"
+          echo "-----------some extra stuff"
           data="${{ fromJson(github.event.inputs.data) }}"
 
           echo "$data"
+          echo "$($data.environment)"
           echo "$data.environment"
 
       # - name: Generate .tfvars File
