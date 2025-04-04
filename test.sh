@@ -19,6 +19,9 @@
 
 json="{\"name\":\"Paul\",\"lastName\":\"Walkington\"}"
 
-echo fromJson(json)
 
 echo $json
+
+echo '{"fruit":{"name":"apple","color":"green","price":1.20}}' | jq '.'
+
+echo "$(echo "$json" | jq -r '.name')"
