@@ -26,7 +26,7 @@ jobs:
       #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       #     ISSUE: ${{ github.event.issue.html_url }}
 
-      - run: gh workflow run branch-workflow-2.yaml --ref extra-branch -f data='${{github.event.client_payload}}'
+      - run: gh workflow run branch-workflow-2.yaml --ref extra-branch -f data='${{toJson(github.event.client_payload)}}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
