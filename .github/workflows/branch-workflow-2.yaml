@@ -3,9 +3,9 @@ name: branch workflow
 on:
   workflow_dispatch:
     inputs:
-      name:
+      environment:
         required: true
-      lastName:
+      avm_aws_account_email:
         required: true
   repository_dispatch:
     types: [pull-request-event]
@@ -28,7 +28,7 @@ jobs:
       - name: Run stuff
         run: echo "this is working for me"
 
-      - name: echo message
+      - name: Create file
         run: |
           # echo "${{ github.event.inputs.name }}"
           # echo "${{ github.event.inputs.lastName }}"
