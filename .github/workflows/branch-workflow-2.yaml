@@ -43,7 +43,7 @@ jobs:
           echo $avm_aws_account_alias
           echo $avm_org_ou_name
 
-          echo "---extra"
+          echo "---extra--"
 
           echo "${{ toJson(github.event.inputs.data) }}"
           data="$(echo '${{ github.event.inputs.data }}' | jq '.environment";
