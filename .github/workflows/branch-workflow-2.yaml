@@ -50,7 +50,7 @@ jobs:
           echo $avm_org_ou_name
 
           echo "${{ github.event.inputs.alternateContacts }}"
-          alternate_contacts= echo "${{ github.event.inputs.alternateContacts }}"
+          alternate_contacts= "echo "${{ github.event.inputs.alternateContacts }}""
           echo "doing stuff"
           echo $alternate_contacts
 
