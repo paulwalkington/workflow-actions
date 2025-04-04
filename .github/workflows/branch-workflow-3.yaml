@@ -1,0 +1,40 @@
+name: branch workflow 3
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [pull-request-event]
+
+env:
+  AWS_REGION: "eu-west-2"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v4
+
+      - name: Run stuff
+        run: echo "this is working for me"
+
+      - name: echo message
+        run: |
+          # echo "${{ github.event.inputs.name }}"
+          # echo "${{ github.event.inputs.lastName }}"
+
+          name="${{ github.event.inputs.name }}"
+          lastName="${{ github.event.inputs.lastName }}"
+
+          cat <<EOF > etc/my-new-file.tf
+          $name
+          $lastName
+          EOF
+
+          value="`cat etc/my-new-file.tf`"
+          echo "$value"
