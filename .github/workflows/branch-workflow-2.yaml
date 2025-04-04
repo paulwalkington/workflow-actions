@@ -12,6 +12,8 @@ on:
       auto_shutdown_enabled:
         type: boolean
         required: true
+      alternate_contacts:
+        required: true
   repository_dispatch:
     types: [pull-request-event]
 
@@ -37,6 +39,7 @@ jobs:
         run: |
           echo "${{ github.event.inputs.environment }}"
           echo "${{ github.event.inputs.avm_aws_account_email }}"
+          echo "${{ github.event.inputs.alternate_contacts }}"
           echo "${{ github.event.inputs.avm_org_ou_name }}"
           echo "${{ github.event.inputs.auto_shutdown_enabled }}"
 
