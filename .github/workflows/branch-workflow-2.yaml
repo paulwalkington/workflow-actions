@@ -6,6 +6,9 @@ on:
       data:
         type: string
         required: true
+      dataNotJson:
+        type: string
+        required: true
       alternateContacts:
         type: string
         required: true
@@ -49,6 +52,8 @@ jobs:
           echo "---extra--"
 
           echo "${{ github.event.inputs.alternateContacts }}"
+
+          echo "${{ github.event.inputs.dataNotJson }}"
 
           # data="$(echo '${{ github.event.inputs.data }}' | jq '."
           # echo "$data"
