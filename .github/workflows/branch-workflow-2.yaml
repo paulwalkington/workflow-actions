@@ -1,22 +1,5 @@
 name: branch workflow 2
 
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       environment:
-#         required: true
-#       avm_aws_account_email:
-#         required: true
-#       avm_org_ou_name:
-#         required: true
-#       auto_shutdown_enabled:
-#         type: boolean
-#         required: true
-#       alternate_contacts:
-#         required: true
-#   repository_dispatch:
-#     types: [pull-request-event]
-
 on:
   workflow_dispatch:
     inputs:
