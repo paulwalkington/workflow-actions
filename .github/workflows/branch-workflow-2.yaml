@@ -50,6 +50,7 @@ jobs:
           echo $avm_org_ou_name
 
           alternate_contacts="${{ toJson(github.event.inputs.alternateContacts) }}"
+          echo $alternate_contacts
           email_address= "$(echo "$alternate_contacts" | jq -r '.operations.email_address')"
           echo $email_address
 
