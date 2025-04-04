@@ -30,8 +30,8 @@ jobs:
 
       - name: echo message
         run: |
-          echo "${{ github.event.inputs.name }}"
-          echo "${{ github.event.inputs.lastName }}"
+          # echo "${{ github.event.inputs.name }}"
+          # echo "${{ github.event.inputs.lastName }}"
 
           name="${{ github.event.inputs.name }}"
           lastName="${{ github.event.inputs.lastName }}"
