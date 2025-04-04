@@ -65,7 +65,6 @@ jobs:
 
       - name: Create file
         run: |
-
           dataAsJson= "${{ fromJson(github.event.inputs.data) }}"
           echo $dataAsJson
 
