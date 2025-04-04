@@ -54,6 +54,8 @@ jobs:
 
           data="${{ fromJson(github.event.inputs.data) }}"
 
+          echo $data.environment
+
       # - name: Generate .tfvars File
       #   run: |
       #     # Extract values from the payload
