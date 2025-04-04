@@ -51,7 +51,8 @@ jobs:
 
           echo "${{ github.event.inputs.alternateContacts }}"
           alternate_contacts= echo "${{ github.event.inputs.alternateContacts }}"
+          echo "doing stuff"
           echo $alternate_contacts
 
-          email_address= "$(echo "${{ github.event.inputs.alternateContacts }}" | jq -r '.operations.email_address')"
-          echo $email_address
+          # email_address= "$(echo "${{ github.event.inputs.alternateContacts }}" | jq -r '.operations.email_address')"
+          # echo $email_address
