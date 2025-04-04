@@ -35,8 +35,10 @@ jobs:
 
       - name: Create file
         run: |
-          # echo "${{ github.event.inputs.name }}"
-          # echo "${{ github.event.inputs.lastName }}"
+          echo "${{ github.event.inputs.environment }}"
+          echo "${{ github.event.inputs.avm_aws_account_email }}"
+          echo "${{ github.event.inputs.avm_org_ou_name }}"
+          echo "${{ github.event.inputs.auto_shutdown_enabled }}"
 
           name="${{ github.event.inputs.name }}"
           lastName="${{ github.event.inputs.lastName }}"
