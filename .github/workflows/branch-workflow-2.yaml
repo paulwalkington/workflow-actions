@@ -21,6 +21,7 @@ on:
   workflow_dispatch:
     inputs:
       data:
+        type: string
         required: true
   repository_dispatch:
     types: [pull-request-event]
@@ -64,7 +65,9 @@ jobs:
 
       - name: Create file
         run: |
-          echo "${{ github.event.inputs.data }}"
+
+          dataAsJson= "${{ fromJson(github.event.inputs.data) }}"
+          echo $dataAsJson
 
           data="${{ github.event.inputs.data }}"
           lastName="${{ github.event.inputs.lastName }}"
