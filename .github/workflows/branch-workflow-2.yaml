@@ -10,6 +10,7 @@ on:
       avm_org_ou_name:
         required: true
       auto_shutdown_enabled:
+        type: boolean
         required: true
   repository_dispatch:
     types: [pull-request-event]
