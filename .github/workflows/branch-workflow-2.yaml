@@ -46,18 +46,16 @@ jobs:
       #     value="`cat etc/my-new-file.tf`"
       #     echo "$value"
 
-      - name: Create file
+      - name: Generate .tfvars File
         run: |
           echo "${{ github.event.inputs.data }}"
           echo "${{ fromJson(github.event.inputs.data).environment }}"
           echo "${{ fromJson(github.event.inputs.data).alternate_contacts }}"
 
           echo "-----------some extra stuff"
-          data="${{ fromJson(github.event.inputs.data) }}"
 
-          echo "$data"
-          echo "$($data.environment)"
-          echo "$data.environment"
+          environment="${{ fromJson(github.event.inputs.data).environment }}"
+          echo $environment
 
       # - name: Generate .tfvars File
       #   run: |
