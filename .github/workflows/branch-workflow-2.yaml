@@ -43,4 +43,4 @@ jobs:
           echo $avm_aws_account_alias
           echo $avm_org_ou_name
 
-          echo "$(echo "$json" | jq -r '.environment')"
+          echo "$(echo "${{ github.event.inputs.data }}" | jq -r '.environment')"
