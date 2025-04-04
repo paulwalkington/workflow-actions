@@ -3,9 +3,9 @@ name: branch workflow 3
 on:
   workflow_dispatch:
     inputs:
-      name:
+      environment:
         required: true
-      lastName:
+      vpc-config:
         required: true
   repository_dispatch:
     types: [pull-request-event-3]
@@ -31,6 +31,6 @@ jobs:
       - name: echo message
         run: |
           echo "${{ github.event.inputs.environment }}"
-          echo "${{ github.event.inputs.avm_aws_account_name }}"
+          echo "${{ github.event.inputs.vpc-config }}"
 
           echo "${{ github.event.inputs.alternate_contacts }}"
