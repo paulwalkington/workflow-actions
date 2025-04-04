@@ -19,7 +19,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate .tfvars File
-        run: gh workflow run branch-workflow-2.yaml --ref extra-branch -f data='${{toJson(github.event.client_payload)}}'
+        run: gh workflow run branch-workflow-2.yaml --ref extra-branch -f data='${{toJson(github.event.client_payload)}}' alternate_contacts='${{ toJson(github.event.client_payload.alternate_contacts) }}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
