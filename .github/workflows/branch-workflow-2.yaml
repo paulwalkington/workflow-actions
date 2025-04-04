@@ -51,7 +51,3 @@ jobs:
 
           echo "${{ fromJson(github.event.inputs.dataNotJson) }}"
           echo "doing stuff"
-          echo $alternate_contacts
-
-          # email_address= "$(echo "${{ github.event.inputs.alternateContacts }}" | jq -r '.operations.email_address')"
-          # echo $email_address
