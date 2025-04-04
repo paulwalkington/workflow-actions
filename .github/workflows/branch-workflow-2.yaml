@@ -45,5 +45,5 @@ jobs:
 
           echo "---extra"
 
-          data="$(echo '${{ github.event.inputs.data }}' | jq '.environment[]";
+          data="$(echo '${{ github.event.inputs.data }}' | jq '.environment";
           echo "$data";
