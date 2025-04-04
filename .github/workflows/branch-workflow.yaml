@@ -29,3 +29,11 @@ jobs:
         run: |
           echo "${{ github.event.inputs.name }}"
           echo "${{ github.event.inputs.lastName }}"
+
+          name = "${{ github.event.inputs.name }}"
+          lastName = "${{ github.event.inputs.lastName }}"
+
+          cat <<EOF > etc/variables.tf
+          name
+          lastName
+          EOF
