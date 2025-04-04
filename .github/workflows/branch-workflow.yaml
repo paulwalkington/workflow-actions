@@ -41,5 +41,11 @@ jobs:
           $lastName
           EOF
 
-          value=`variables.tf`
-          echo "$value"
+          echo "ls -a ."
+          ls -a .
+
+          echo "ls -a ${{ github.workspace }}"
+          ls -a ${{ github.workspace }}
+
+          # value=`variables.tf`
+          # echo "$value"
