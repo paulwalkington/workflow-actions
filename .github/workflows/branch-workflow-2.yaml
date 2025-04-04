@@ -1,26 +1,10 @@
 name: branch workflow 2
 
-# on:
-#   workflow_dispatch:
-#     inputs:
-#       environment:
-#         required: true
-#       avm_aws_account_email:
-#         required: true
-#       avm_org_ou_name:
-#         required: true
-#       auto_shutdown_enabled:
-#         type: boolean
-#         required: true
-#       alternate_contacts:
-#         required: true
-#   repository_dispatch:
-#     types: [pull-request-event]
-
 on:
   workflow_dispatch:
     inputs:
       data:
+        type: string
         required: true
   repository_dispatch:
     types: [pull-request-event]
@@ -33,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  comment:
+  runTerraform:
     runs-on: ubuntu-latest
 
     steps:
@@ -43,36 +27,24 @@ jobs:
       - name: Run stuff
         run: echo "this is working for me"
 
-      # - name: Create file
-      #   run: |
-      #     echo "${{ github.event.inputs.environment }}"
-      #     echo "${{ github.event.inputs.avm_aws_account_email }}"
-      #     echo "${{ github.event.inputs.alternate_contacts }}"
-      #     echo "${{ github.event.inputs.avm_org_ou_name }}"
-      #     echo "${{ github.event.inputs.auto_shutdown_enabled }}"
-
-      #     name="${{ github.event.inputs.name }}"
-      #     lastName="${{ github.event.inputs.lastName }}"
-
-      #     cat <<EOF > etc/my-new-file.tf
-      #     $name
-      #     $lastName
-      #     EOF
-
-      #     value="`cat etc/my-new-file.tf`"
-      #     echo "$value"
-
-      - name: Create file
+      - name: Generate .tfvars File
         run: |
           echo "${{ github.event.inputs.data }}"
 
-          name="${{ github.event.inputs.name }}"
-          lastName="${{ github.event.inputs.lastName }}"
+          environment="${{ fromJson(github.event.inputs.data).environment }}"
+          avm_aws_account_name="${{ fromJson(github.event.inputs.data).avm_aws_account_name }}"
+          avm_aws_account_email="${{ fromJson(github.event.inputs.data).avm_aws_account_email }}"
+          avm_aws_account_alias="${{ fromJson(github.event.inputs.data).avm_aws_account_alias }}"
+          avm_org_ou_name="${{ fromJson(github.event.inputs.data).avm_org_ou_name }}"
 
-          cat <<EOF > etc/my-new-file.tf
-          $name
-          $lastName
-          EOF
+          echo $environment
+          echo $avm_aws_account_name
+          echo $avm_aws_account_email
+          echo $avm_aws_account_alias
+          echo $avm_org_ou_name
 
-          value="`cat etc/my-new-file.tf`"
-          echo "$value"
+          echo "---extra"
+
+          echo "${{ toJson(github.event.inputs.data) }}"
+          data="$(echo '${{ github.event.inputs.data }}' | jq '.environment";
+          echo "$data";
