@@ -36,10 +36,10 @@ jobs:
           name="${{ github.event.inputs.name }}"
           lastName="${{ github.event.inputs.lastName }}"
 
-          cat <<EOF > etc/variables.tf
+          cat <<EOF > variables.tf
           $name
           $lastName
           EOF
 
-          value=`etc/variables.tf`
+          value=`variables.tf`
           echo "$value"
