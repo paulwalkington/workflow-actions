@@ -49,10 +49,11 @@ jobs:
           echo $avm_aws_account_alias
           echo $avm_org_ou_name
 
+          echo "${{ github.event.inputs.alternateContacts }}"
           alternate_contacts="${{ toJson(github.event.inputs.alternateContacts) }}"
           echo $alternate_contacts
-          email_address= "$(echo "$alternate_contacts" | jq -r '.operations.email_address')"
-          echo $email_address
+          # email_address= "$(echo "$alternate_contacts" | jq -r '.operations.email_address')"
+          # echo $email_address
 
           # echo "---alternate_contacts--"
           # echo "${{ github.event.inputs.dataNotJson }}"
