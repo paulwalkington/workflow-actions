@@ -6,6 +6,9 @@ on:
       data:
         type: string
         required: true
+      alternateContacts:
+        type: string
+        required: true
   repository_dispatch:
     types: [pull-request-event]
 
@@ -45,7 +48,7 @@ jobs:
 
           echo "---extra--"
 
+          echo "${{ github.event.inputs.alternateContacts }}"
 
-
-          data="$(echo '${{ github.event.inputs.data }}' | jq '."
-          echo "$data"
+          # data="$(echo '${{ github.event.inputs.data }}' | jq '."
+          # echo "$data"
