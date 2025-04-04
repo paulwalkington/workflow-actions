@@ -17,25 +17,25 @@
 # echo "$value"
 
 
-json="{\"name\":\"Paul\",\"lastName\":\"Walkington\"}"
+# json="{\"name\":\"Paul\",\"lastName\":\"Walkington\"}"
 
 
-echo $json | jq '.'
+# echo $json | jq '.'
 
 
-echo "$(echo "$json" | jq -r '.name')"
+# echo "$(echo "$json" | jq -r '.name')"
 
 json2="{
     "alternate_contacts": {
       "operations": {
         "email_address": "aws-hosting-devbox-operations@test-and-trace.nhs.uk",
-        "name": "AWS Alternate Contacts - devbox - Operations",
+        "name": "AWS",
         "phone_number": "+442083277777",
         "title": "."
       },
       "security": {
         "email_address": "aws-hosting-devbox-security@test-and-trace.nhs.uk",
-        "name": "AWS Alternate Contacts - devbox - Security",
+        "name": "AWS",
         "phone_number": "+442083277777",
         "title": "dev"
       }
@@ -59,4 +59,5 @@ json2="{
       "vpc-type": "ukhsa"
     }
   }"
-echo $json2 | jq '.'
+
+echo $json2 | jq '.environment'
