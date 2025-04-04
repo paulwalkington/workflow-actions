@@ -3,7 +3,7 @@ name: branch workflow 3
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [pull-request-event]
+    types: [pull-request-event-3]
 
 env:
   AWS_REGION: "eu-west-2"
