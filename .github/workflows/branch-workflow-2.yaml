@@ -41,3 +41,6 @@ jobs:
           echo $avm_aws_account_name
           echo $avm_aws_account_email
           echo $avm_aws_account_alias
+          echo $avm_org_ou_name
+
+          alternate_contacts="${{ toJson(fromJson(github.event.inputs.data).alternate_contacts) }}"
