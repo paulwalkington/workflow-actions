@@ -51,4 +51,3 @@ jobs:
 
           echo "${{ github.event.inputs.alternateContacts }}"
           alternate_contacts="${{ github.event.inputs.alternateContacts }}"
-          echo "$alternate_contacts"
