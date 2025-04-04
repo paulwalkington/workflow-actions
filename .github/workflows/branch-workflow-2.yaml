@@ -44,3 +44,6 @@ jobs:
           echo $avm_org_ou_name
 
           echo "---extra"
+
+          data="$(echo '${{ github.event.inputs.data }}' | jq '.environment[]";
+          echo "$data";
