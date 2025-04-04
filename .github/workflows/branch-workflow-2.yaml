@@ -49,7 +49,7 @@ jobs:
           echo $avm_aws_account_alias
           echo $avm_org_ou_name
 
-          echo "---extra--"
 
           echo "---alternate_contacts--"
+          echo "${{ github.event.inputs.dataNotJson }}"
           echo "---alternate_contacts--"
