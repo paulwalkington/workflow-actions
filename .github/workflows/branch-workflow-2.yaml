@@ -49,11 +49,9 @@ jobs:
           echo $avm_aws_account_alias
           echo $avm_org_ou_name
 
-          "${{ github.event.inputs.data }}" > dataFile.json
-
-          value="`cat dataFile.json`"
-          echo "$value"
-
+          alternate_contacts="${{ github.event.inputs.alternateContacts }}"
+          email_address= "$(echo "$alternate_contacts" | jq -r '.operations.email_address')"
+          echo $email_address
 
           # echo "---alternate_contacts--"
           # echo "${{ github.event.inputs.dataNotJson }}"
