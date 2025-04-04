@@ -66,4 +66,5 @@ jobs:
       - name: Create file
         run: |
           echo "${{ github.event.inputs.data }}"
-          echo "${{ toJson(github.event.inputs.data) }}"
+          echo "${{ fromJson(github.event.inputs.data).environment }}"
+          echo "${{ fromJson(github.event.inputs.data).alternate_contacts }}"
