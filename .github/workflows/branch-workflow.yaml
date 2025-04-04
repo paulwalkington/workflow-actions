@@ -36,10 +36,10 @@ jobs:
           name="${{ github.event.inputs.name }}"
           lastName="${{ github.event.inputs.lastName }}"
 
-          cat <<EOF > my-new-file.tf
+          cat <<EOF > etc/my-new-file.tf
           $name
           $lastName
           EOF
 
-          value="`cat my-new-file.tf`"
+          value="`cat etc/my-new-file.tf`"
           echo "$value"
