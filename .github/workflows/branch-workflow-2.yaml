@@ -45,4 +45,4 @@ jobs:
 
           echo "---extra"
 
-          json_data="${{ github.event.inputs.data }}"
+          json_data="${{ toJson(github.event.inputs.data) }}"
