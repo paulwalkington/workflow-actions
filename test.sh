@@ -20,8 +20,7 @@
 json="{\"name\":\"Paul\",\"lastName\":\"Walkington\"}"
 
 
-echo $json
+echo $json | jq '.'
 
-echo '{"fruit":{"name":"apple","color":"green","price":1.20}}' | jq '.'
 
 echo "$(echo "$json" | jq -r '.name')"
