@@ -41,11 +41,5 @@ jobs:
           $lastName
           EOF
 
-          echo "ls -a ."
-          ls -a .
-
-          echo "ls -a ${{ github.workspace }}"
-          ls -a ${{ github.workspace }}
-
           value="`cat my-new-file.tf`"
           echo "$value"
