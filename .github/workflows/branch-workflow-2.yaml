@@ -1,18 +1,26 @@
 name: branch workflow 2
 
+# on:
+#   workflow_dispatch:
+#     inputs:
+#       environment:
+#         required: true
+#       avm_aws_account_email:
+#         required: true
+#       avm_org_ou_name:
+#         required: true
+#       auto_shutdown_enabled:
+#         type: boolean
+#         required: true
+#       alternate_contacts:
+#         required: true
+#   repository_dispatch:
+#     types: [pull-request-event]
+
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        required: true
-      avm_aws_account_email:
-        required: true
-      avm_org_ou_name:
-        required: true
-      auto_shutdown_enabled:
-        type: boolean
-        required: true
-      alternate_contacts:
+      data:
         required: true
   repository_dispatch:
     types: [pull-request-event]
@@ -35,13 +43,28 @@ jobs:
       - name: Run stuff
         run: echo "this is working for me"
 
+      # - name: Create file
+      #   run: |
+      #     echo "${{ github.event.inputs.environment }}"
+      #     echo "${{ github.event.inputs.avm_aws_account_email }}"
+      #     echo "${{ github.event.inputs.alternate_contacts }}"
+      #     echo "${{ github.event.inputs.avm_org_ou_name }}"
+      #     echo "${{ github.event.inputs.auto_shutdown_enabled }}"
+
+      #     name="${{ github.event.inputs.name }}"
+      #     lastName="${{ github.event.inputs.lastName }}"
+
+      #     cat <<EOF > etc/my-new-file.tf
+      #     $name
+      #     $lastName
+      #     EOF
+
+      #     value="`cat etc/my-new-file.tf`"
+      #     echo "$value"
+
       - name: Create file
         run: |
-          echo "${{ github.event.inputs.environment }}"
-          echo "${{ github.event.inputs.avm_aws_account_email }}"
-          echo "${{ github.event.inputs.alternate_contacts }}"
-          echo "${{ github.event.inputs.avm_org_ou_name }}"
-          echo "${{ github.event.inputs.auto_shutdown_enabled }}"
+          echo "${{ github.event.inputs.data }}"
 
           name="${{ github.event.inputs.name }}"
           lastName="${{ github.event.inputs.lastName }}"
