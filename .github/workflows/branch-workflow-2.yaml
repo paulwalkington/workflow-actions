@@ -52,5 +52,4 @@ jobs:
           echo "---extra--"
 
           echo "---alternate_contacts--"
-          # echo "${{ fromJson(github.event.inputs.dataNotJson) }}"
           echo "---alternate_contacts--"
