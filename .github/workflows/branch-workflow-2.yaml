@@ -66,11 +66,11 @@ jobs:
         run: |
           echo "${{ github.event.inputs.data }}"
 
-          name="${{ github.event.inputs.name }}"
+          data="${{ github.event.inputs.data }}"
           lastName="${{ github.event.inputs.lastName }}"
 
           cat <<EOF > etc/my-new-file.tf
-          $name
+          $data
           $lastName
           EOF
 
