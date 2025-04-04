@@ -17,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  comment:
+  runTerraform:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,25 +27,6 @@ jobs:
       - name: Run stuff
         run: echo "this is working for me"
 
-      # - name: Create file
-      #   run: |
-      #     echo "${{ github.event.inputs.environment }}"
-      #     echo "${{ github.event.inputs.avm_aws_account_email }}"
-      #     echo "${{ github.event.inputs.alternate_contacts }}"
-      #     echo "${{ github.event.inputs.avm_org_ou_name }}"
-      #     echo "${{ github.event.inputs.auto_shutdown_enabled }}"
-
-      #     name="${{ github.event.inputs.name }}"
-      #     lastName="${{ github.event.inputs.lastName }}"
-
-      #     cat <<EOF > etc/my-new-file.tf
-      #     $name
-      #     $lastName
-      #     EOF
-
-      #     value="`cat etc/my-new-file.tf`"
-      #     echo "$value"
-
       - name: Generate .tfvars File
         run: |
           echo "${{ github.event.inputs.data }}"
@@ -53,3 +34,7 @@ jobs:
           echo "${{ fromJson(github.event.inputs.data).alternate_contacts }}"
 
           echo "-----------some extra stuff"
+
+          environment="${{ fromJson(github.event.inputs.data).environment }}"
+
+          echo $environment
