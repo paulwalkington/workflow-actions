@@ -49,7 +49,7 @@ jobs:
           echo $avm_aws_account_alias
           echo $avm_org_ou_name
 
-          "${{ github.event.inputs.dataNotJson }}" > dataFile.json
+          "${{ github.event.inputs.data }}" > dataFile.json
 
           value="`cat dataFile.json`"
           echo "$value"
