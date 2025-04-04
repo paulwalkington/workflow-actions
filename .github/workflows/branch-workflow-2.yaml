@@ -51,6 +51,6 @@ jobs:
 
 
           echo "---alternate_contacts--"
-          echo "${{ toJson(github.event.inputs.dataNotJson) }}"
+          echo "${{ github.event.inputs.dataNotJson }}"
           echo "${{ toJson(github.event.inputs.dataNotJson.alternate_contacts) }}"
           echo "---alternate_contacts--"
