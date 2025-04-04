@@ -45,7 +45,7 @@ jobs:
 
           echo "---extra--"
 
-          vpc-config="${{ toJson(fromJson(github.event.inputs.data).vpc-config) }}"
+          vpc-config="${{ fromJson(github.event.inputs.data).vpc-config }}"
           echo $vpc-config
 
           data="$(echo '${{ github.event.inputs.data }}' | jq '.environment"
