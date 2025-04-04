@@ -65,16 +65,4 @@ jobs:
 
       - name: Create file
         run: |
-          dataAsJson= "${{ fromJson(github.event.inputs.data) }}"
-          echo $dataAsJson
-
-          data="${{ github.event.inputs.data }}"
-          lastName="${{ github.event.inputs.lastName }}"
-
-          cat <<EOF > etc/my-new-file.tf
-          $data
-          $lastName
-          EOF
-
-          value="`cat etc/my-new-file.tf`"
-          echo "$value"
+          echo "${{ github.event.inputs.data }}"
