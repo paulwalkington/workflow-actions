@@ -55,7 +55,22 @@ jobs:
           echo "-----------some extra stuff"
 
           environment="${{ fromJson(github.event.inputs.data).environment }}"
+          avm_aws_account_name="${{ fromJson(github.event.inputs.data).environment }}"
+          avm_aws_account_email="${{ fromJson(github.event.inputs.data).avm_aws_account_email }}"
+          avm_aws_account_alias="${{ fromJson(github.event.inputs.data).avm_aws_account_alias }}"
+          avm_org_ou_name="${{ fromJson(github.event.inputs.data).avm_org_ou_name }}"
+          alternate_contacts="${{ toJson(fromJson(github.event.inputs.data).alternate_contacts) }}"
+          avm_subdomain="${{ toJson(fromJson(github.event.inputs.data).avm_subdomain) }}"
+          auto_shutdown_enabled="${{ fromJson(github.event.inputs.data).auto_shutdown_enabled }}"
+
           echo $environment
+          echo $avm_aws_account_name
+          echo $avm_aws_account_email
+          echo $avm_aws_account_alias
+          echo $avm_org_ou_name
+          echo $alternate_contacts
+          echo $avm_subdomain
+          echo $auto_shutdown_enabled
 
       # - name: Generate .tfvars File
       #   run: |
