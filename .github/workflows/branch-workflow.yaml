@@ -47,5 +47,5 @@ jobs:
           echo "ls -a ${{ github.workspace }}"
           ls -a ${{ github.workspace }}
 
-          # value=`variables.tf`
-          # echo "$value"
+          value="`cat my-new-file.tf`"
+          echo "$value"
