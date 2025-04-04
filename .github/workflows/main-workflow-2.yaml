@@ -21,7 +21,12 @@ jobs:
       - name: Generate .tfvars File
         run: echo "${{ github.event.client_payload.name }}"
 
-      - run: echo '${{ toJson(github.event.client_payload) }}' | gh workflow run branch-workflow-2.yaml --ref extra-branch --json
+      # - run: echo '${{ toJson(github.event.client_payload) }}' | gh workflow run branch-workflow-2.yaml --ref extra-branch --json
+      #   env:
+      #     GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     ISSUE: ${{ github.event.issue.html_url }}
+
+      - run: gh workflow run branch-workflow-2.yaml --ref extra-branch -f data='${{github.event.client_payload}}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
