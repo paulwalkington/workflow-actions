@@ -22,18 +22,18 @@ jobs:
         run: |
           echo "${{ github.event.client_payload }}"
 
-          echo "---------test---------"
+          # echo "---------test---------"
           someData='${{ toJson(github.event.client_payload) }}'
-          echo "---------test---------"
-          echo "$someData"
-          environment="$(echo "$someData" | jq -r '.environment')"
-          echo "-----environment-----"
-          echo $environment
-          echo "-----environment-----"
-          email_address="$(echo "$someData" | jq -r '.alternate_contacts.operations.email_address')"
-          echo "-----email_address-----"
-          echo $email_address
-          echo "-----email_address-----"
+          # echo "---------test---------"
+          # echo "$someData"
+          # environment="$(echo "$someData" | jq -r '.environment')"
+          # echo "-----environment-----"
+          # echo $environment
+          # echo "-----environment-----"
+          # email_address="$(echo "$someData" | jq -r '.alternate_contacts.operations.email_address')"
+          # echo "-----email_address-----"
+          # echo $email_address
+          # echo "-----email_address-----"
 
           # Extract values from the payload
           environment="${{ github.event.client_payload.environment }}"
@@ -68,7 +68,7 @@ jobs:
           testValue="hello from paul"
 
 
-          gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson="$encodedJson" -f testValue="$someData"
+          gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson='$encodedJson' -f testValue='$someData'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
