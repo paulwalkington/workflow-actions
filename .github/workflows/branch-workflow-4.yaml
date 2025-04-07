@@ -35,7 +35,7 @@ jobs:
 
           json_data="${{ github.event.inputs.dataNotJson }}"
 
-          environment=jq '.environment' <<< "$json_data"
+          environment="$(echo "$json_data" | jq -r '.environment')"
 
 
           echo "-----some data-----"
