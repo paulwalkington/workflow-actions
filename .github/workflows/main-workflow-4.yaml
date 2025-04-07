@@ -20,7 +20,7 @@ jobs:
 
       - name: call workflow
         run: |
-          echo "${{ github.event.client_payload }}"
+          # echo "${{ github.event.client_payload }}"
 
           # Extract values from the payload
           environment="${{ github.event.client_payload.environment }}"
