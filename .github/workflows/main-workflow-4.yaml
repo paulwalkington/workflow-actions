@@ -30,7 +30,7 @@ jobs:
           avm_org_ou_name="${{ github.event.client_payload.avm_org_ou_name }}"
           alternate_contacts='${{ toJson(github.event.client_payload.alternate_contacts) }}'
           avm_subdomain='${{ toJson(github.event.client_payload.avm_subdomain) }}'
-          vpc-config="${{ github.event.client_payload.vpc-config }}"
+          vpc-config="${{ toJson(github.event.client_payload.vpc-config) }}"
           roles="${{ github.event.client_payload.roles }}"
           auto_shutdown_enabled="${{ github.event.client_payload.auto_shutdown_enabled }}"
 
