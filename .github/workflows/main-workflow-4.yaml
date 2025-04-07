@@ -21,7 +21,29 @@ jobs:
       - name: call workflow
         run: |
           echo "${{ github.event.client_payload }}"
-          echo gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson='${{github.event.client_payload}}'
+
+          # Extract values from the payload
+          environment="${{ github.event.client_payload.environment }}"
+          avm_aws_account_name="${{ github.event.client_payload.avm_aws_account_name }}"
+          avm_aws_account_email="${{ github.event.client_payload.avm_aws_account_email }}"
+          avm_aws_account_alias="${{ github.event.client_payload.avm_aws_account_alias }}"
+          avm_org_ou_name="${{ github.event.client_payload.avm_org_ou_name }}"
+          alternate_contacts='${{ toJson(github.event.client_payload.alternate_contacts) }}'
+          avm_subdomain='${{ toJson(github.event.client_payload.avm_subdomain) }}'
+          vpc-config="${{ github.event.client_payload.vpc-config }}"
+          roles="${{ github.event.client_payload.roles }}"
+          auto_shutdown_enabled="${{ github.event.client_payload.auto_shutdown_enabled }}"
+
+          jsonString=$( jq -n \
+                  --arg environment "$environment" \
+                  --arg avm_aws_account_name "$avm_aws_account_name" \
+                  --arg avm_aws_account_email "$avm_aws_account_email" \
+                  '{environment: $environment, avm_aws_account_name: $avm_aws_account_name, avm_aws_account_email: $avm_aws_account_email}' )
+
+          echo $jsonString
+
+
+          echo gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson='$jsonString'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
