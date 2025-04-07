@@ -34,16 +34,17 @@ jobs:
         run: |
 
           json_data="${{ github.event.inputs.dataNotJson }}"
+          echo=$json_data
 
-          environment="$(echo "$json_data" | jq -r '.environment')"
+          # environment="$(echo "$json_data" | jq -r '.environment')"
 
 
-          echo "-----some data-----"
-          echo $json_data
-          echo "-----some data-----"
-          echo "-----environment-----"
-          echo $environment
-          echo "-----environment-----"
-          echo "-----testValue-----"
-          echo "${{ github.event.inputs.testValue }}"
-          echo "-----testValue-----"
+          # echo "-----some data-----"
+          # echo $json_data
+          # echo "-----some data-----"
+          # echo "-----environment-----"
+          # echo $environment
+          # echo "-----environment-----"
+          # echo "-----testValue-----"
+          # echo "${{ github.event.inputs.testValue }}"
+          # echo "-----testValue-----"
