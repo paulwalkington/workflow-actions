@@ -44,18 +44,3 @@ jobs:
           echo "-----environment-----"
           echo $environment
           echo "-----environment-----"
-
-          echo "--------------"
-          echo "--------------"
-
-
-
-          echo "-----testValue-----"
-          json="${{ github.event.inputs.testValue }}"
-          echo "$json"
-          echo "-----testValue-----"
-
-          environment="$(echo "$json" | jq -r '.avm_aws_account_name')"
-          echo "-----avm_aws_account_name-----"
-          echo $avm_aws_account_name
-          echo "-----avm_aws_account_name-----"
