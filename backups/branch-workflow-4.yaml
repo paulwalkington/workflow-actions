@@ -34,13 +34,13 @@ jobs:
         run: |
 
           echo "-----testValue-----"
-          data='${{ github.event.inputs.data }}'
+          echo '${{ github.event.inputs.data }}'
           echo "-----testValue-----"
 
           echo "-----data-----"
-          email_address="$(echo "$data" | jq -r '.alternate_contacts.operations.email_address')"
+          email_address="$(echo '${{ github.event.inputs.data }}' | jq -r '.alternate_contacts.operations.email_address')"
           echo "$email_address"
 
-          environment="$(echo "$data" | jq -r '.environment')"
+          environment="$(echo '${{ github.event.inputs.data }}' | jq -r '.environment')"
           echo "$environment"
           echo "-----data-----"

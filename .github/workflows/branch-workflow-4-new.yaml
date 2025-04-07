@@ -1,0 +1,117 @@
+name: branch workflow 5
+
+on:
+  workflow_dispatch:
+    inputs:
+      dataNotJson:
+        type: string
+        required: true
+      data:
+        type: string
+        required: true
+  repository_dispatch:
+    types: [pull-request-event]
+
+env:
+  AWS_REGION: "eu-west-2"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  process-request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Generate .tfvars File
+        env:
+          PAYLOAD: "${{ toJson(github.event.client_payload) }}"
+          formattedOutput: ${{ needs.get-vpc-cidr.outputs.output1 }}
+          Cidr: ${{ needs.get-vpc-cidr.outputs.output2 }}
+        run: |
+
+          formattedOutput='some fomatted vpc-cidr outputs'
+          Cidr="some vpc-cidr outputs"
+
+          echo "-----testValue-----"
+          echo '${{ github.event.inputs.data }}'
+          echo "-----testValue-----"
+
+          echo "-----data-----"
+          email_address="$(echo '${{ github.event.inputs.data }}' | jq -r '.alternate_contacts.operations.email_address')"
+          echo "$email_address"
+
+          # Extract values from the payload
+          environment="${{ github.event.client_payload.environment }}"
+          avm_aws_account_name="${{ github.event.client_payload.environment }}"
+          avm_aws_account_email="${{ github.event.client_payload.avm_aws_account_email }}"
+          avm_aws_account_alias="${{ github.event.client_payload.environment }}"
+          avm_org_ou_name="${{ github.event.client_payload.avm_org_ou_name }}"
+          alternate_contacts='${{ toJson(github.event.client_payload.alternate_contacts) }}'
+          avm_subdomain='${{ toJson(github.event.client_payload.avm_subdomain) }}'
+          auto_shutdown_enabled="${{ github.event.client_payload.auto_shutdown_enabled }}"
+
+          # Generate .tfvars file content dynamically
+          cat <<EOF > etc/env_eu-west-2_${{ github.event.client_payload.environment }}.tfvars
+          environment           = "$environment"
+          avm_aws_account_name  = "$avm_aws_account_name"
+          avm_aws_account_email = "$avm_aws_account_email"
+          avm_aws_account_alias = "halo-np-$avm_aws_account_alias"
+          avm_org_ou_name       = "$avm_org_ou_name"
+
+          avm_alternate_account_contacts = {
+            operations = {
+              email_address = "$(echo "$alternate_contacts" | jq -r '.operations.email_address')"
+              name          = "$(echo "$alternate_contacts" | jq -r '.operations.name')"
+              phone_number  = "$(echo "$alternate_contacts" | jq -r '.operations.phone_number')"
+              title         = "$(echo "$alternate_contacts" | jq -r '.operations.title')"
+            }
+            security = {
+              email_address = "$(echo "$alternate_contacts" | jq -r '.security.email_address')"
+              name          = "$(echo "$alternate_contacts" | jq -r '.security.name')"
+              phone_number  = "$(echo "$alternate_contacts" | jq -r '.security.phone_number')"
+              title         = "$(echo "$alternate_contacts" | jq -r '.security.title')"
+            }
+          }
+
+          avm_aws_account_subdomains = {
+            "$(echo "$avm_subdomain" | jq -r '.parent')" = [
+              $(echo "$avm_subdomain" | jq -r '.children | map("\"\(.)\"") | join(", ")')
+            ]
+          }
+
+          avm_vpcs = {
+            main = {
+              subnets_transit = "$formattedOutput"
+              vpc_cidr        = "$Cidr" 
+              }
+          }
+          avm_auto_shutdown_enabled = "$auto_shutdown_enabled"
+          EOF
+
+      - name: Add workload entry to env_eu-west-2_np.tfvars if it does not exist
+        run: |
+          FILE="etc/env_eu-west-2_np.tfvars"
+          WORKLOAD_NAME="${{ github.event.client_payload.avm_org_ou_name }}"
+          WORKLOAD_ENTRY="    \"$WORKLOAD_NAME\" = {}"
+
+          if ! grep -q "$WORKLOAD_ENTRY" "$FILE"; then
+            sed -i "/\"workloads\" = {/a\\$WORKLOAD_ENTRY" "$FILE"
+          fi
+
+      - name: Append to versions_eu-west-2_np.tfvars
+        run: |
+          FILE="etc/versions_eu-west-2_np.tfvars"
+          NEW_ENTRY="  { environment = \"${{ github.event.client_payload.environment }}\", component = \"avm\", gated = true },"
+
+          sed -i "/^[[:space:]]*{ environment = \"${{ github.event.client_payload.environment }}\"/d" "$FILE"
+
+          # Ensure the closing bracket `]` is on a new line
+          sed -i -e 's/[[:space:]]*\]/]/' "$FILE" # Remove trailing spaces before `]`
+          sed -i -e "/^\]/ s/^/$NEW_ENTRY\n/" "$FILE"
+
+          cat "$FILE"
