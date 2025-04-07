@@ -47,7 +47,9 @@ jobs:
 
           encodedJson=echo $jsonString | base64
 
+          echo "---------encoded---------"
           echo $encodedJson
+          echo "---------encoded---------"
 
           testValue="hello from paul"
 
