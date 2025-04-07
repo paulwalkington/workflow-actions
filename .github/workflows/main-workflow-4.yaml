@@ -26,7 +26,7 @@ jobs:
 
 
 
-          gh workflow run branch-workflow-4.yaml --ref extra-branch -f data="$someData"
+          gh workflow run branch-workflow-4.yaml --ref extra-branch -f data='${{ toJson(github.event.client_payload) }}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
