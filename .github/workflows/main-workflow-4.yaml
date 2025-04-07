@@ -3,7 +3,7 @@ name: main workflow 4
 on:
   workflow_dispatch:
   repository_dispatch:
-    types: [main-event]
+    types: [main-event-4]
 
 env:
   AWS_REGION: "eu-west-2"
