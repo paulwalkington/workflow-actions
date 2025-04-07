@@ -1,4 +1,4 @@
-name: main workflow
+name: main workflow 4
 
 on:
   workflow_dispatch:
@@ -19,9 +19,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Generate .tfvars File
-        run: echo "${{ github.event.client_payload.name }}"
-
-      - run: echo '${{ toJson(github.event.client_payload) }}' | gh workflow run branch-workflow.yaml --ref extra-branch --json
+        run: |
+          echo "${{ github.event.client_payload.name }}"
+          echo gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson='${{github.event.client_payload}}'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
