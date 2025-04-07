@@ -36,7 +36,7 @@ jobs:
           encodedJson="${{ github.event.inputs.dataNotJson }}"
           echo=$encodedJson
 
-          json=$(echo $encodedJson | base64 -d)
+          json=$(echo ${{ github.event.inputs.dataNotJson }} | base64 -d)
 
           echo "$json"
 
