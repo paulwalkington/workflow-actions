@@ -6,6 +6,9 @@ on:
       dataNotJson:
         type: string
         required: true
+      testValue:
+        type: string
+        required: true
   repository_dispatch:
     types: [pull-request-event]
 
@@ -32,3 +35,6 @@ jobs:
           echo "-----some data-----"
           echo "${{ github.event.inputs.dataNotJson }}"
           echo "-----some data-----"
+          echo "-----testValue-----"
+          echo "${{ github.event.inputs.testValue }}"
+          echo "-----testValue-----"
