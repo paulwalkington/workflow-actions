@@ -6,6 +6,12 @@ on:
       data:
         type: string
         required: true
+      dataNotJson:
+        type: string
+        required: true
+      alternateContacts:
+        type: string
+        required: true
   repository_dispatch:
     types: [pull-request-event]
 
@@ -43,8 +49,5 @@ jobs:
           echo $avm_aws_account_alias
           echo $avm_org_ou_name
 
-          echo "---extra"
-
-          echo "${{ toJson(github.event.inputs.data) }}"
-          data="$(echo '${{ github.event.inputs.data }}' | jq '.environment";
-          echo "$data";
+          echo "${{ fromJson(github.event.inputs.dataNotJson) }}"
+          echo "doing stuff"

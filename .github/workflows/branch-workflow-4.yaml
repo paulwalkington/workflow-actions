@@ -1,14 +1,13 @@
-name: branch workflow 3
+name: branch workflow 4
 
 on:
   workflow_dispatch:
     inputs:
-      environment:
-        required: true
-      vpc-config:
+      dataNotJson:
+        type: string
         required: true
   repository_dispatch:
-    types: [pull-request-event-3]
+    types: [pull-request-event]
 
 env:
   AWS_REGION: "eu-west-2"
@@ -18,7 +17,7 @@ permissions:
   contents: read
 
 jobs:
-  comment:
+  runTerraform:
     runs-on: ubuntu-latest
 
     steps:
@@ -28,9 +27,6 @@ jobs:
       - name: Run stuff
         run: echo "this is working for me"
 
-      - name: echo message
+      - name: Generate .tfvars File
         run: |
-          echo "${{ github.event.inputs.environment }}"
-          echo "${{ github.event.inputs.vpc-config }}"
-
-          echo "${{ github.event.inputs.alternate_contacts }}"
+          echo "${{ github.event.inputs.dataNotJson }}"
