@@ -37,23 +37,10 @@ jobs:
           echo '${{ github.event.inputs.testValue }}'
           echo "-----testValue-----"
 
-          echo "-----environment-----"
-          extra="$(echo '${{ github.event.inputs.testValue }}' | jq -r '.alternate_contacts.operations.email_address')"
-          echo "$extra"
-          echo "-----environment-----"
+          echo "-----data-----"
+          email_address="$(echo '${{ github.event.inputs.testValue }}' | jq -r '.alternate_contacts.operations.email_address')"
+          echo "$email_address"
 
-
-
-
-          # working bit
-          encodedJson="${{ github.event.inputs.dataNotJson }}"
-          echo=$encodedJson
-
-          json=$(echo "${{ github.event.inputs.dataNotJson }}" | base64 -d)
-
-          echo "$json"
-
-          environment="$(echo "$json" | jq -r '.environment')"
-          echo "-----environment-----"
-          echo $environment
-          echo "-----environment-----"
+          environment="$(echo '${{ github.event.inputs.testValue }}' | jq -r '.environment')"
+          echo "$environment"
+          echo "-----data-----"
