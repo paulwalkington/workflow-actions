@@ -6,6 +6,9 @@ on:
       dataNotJson:
         type: string
         required: true
+      testValue:
+        type: string
+        required: true
   repository_dispatch:
     types: [pull-request-event]
 
@@ -29,4 +32,19 @@ jobs:
 
       - name: Generate .tfvars File
         run: |
-          echo "${{ github.event.inputs.dataNotJson }}"
+
+          json_data="${{ github.event.inputs.dataNotJson }}"
+          echo=$json_data
+
+          # environment="$(echo "$json_data" | jq -r '.environment')"
+
+
+          # echo "-----some data-----"
+          # echo $json_data
+          # echo "-----some data-----"
+          # echo "-----environment-----"
+          # echo $environment
+          # echo "-----environment-----"
+          # echo "-----testValue-----"
+          # echo "${{ github.event.inputs.testValue }}"
+          # echo "-----testValue-----"
