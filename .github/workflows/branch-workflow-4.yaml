@@ -53,9 +53,8 @@ jobs:
 
 
           # Generate .tfvars file content dynamically
+          # filename=etc/env_eu-west-2_"$environment".tfvars
           filename=env_eu-west-2_"$environment".tfvars
-
-
           cat > "$filename"<< EOF
           environment           = "$environment"
           avm_aws_account_name  = "$avm_aws_account_name"
@@ -93,25 +92,6 @@ jobs:
           avm_auto_shutdown_enabled = "$auto_shutdown_enabled"
           EOF
 
-      - name: Add workload entry to env_eu-west-2_np.tfvars if it does not exist
-        run: |
-          FILE="etc/env_eu-west-2_np.tfvars"
-          WORKLOAD_NAME="$avm_org_ou_name"
-          WORKLOAD_ENTRY="    \"$WORKLOAD_NAME\" = {}"
-
-          if ! grep -q "$WORKLOAD_ENTRY" "$FILE"; then
-            sed -i "/\"workloads\" = {/a\\$WORKLOAD_ENTRY" "$FILE"
-          fi
-
-      - name: Append to versions_eu-west-2_np.tfvars
-        run: |
-          FILE="etc/versions_eu-west-2_np.tfvars"
-          NEW_ENTRY="  { environment = \"$environment\", component = \"avm\", gated = true },"
-
-          sed -i "/^[[:space:]]*{ environment = \"$environment\"/d" "$FILE"
-
-          # Ensure the closing bracket `]` is on a new line
-          sed -i -e 's/[[:space:]]*\]/]/' "$FILE" # Remove trailing spaces before `]`
-          sed -i -e "/^\]/ s/^/$NEW_ENTRY\n/" "$FILE"
-
-          cat "$FILE"
+          echo "-----one the file-----"
+          value="`cat $filename`"
+          echo "$value"
