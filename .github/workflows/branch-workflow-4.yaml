@@ -34,7 +34,7 @@ jobs:
         run: |
 
           echo "-----testValue-----"
-          testValue="${{ github.event.inputs.testValue }}"
+          testValue=echo "${{ github.event.inputs.testValue }}"
           echo "$testValue"
           echo "-----testValue-----"
 
