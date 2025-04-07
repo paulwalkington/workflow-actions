@@ -30,6 +30,10 @@ jobs:
           echo "-----environment-----"
           echo $environment
           echo "-----environment-----"
+          email_address="$(echo "$someData" | jq -r '.alternate_contacts.operations.email_address')"
+          echo "-----email_address-----"
+          echo $email_address
+          echo "-----email_address-----"
 
           # Extract values from the payload
           environment="${{ github.event.client_payload.environment }}"
