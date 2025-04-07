@@ -44,3 +44,8 @@ jobs:
           echo "-----environment-----"
           echo $environment
           echo "-----environment-----"
+
+          avm_aws_account_name="$(echo "$json" | jq -r '.avm_aws_account_name')"
+          echo "-----avm_aws_account_name-----"
+          echo $avm_aws_account_name
+          echo "-----avm_aws_account_name-----"
