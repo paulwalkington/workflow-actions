@@ -35,8 +35,8 @@ jobs:
 
           echo "-----testValue-----"
           echo "${{ github.event.inputs.testValue }}"
-          testValue=echo "${{ github.event.inputs.testValue }}"
-          echo "$testValue"
+          # testValue=echo "${{ github.event.inputs.testValue }}"
+          # echo "$testValue"
           echo "-----testValue-----"
 
           echo "-----environment-----"
