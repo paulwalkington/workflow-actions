@@ -33,10 +33,17 @@ jobs:
       - name: Generate .tfvars File
         run: |
 
-          data="${{ github.event.inputs.dataNotJson }}"
+          json_data="${{ github.event.inputs.dataNotJson }}"
+
+          environment=jq '.environment' <<< "$json_data"
+
+
           echo "-----some data-----"
-          echo $data
+          echo $json_data
           echo "-----some data-----"
+          echo "-----environment-----"
+          echo $environment
+          echo "-----environment-----"
           echo "-----testValue-----"
           echo "${{ github.event.inputs.testValue }}"
           echo "-----testValue-----"
