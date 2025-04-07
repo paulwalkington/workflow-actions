@@ -23,8 +23,12 @@ jobs:
           echo "${{ github.event.client_payload }}"
 
           echo "---------test---------"
-          echo '${{ toJson(github.event.client_payload) }}'
+          someData='${{ toJson(github.event.client_payload) }}'
           echo "---------test---------"
+          environment="$(echo "$someData" | jq -r '.environment')"
+          echo "-----environment-----"
+          echo $environment
+          echo "-----environment-----"
 
           # Extract values from the payload
           environment="${{ github.event.client_payload.environment }}"
