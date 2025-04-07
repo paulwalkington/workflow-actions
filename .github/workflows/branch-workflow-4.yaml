@@ -38,7 +38,7 @@ jobs:
           echo "-----testValue-----"
 
           echo "-----environment-----"
-          extra="$(echo '${{ github.event.inputs.testValue }}' | jq -r '.environment')"
+          extra="$(echo '${{ github.event.inputs.testValue }}' | jq -r '.alternate_contacts.operations.email_address')"
           echo "$extra"
           echo "-----environment-----"
 
