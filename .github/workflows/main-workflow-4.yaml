@@ -48,7 +48,7 @@ jobs:
           echo "---------jsonString---------"
 
           # encodedJson=echo $jsonString | base64
-          encodedJson=$(printf $jsonString | base64)
+          encodedJson=$(echo $jsonString | base64)
 
           echo "---------encoded---------"
           echo $encodedJson
