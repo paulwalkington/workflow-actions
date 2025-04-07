@@ -40,10 +40,10 @@ jobs:
 
           echo "$json"
 
-
-
-          # environment="$(echo "$json_data" | jq -r '.environment')"
-
+          environment="$(echo "$json" | jq -r '.environment')"
+          echo "-----environment-----"
+          echo $environment
+          echo "-----environment-----"
 
           # echo "-----some data-----"
           # echo $json_data
