@@ -40,8 +40,9 @@ jobs:
                   --arg avm_aws_account_email "$avm_aws_account_email" \
                   --arg avm_aws_account_alias "$avm_aws_account_alias" \
                   --arg avm_org_ou_name "$avm_org_ou_name" \
+                  --arg alternate_contacts "$alternate_contacts" \
                   '{environment: $environment, avm_aws_account_name: $avm_aws_account_name, avm_aws_account_email: $avm_aws_account_email,
-                   avm_aws_account_alias: $avm_aws_account_alias, avm_org_ou_name: $avm_org_ou_name}' )
+                   avm_aws_account_alias: $avm_aws_account_alias, avm_org_ou_name: $avm_org_ou_name, alternate_contacts: $alternate_contacts}' )
 
           echo "---------jsonString---------"
           echo $jsonString
