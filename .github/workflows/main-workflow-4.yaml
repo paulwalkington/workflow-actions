@@ -25,6 +25,7 @@ jobs:
           echo "---------test---------"
           someData='${{ toJson(github.event.client_payload) }}'
           echo "---------test---------"
+          echo "$someData"
           environment="$(echo "$someData" | jq -r '.environment')"
           echo "-----environment-----"
           echo $environment
