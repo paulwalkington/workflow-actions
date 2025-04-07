@@ -22,7 +22,9 @@ jobs:
         run: |
           echo "${{ github.event.client_payload }}"
 
+          echo "---------test---------"
           echo '${{ toJson(github.event.client_payload) }}'
+          echo "---------test---------"
 
           # Extract values from the payload
           environment="${{ github.event.client_payload.environment }}"
