@@ -1,0 +1,32 @@
+name: branch workflow 4
+
+on:
+  workflow_dispatch:
+    inputs:
+      dataNotJson:
+        type: string
+        required: true
+  repository_dispatch:
+    types: [pull-request-event]
+
+env:
+  AWS_REGION: "eu-west-2"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  runTerraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v4
+
+      - name: Run stuff
+        run: echo "this is working for me"
+
+      - name: Generate .tfvars File
+        run: |
+          echo "${{ github.event.inputs.dataNotJson }}"
