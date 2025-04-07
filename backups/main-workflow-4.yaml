@@ -1,0 +1,32 @@
+name: main workflow 4
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types: [main-event-4]
+
+env:
+  AWS_REGION: "eu-west-2"
+
+permissions: write-all
+
+jobs:
+  main-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+
+      - name: call workflow
+        run: |
+          echo "${{ github.event.client_payload }}"
+          someData='${{ toJson(github.event.client_payload) }}'
+
+
+
+
+          gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson="hello" -f data="$someData"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE: ${{ github.event.issue.html_url }}

@@ -3,10 +3,7 @@ name: branch workflow 4
 on:
   workflow_dispatch:
     inputs:
-      dataNotJson:
-        type: string
-        required: true
-      testValue:
+      data:
         type: string
         required: true
   repository_dispatch:
@@ -20,27 +17,78 @@ permissions:
   contents: read
 
 jobs:
-  runTerraform:
+  process-request:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Checkout repository"
-        uses: actions/checkout@v4
-
-      - name: Run stuff
-        run: echo "this is working for me"
+      - name: Checkout Repository
+        uses: actions/checkout@v3
 
       - name: Generate .tfvars File
         run: |
 
-          encodedJson="${{ github.event.inputs.dataNotJson }}"
-          echo=$encodedJson
+          formattedOutput='some fomatted vpc-cidr outputs'
+          Cidr="some vpc-cidr outputs"
 
-          json=$(echo "${{ github.event.inputs.dataNotJson }}" | base64 -d)
+          echo "-----rawData-----"
+          data='${{ github.event.inputs.data }}'
+          echo "$data"
+          echo "-----rawData-----"
 
-          echo "$json"
+          echo "-----data-----"
 
-          environment="$(echo "$json" | jq -r '.environment')"
-          echo "-----environment-----"
-          echo $environment
-          echo "-----environment-----"
+          # Extract values from the payload
+          environment="$(echo "$data" | jq -r '.environment')"
+          avm_aws_account_name="$(echo "$data" | jq -r '.avm_aws_account_name')"
+          avm_aws_account_email="$(echo "$data" | jq -r '.avm_aws_account_email')"
+          avm_aws_account_alias="$(echo "$data" | jq -r '.avm_aws_account_alias')"
+          avm_org_ou_name="$(echo "$data" | jq -r '.avm_org_ou_name')"
+          auto_shutdown_enabled="$(echo "$data" | jq -r '.auto_shutdown_enabled')"
+
+          alternate_contacts="$(echo "$data" | jq -r '.alternate_contacts')"
+          avm_subdomain="$(echo "$data" | jq -r '.avm_subdomain')"
+
+
+          # Generate .tfvars file content dynamically
+          # filename=etc/env_eu-west-2_"$environment".tfvars
+          filename=env_eu-west-2_"$environment".tfvars
+          cat > "$filename"<< EOF
+          environment           = "$environment"
+          avm_aws_account_name  = "$avm_aws_account_name"
+          avm_aws_account_email = "$avm_aws_account_email"
+          avm_aws_account_alias = "halo-np-$avm_aws_account_alias"
+          avm_org_ou_name       = "$avm_org_ou_name"
+
+          avm_alternate_account_contacts = {
+            operations = {
+              email_address = "$(echo "$alternate_contacts" | jq -r '.operations.email_address')"
+              name          = "$(echo "$alternate_contacts" | jq -r '.operations.name')"
+              phone_number  = "$(echo "$alternate_contacts" | jq -r '.operations.phone_number')"
+              title         = "$(echo "$alternate_contacts" | jq -r '.operations.title')"
+            }
+            security = {
+              email_address = "$(echo "$alternate_contacts" | jq -r '.security.email_address')"
+              name          = "$(echo "$alternate_contacts" | jq -r '.security.name')"
+              phone_number  = "$(echo "$alternate_contacts" | jq -r '.security.phone_number')"
+              title         = "$(echo "$alternate_contacts" | jq -r '.security.title')"
+            }
+          }
+
+          avm_aws_account_subdomains = {
+            "$(echo "$avm_subdomain" | jq -r '.parent')" = [
+              $(echo "$avm_subdomain" | jq -r '.children | map("\"\(.)\"") | join(", ")')
+            ]
+          }
+
+          avm_vpcs = {
+            main = {
+              subnets_transit = "$formattedOutput"
+              vpc_cidr        = "$Cidr" 
+              }
+          }
+          avm_auto_shutdown_enabled = "$auto_shutdown_enabled"
+          EOF
+
+          echo "-----one the file-----"
+          value="`cat $filename`"
+          echo "$value"
