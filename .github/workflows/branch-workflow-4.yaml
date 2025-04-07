@@ -45,6 +45,6 @@ jobs:
           # echo "-----environment-----"
           # echo $environment
           # echo "-----environment-----"
-          # echo "-----testValue-----"
-          # echo "${{ github.event.inputs.testValue }}"
-          # echo "-----testValue-----"
+          echo "-----testValue-----"
+          echo "${{ github.event.inputs.testValue }}"
+          echo "-----testValue-----"
