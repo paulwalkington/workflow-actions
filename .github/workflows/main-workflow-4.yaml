@@ -46,10 +46,7 @@ jobs:
           echo "---------jsonString---------"
           echo $jsonString
           echo "---------jsonString---------"
-
-          # encodedJson=echo $jsonString | base64
           encodedJson=$(echo $jsonString | base64)
-
           echo "---------encoded---------"
           echo $encodedJson
           echo "---------encoded---------"
@@ -57,7 +54,7 @@ jobs:
           testValue="hello from paul"
 
 
-          # gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson=$encodedJson -f testValue=$testValue
+          gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson=$encodedJson -f testValue=$testValue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
