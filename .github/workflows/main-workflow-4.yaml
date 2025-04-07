@@ -43,7 +43,7 @@ jobs:
           echo $jsonString
 
 
-          echo gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson='$jsonString'
+          gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson='$jsonString'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
