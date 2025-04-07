@@ -34,11 +34,11 @@ jobs:
         run: |
 
           echo "-----testValue-----"
-          echo "${{ github.event.inputs.testValue }}"
+          echo '${{ github.event.inputs.testValue }}'
           echo "-----testValue-----"
 
           echo "-----environment-----"
-          extra="$(echo "${{ github.event.inputs.testValue }}" | jq -r '.environment')"
+          extra="$(echo '${{ github.event.inputs.testValue }}' | jq -r '.environment')"
           echo "$extra"
           echo "-----environment-----"
 
