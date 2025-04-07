@@ -45,7 +45,7 @@ jobs:
 
           echo $jsonString
 
-          encodedJson=echo -n $jsonString | base64
+          encodedJson=echo $jsonString | base64
 
           echo $encodedJson
 
