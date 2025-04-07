@@ -6,7 +6,7 @@ on:
       dataNotJson:
         type: string
         required: true
-      testValue:
+      data:
         type: string
         required: true
   repository_dispatch:
@@ -34,13 +34,13 @@ jobs:
         run: |
 
           echo "-----testValue-----"
-          echo '${{ github.event.inputs.testValue }}'
+          echo '${{ github.event.inputs.data }}'
           echo "-----testValue-----"
 
           echo "-----data-----"
-          email_address="$(echo '${{ github.event.inputs.testValue }}' | jq -r '.alternate_contacts.operations.email_address')"
+          email_address="$(echo '${{ github.event.inputs.data }}' | jq -r '.alternate_contacts.operations.email_address')"
           echo "$email_address"
 
-          environment="$(echo '${{ github.event.inputs.testValue }}' | jq -r '.environment')"
+          environment="$(echo '${{ github.event.inputs.data }}' | jq -r '.environment')"
           echo "$environment"
           echo "-----data-----"
