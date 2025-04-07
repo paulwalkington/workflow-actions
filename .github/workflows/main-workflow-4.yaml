@@ -22,6 +22,8 @@ jobs:
         run: |
           echo "${{ github.event.client_payload }}"
 
+          echo '${{ toJson(github.event.client_payload) }}'
+
           # Extract values from the payload
           environment="${{ github.event.client_payload.environment }}"
           avm_aws_account_name="${{ github.event.client_payload.avm_aws_account_name }}"
