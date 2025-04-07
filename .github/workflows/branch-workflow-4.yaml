@@ -3,9 +3,6 @@ name: branch workflow 4
 on:
   workflow_dispatch:
     inputs:
-      dataNotJson:
-        type: string
-        required: true
       data:
         type: string
         required: true
