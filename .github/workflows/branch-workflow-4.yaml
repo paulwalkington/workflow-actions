@@ -44,13 +44,3 @@ jobs:
           echo "-----environment-----"
           echo $environment
           echo "-----environment-----"
-
-          # echo "-----some data-----"
-          # echo $json_data
-          # echo "-----some data-----"
-          # echo "-----environment-----"
-          # echo $environment
-          # echo "-----environment-----"
-          # echo "-----testValue-----"
-          # echo "${{ github.event.inputs.testValue }}"
-          # echo "-----testValue-----"
