@@ -48,7 +48,7 @@ jobs:
           testValue="hello from paul"
 
 
-          gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson='$jsonString' -f testValue='$testValue'
+          gh workflow run branch-workflow-4.yaml --ref extra-branch -f dataNotJson=$jsonString -f testValue=$testValue
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ISSUE: ${{ github.event.issue.html_url }}
