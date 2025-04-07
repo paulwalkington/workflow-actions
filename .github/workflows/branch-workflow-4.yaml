@@ -33,6 +33,10 @@ jobs:
       - name: Generate .tfvars File
         run: |
 
+          echo "-----testValue-----"
+          echo "${{ github.event.inputs.testValue }}"
+          echo "-----testValue-----"
+
           encodedJson="${{ github.event.inputs.dataNotJson }}"
           echo=$encodedJson
 
