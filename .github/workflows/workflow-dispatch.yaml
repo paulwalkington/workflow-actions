@@ -1,0 +1,15 @@
+name: workflow dispatch
+
+on: workflow_dispatch
+
+jobs:
+  main-run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+
+      - name: call workflow
+        run: |
+          echo "hello world"
