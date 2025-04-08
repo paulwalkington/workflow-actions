@@ -1,0 +1,23 @@
+name: Manually triggered workflow
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      name:
+        description: "Person to greet"
+        required: true
+        default: "Mona the Octocat"
+      home:
+        description: "location"
+        required: false
+        default: "The Octoverse"
+
+permissions: write-all
+
+jobs:
+  say_hello:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "Hello $!"
+          echo "- in $!"
