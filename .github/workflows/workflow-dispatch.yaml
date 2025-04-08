@@ -1,4 +1,4 @@
-name: workflow dispatch
+name: workflow dispatch test job
 
 on:
   workflow_dispatch:
@@ -9,8 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: "Checkout repository"
-        uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
       - name: call workflow
         run: |
