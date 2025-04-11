@@ -1,3 +1,5 @@
+
+
 function getAwsAccountGroupName () {
     workloadShortName=$1
     environment=$2
@@ -17,14 +19,7 @@ function getAwsAccountGroupName () {
     else 
         echo "WlAws$workloadShortNameFormatted$environment$role"
     fi
-
-
 }
-
- 
-mystr=$(getAwsAccountGroupName "aai" "Development" "Administrator" true  )
-echo "$mystr"
-
 
 
 environment="some_environment"
@@ -33,10 +28,17 @@ emailAddress="some_email_address"
 workloadShortName="some_WORKload_short_name1"
 opsDlMail="some_ops_dl_mail"
 securityDlMail="some_security_dl_mail"
+roles="Administrator,ReadOnly,ApplicationUser"
+dnsSubDomains="foo,bar"
+sesSubDomains="foo,bar"
+
 
 workloadShortNameLowerCase=$(echo "$workloadShortName" | tr '[:upper:]' '[:lower:]')
 opsDlMailLowerCase=$(echo "$opsDlMail" | tr '[:upper:]' '[:lower:]')
 securityDlMailLowerCase=$(echo "$securityDlMail" | tr '[:upper:]' '[:lower:]')
+
+
+
 
 
 cat <<EOF > etc/env_eu-west-2_$environment.tfvars
@@ -63,28 +65,71 @@ avm_alternate_account_contacts = {
 EOF
 
 
+# add avm_sso_associations to the tfvars file
+if([ -n "$roles" ] )
+then
+    IFS=',' read -ra rolesSeperated <<< "$roles"
 
-# function Get-AwsAccountGroupName {
-#     [CmdletBinding()]
-#     [OutputType([psobject])]
-#     param (
-#         [Parameter(Mandatory = $true)]
-#         [ValidateNotNullOrEmpty()]
-#         [String] $workloadShortName,
-#         [Parameter(Mandatory = $true)]
-#         [ValidateNotNullOrEmpty()]
-#         [String] $environment,
-#         [Parameter(Mandatory = $true)]
-#         [ValidateNotNullOrEmpty()]
-#         [String] $role,
-#         [bool] $isUkhsaGroupFormat = $true
-#     )
+    avmSsoAssociations=()
 
-#     $workloadShortName = $workloadShortName.substring(0, 1).ToUpper() + $workloadShortName.substring(1).ToLower()
+    for role in "${rolesSeperated[@]}"
+    do
+        awsAccountGroupName=$(getAwsAccountGroupName "aai" "Development" $role true  )
+        avmSsoAssociation=("\"$awsAccountGroupName\" = [ \"$role\" ]")
+        avmSsoAssociations+=("$avmSsoAssociation")
+    done
 
-#     if ($isUkhsaGroupFormat) {
-#         return "Grp.Aws.Console.$($workloadShortName).$($environment).$($role)"
-#     } else {
-#         return "WlAws$($workloadShortName)$($environment)$($role)"
-#     }
-# }
+    echo " " >> etc/env_eu-west-2_$environment.tfvars
+    echo "avm_sso_associations = {" >> etc/env_eu-west-2_$environment.tfvars
+    for avmSsoAssociation in "${avmSsoAssociations[@]}"
+    do
+        echo "    $avmSsoAssociation" >> etc/env_eu-west-2_$environment.tfvars
+    done
+    echo "}" >>  etc/env_eu-west-2_$environment.tfvars
+fi
+
+# add avm_aws_account_ses_subdomains to the tfvars file
+
+if([ -n "$sesSubDomains" ] )
+then
+
+    IFS=',' read -ra sesSubDomainsSeperated <<< "$sesSubDomains"
+
+    echo " " >> etc/env_eu-west-2_$environment.tfvars
+    echo "avm_aws_account_ses_subdomains = {" >> etc/env_eu-west-2_$environment.tfvars
+    echo "    \"test-and-trace.nhs.uk\" = [" >> etc/env_eu-west-2_$environment.tfvars
+
+    for sesSubDomain in "${sesSubDomainsSeperated[@]}"
+    do
+        sesSubDomainLowerCase=$(echo "$sesSubDomain" | tr '[:upper:]' '[:lower:]')
+        echo "        \"$sesSubDomainLowerCase\"," >> etc/env_eu-west-2_$environment.tfvars
+    done
+
+
+
+    echo "    ]" >>  etc/env_eu-west-2_$environment.tfvars
+    echo "}" >>  etc/env_eu-west-2_$environment.tfvars
+fi
+
+# add avm_aws_account_subdomains to the tfvars file
+
+if([ -n "$dnsSubDomains" ] )
+then
+
+    IFS=',' read -ra dnsSubDomainsSeperated <<< "$dnsSubDomains"
+
+    echo " " >> etc/env_eu-west-2_$environment.tfvars
+    echo "avm_aws_account_subdomains = {" >> etc/env_eu-west-2_$environment.tfvars
+    echo "    \"test-and-trace.nhs.uk\" = [" >> etc/env_eu-west-2_$environment.tfvars
+
+    for dnsSubDomain in "${dnsSubDomainsSeperated[@]}"
+    do
+        dnsSubDomainLowerCase=$(echo "$dnsSubDomain" | tr '[:upper:]' '[:lower:]')
+        echo "        \"$dnsSubDomainLowerCase\"," >> etc/env_eu-west-2_$environment.tfvars
+    done
+
+
+
+    echo "    ]" >>  etc/env_eu-west-2_$environment.tfvars
+    echo "}" >>  etc/env_eu-west-2_$environment.tfvars
+fi

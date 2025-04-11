@@ -18,3 +18,23 @@ avm_alternate_account_contacts = {
         title         = "."
     }
 }
+ 
+avm_sso_associations = {
+    "Grp.Aws.Console.Aai.Development.Administrator" = [ "Administrator" ]
+    "Grp.Aws.Console.Aai.Development.ReadOnly" = [ "ReadOnly" ]
+    "Grp.Aws.Console.Aai.Development.ApplicationUser" = [ "ApplicationUser" ]
+}
+ 
+avm_aws_account_ses_subdomains = {
+    "test-and-trace.nhs.uk" = [
+        "foo",
+        "bar",
+    ]
+}
+ 
+avm_aws_account_subdomains = {
+    "test-and-trace.nhs.uk" = [
+        "foo",
+        "bar",
+    ]
+}
