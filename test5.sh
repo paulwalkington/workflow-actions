@@ -31,6 +31,11 @@ securityDlMail="some_security_dl_mail"
 roles="Administrator,ReadOnly,ApplicationUser"
 dnsSubDomains="foo,bar"
 sesSubDomains="foo,bar"
+vpcRequired="Yes"
+vpcDetailsTransitSubnetNewBits=8
+vpcDetailsTransitSubnetNetNum=0
+cidr="10.0.0.0/20"
+securityClass="Non-Live"
 
 
 workloadShortNameLowerCase=$(echo "$workloadShortName" | tr '[:upper:]' '[:lower:]')
@@ -132,4 +137,27 @@ then
 
     echo "    ]" >>  etc/env_eu-west-2_$environment.tfvars
     echo "}" >>  etc/env_eu-west-2_$environment.tfvars
+fi
+
+# add avm_vpcs to the tfvars file
+
+if [[ "$vpcRequired" == "Yes" ]]
+then
+    echo " " >> etc/env_eu-west-2_$environment.tfvars
+    echo " " >> etc/env_eu-west-2_$environment.tfvars
+    echo "avm_vpc = {" >> etc/env_eu-west-2_$environment.tfvars
+    echo "    main = {" >> etc/env_eu-west-2_$environment.tfvars
+    echo "        subnets_transit = \"$vpcDetailsTransitSubnetNewBits,$vpcDetailsTransitSubnetNetNum\"" >> etc/env_eu-west-2_$environment.tfvars
+    echo "        vpc_cidr        = \"$cidr\"" >> etc/env_eu-west-2_$environment.tfvars
+    echo "    }" >> etc/env_eu-west-2_$environment.tfvars
+    echo "}" >> etc/env_eu-west-2_$environment.tfvars
+fi
+
+# add others to the tfvars file
+
+if [[ "$securityClass" == "Non-Live" ]]
+then
+    echo " " >> etc/env_eu-west-2_$environment.tfvars
+    echo "avm_auto_shutdown_enabled       = true" >> etc/env_eu-west-2_$environment.tfvars
+    echo "config_kms_key_deletion_enabled = false" >> etc/env_eu-west-2_$environment.tfvars
 fi
