@@ -84,12 +84,16 @@ then
         avmSsoAssociations+=("$avmSsoAssociation")
     done
 
-    echo " " >> etc/env_eu-west-2_$environment.tfvars
-    echo "avm_sso_associations = {" >> etc/env_eu-west-2_$environment.tfvars
+    {
+        echo " ";
+        echo "avm_sso_associations = {";
+     } >> etc/env_eu-west-2_$environment.tfvars
+     
     for avmSsoAssociation in "${avmSsoAssociations[@]}"
     do
         echo "    $avmSsoAssociation" >> etc/env_eu-west-2_$environment.tfvars
     done
+
     echo "}" >>  etc/env_eu-west-2_$environment.tfvars
 fi
 
@@ -100,9 +104,11 @@ then
 
     IFS=',' read -ra sesSubDomainsSeperated <<< "$sesSubDomains"
 
-    echo " " >> etc/env_eu-west-2_$environment.tfvars
-    echo "avm_aws_account_ses_subdomains = {" >> etc/env_eu-west-2_$environment.tfvars
-    echo "    \"test-and-trace.nhs.uk\" = [" >> etc/env_eu-west-2_$environment.tfvars
+    {
+        echo " ";
+        echo "avm_aws_account_ses_subdomains = {";
+        echo "    \"test-and-trace.nhs.uk\" = [";
+    } >> etc/env_eu-west-2_$environment.tfvars
 
     for sesSubDomain in "${sesSubDomainsSeperated[@]}"
     do
@@ -112,8 +118,10 @@ then
 
 
 
-    echo "    ]" >>  etc/env_eu-west-2_$environment.tfvars
-    echo "}" >>  etc/env_eu-west-2_$environment.tfvars
+    {
+        echo "    ]";
+        echo "}";
+    } >>  etc/env_eu-west-2_$environment.tfvars
 fi
 
 # add avm_aws_account_subdomains to the tfvars file
@@ -123,9 +131,11 @@ then
 
     IFS=',' read -ra dnsSubDomainsSeperated <<< "$dnsSubDomains"
 
-    echo " " >> etc/env_eu-west-2_$environment.tfvars
-    echo "avm_aws_account_subdomains = {" >> etc/env_eu-west-2_$environment.tfvars
-    echo "    \"test-and-trace.nhs.uk\" = [" >> etc/env_eu-west-2_$environment.tfvars
+    {
+        echo " ";
+        echo "avm_aws_account_subdomains = {";
+        echo "    \"test-and-trace.nhs.uk\" = [";
+     } >> etc/env_eu-west-2_$environment.tfvars
 
     for dnsSubDomain in "${dnsSubDomainsSeperated[@]}"
     do
@@ -135,29 +145,36 @@ then
 
 
 
-    echo "    ]" >>  etc/env_eu-west-2_$environment.tfvars
-    echo "}" >>  etc/env_eu-west-2_$environment.tfvars
+    {
+        echo "    ]";
+        echo "}";
+     } >>  etc/env_eu-west-2_$environment.tfvars
 fi
 
 # add avm_vpcs to the tfvars file
 
 if [[ "$vpcRequired" == "Yes" ]]
 then
-    echo " " >> etc/env_eu-west-2_$environment.tfvars
-    echo " " >> etc/env_eu-west-2_$environment.tfvars
-    echo "avm_vpc = {" >> etc/env_eu-west-2_$environment.tfvars
-    echo "    main = {" >> etc/env_eu-west-2_$environment.tfvars
-    echo "        subnets_transit = \"$vpcDetailsTransitSubnetNewBits,$vpcDetailsTransitSubnetNetNum\"" >> etc/env_eu-west-2_$environment.tfvars
-    echo "        vpc_cidr        = \"$cidr\"" >> etc/env_eu-west-2_$environment.tfvars
-    echo "    }" >> etc/env_eu-west-2_$environment.tfvars
-    echo "}" >> etc/env_eu-west-2_$environment.tfvars
+{ 
+    echo " ";
+    echo " ";
+    echo "avm_vpc = {";
+    echo "    main = {";
+    echo "        subnets_transit = \"$vpcDetailsTransitSubnetNewBits,$vpcDetailsTransitSubnetNetNum\"";
+    echo "        vpc_cidr        = \"$cidr\"";
+    echo "    }";
+    echo "}"
+} >> etc/env_eu-west-2_$environment.tfvars
 fi
 
 # add others to the tfvars file
 
+
 if [[ "$securityClass" == "Non-Live" ]]
 then
-    echo " " >> etc/env_eu-west-2_$environment.tfvars
-    echo "avm_auto_shutdown_enabled       = true" >> etc/env_eu-west-2_$environment.tfvars
-    echo "config_kms_key_deletion_enabled = false" >> etc/env_eu-west-2_$environment.tfvars
+{ 
+    echo "" ; 
+    echo "avm_auto_shutdown_enabled       = true"; 
+    echo "config_kms_key_deletion_enabled = false"; 
+} >> etc/env_eu-west-2_$environment.tfvars
 fi
