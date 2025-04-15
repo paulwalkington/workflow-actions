@@ -29,5 +29,8 @@ jobs:
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
 
+      - name: Make the script files executable
+        run: chmod +x scripts/my-script.sh
+
       - name: Run a script
         run: ./scripts/my-script.sh
