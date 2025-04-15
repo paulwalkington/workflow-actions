@@ -25,3 +25,9 @@ jobs:
       - run: |
           echo "Hello ${{ github.event.inputs.alternate_contacts }}!"
           echo "- in ${{ github.event.inputs.home }}!"
+
+      - name: Check out the repository to the runner
+        uses: actions/checkout@v4
+
+      - name: Run a script
+        run: ./scripts/my-script.sh
