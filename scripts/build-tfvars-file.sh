@@ -45,7 +45,6 @@ securityDlMailLowerCase=$(echo "$securityDlMail" | tr '[:upper:]' '[:lower:]')
 
 
 
-
 cat <<EOF > etc/env_eu-west-2_$environment.tfvars
 environment           = "$environment"
 avm_aws_account_name  = "$name"
