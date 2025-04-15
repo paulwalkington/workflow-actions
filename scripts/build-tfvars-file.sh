@@ -31,11 +31,14 @@ securityDlMail="some_security_dl_mail"
 roles="Administrator,ReadOnly,ApplicationUser"
 dnsSubDomains="foo,bar"
 sesSubDomains="foo,bar"
-vpcRequired="Yes"
-vpcDetailsTransitSubnetNewBits=8
-vpcDetailsTransitSubnetNetNum=0
-cidr="10.0.0.0/20"
 securityClass="Non-Live"
+
+vpcRequired="Yes"
+# these come rom the "get-vpc-cidr" step in the pipeline
+vpcDetailsTransitSubnetNewBits=2 
+vpcDetailsTransitSubnetNetNum=0
+cidr="172.25.128.0/17"
+
 
 
 workloadShortNameLowerCase=$(echo "$workloadShortName" | tr '[:upper:]' '[:lower:]')

@@ -3,18 +3,26 @@ on:
   pull_request:
   workflow_dispatch:
     inputs:
-      name:
-        description: "Person to greet"
+      environment:
         required: true
-        default: "Mona the Octocat"
-      home:
-        description: "location"
-        required: false
-        default: "The Octoverse"
-      alternate_contacts:
-        description: "location"
-        required: false
-        default: "The Octoverse"
+      name:
+        required: true
+      emailAddress:
+        required: true
+      workloadShortName:
+        required: true
+      opsDlMail:
+        required: true
+      securityDlMail:
+        required: true
+      roles:
+        required: true
+      dnsSubDomains:
+        required: true
+      sesSubDomains:
+        required: true
+      securityClass:
+        required: true
 
 permissions: write-all
 
@@ -41,6 +49,18 @@ jobs:
       #     filename="etc/env_eu-west-2_some_environment.tfvars"
       #     value="`cat $filename`"
       #     echo "$value"
+      - name: echo values
+        run: |
+          echo "${{ github.event.inputs.environment }}"
+          echo "${{ github.event.inputs.name }}"
+          echo "${{ github.event.inputs.emailAddress }}"
+          echo "${{ github.event.inputs.workloadShortName }}"
+          echo "${{ github.event.inputs.opsDlMail }}"
+          echo "${{ github.event.inputs.securityDlMail }}"
+          echo "${{ github.event.inputs.roles }}"
+          echo "${{ github.event.inputs.dnsSubDomains }}"
+          echo "${{ github.event.inputs.sesSubDomains }}"
+          echo "${{ github.event.inputs.securityClass }}"
 
       - name: Make the script files executable
         run: chmod +x scripts/my-script.sh
