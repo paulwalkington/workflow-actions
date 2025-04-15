@@ -46,4 +46,4 @@ jobs:
         run: chmod +x scripts/my-script.sh
 
       - name: Run a script
-        run: ./scripts/my-script.sh ${{ github.event.inputs.name }}
+        run: ./scripts/my-script.sh "${{ github.event.inputs.name }}"
