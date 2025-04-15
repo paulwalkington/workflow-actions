@@ -29,21 +29,21 @@ jobs:
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
 
-      - name: Make the script files executable
-        run: chmod +x scripts/build-tfvars-file.sh
-
-      - name: Run a script
-        run: ./scripts/build-tfvars-file.sh
-
-      - name: check file
-        run: |
-          echo "-----one the file-----"
-          filename="etc/env_eu-west-2_some_environment.tfvars"
-          value="`cat $filename`"
-          echo "$value"
-
       # - name: Make the script files executable
-      #   run: chmod +x scripts/my-script.sh
+      #   run: chmod +x scripts/build-tfvars-file.sh
 
       # - name: Run a script
-      #   run: ./scripts/my-script.sh
+      #   run: ./scripts/build-tfvars-file.sh
+
+      # - name: check file
+      #   run: |
+      #     echo "-----one the file-----"
+      #     filename="etc/env_eu-west-2_some_environment.tfvars"
+      #     value="`cat $filename`"
+      #     echo "$value"
+
+      - name: Make the script files executable
+        run: chmod +x scripts/my-script.sh
+
+      - name: Run a script
+        run: ./scripts/my-script.sh ${{ github.event.inputs.name }}
