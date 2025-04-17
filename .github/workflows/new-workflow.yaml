@@ -19,5 +19,10 @@ jobs:
 
       - name: echo values
         run: |
+          if [ -z "${{ github.event.inputs.name }}" ]; then
+            echo "Name is not provided"
+          else
+            echo "Name is provided: ${{ github.event.inputs.name }}"
+          fi
           echo "${{ github.event.inputs.environment }}"
           echo "${{ github.event.inputs.name }}"
