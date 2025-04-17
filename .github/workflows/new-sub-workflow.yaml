@@ -1,0 +1,29 @@
+name: New Sub Workflow
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      name:
+        required: false
+        type: string
+      data:
+        required: true
+        type: string
+
+permissions: write-all
+
+jobs:
+  say_hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository to the runner
+        uses: actions/checkout@v4
+
+      - name: echo values
+        run: |
+          echo "${{ github.event.inputs.environment }}"
+          echo "${{ github.event.inputs.name }}"
+          echo "${{ github.event.inputs.data }}"
