@@ -7,6 +7,16 @@ on:
         required: true
       name:
         required: false
+      size:
+        description: Secondary Region Virtual Network Size
+        type: choice
+        default: small
+        options:
+          - small
+          - medium
+          - large
+          - x-small
+          - x-large
 
 permissions: write-all
 
@@ -23,3 +33,4 @@ jobs:
           echo $hasName
           echo "${{ github.event.inputs.environment }}"
           echo "${{ github.event.inputs.name }}"
+          echo "${{ github.event.inputs.size }}"
