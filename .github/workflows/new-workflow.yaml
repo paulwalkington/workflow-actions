@@ -6,7 +6,7 @@ on:
       environment:
         required: true
       name:
-        required: true
+        required: false
 
 permissions: write-all
 
