@@ -22,14 +22,26 @@ permissions: write-all
 jobs:
   say_hello:
     runs-on: ubuntu-latest
+    outputs:
+      hasName: ${{ steps.calculate-has-name.outputs.hasName }}
+
     steps:
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
 
-      - name: echo values
+      - name: calculate-has-name
+        id: calculate-has-name
         run: |
+          echo  "Hello ${{ github.event.inputs.name }}!"
+          echo "- in ${{ github.event.inputs.environment }}!"
+
           hasName=$([ -n "${{ github.event.inputs.name }}" ] && echo "true" || echo "false")
-          echo $hasName
-          echo "${{ github.event.inputs.environment }}"
-          echo "${{ github.event.inputs.name }}"
-          echo "${{ github.event.inputs.size }}"
+          echo "hasName=$hasName" >> "$GITHUB_OUTPUT"
+
+  sub-workflow:
+    needs: say_hello
+    uses: ./.github/workflows/new-sub-workflow.yaml
+    with:
+      environment: ${{ inputs.environment }}
+      name: ${{ inputs.name }}
+      data: ${{needs.say_hello.outputs.hasName}}
