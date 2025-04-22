@@ -28,6 +28,19 @@ jobs:
           output='OUTPUT'
           echo "vend_bypass_approval_step=$vend_bypass_approval_step" >> "$GITHUB_OUTPUT"
 
+  get:
+    runs-on: ubuntu-latest
+    needs: set
+    steps:
+      - name: Get
+        run: |
+          {
+            echo '```yml'
+            echo 'inputs.input: '
+            echo 'steps.set.outputs.output: '
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
   callee:
     name: callee
     needs: [set]
