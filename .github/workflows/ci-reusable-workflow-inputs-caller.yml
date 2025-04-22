@@ -7,8 +7,7 @@ on:
       input:
         description: "input"
         type: string
-        required: true
-        default: "INPUT"
+        required: false
 
 jobs:
   set:
