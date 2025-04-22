@@ -1,6 +1,7 @@
 name: reusable_workflow_inputs_caller
 
 on:
+  pull_request:
   workflow_dispatch:
     inputs:
       input:
