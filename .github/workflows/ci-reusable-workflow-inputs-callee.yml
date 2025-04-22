@@ -3,14 +3,11 @@ name: reusable_workflow_inputs_callee
 on:
   workflow_call:
     inputs:
-      input:
-        description: "input"
-        required: true
-        type: string
-      output:
-        description: "output"
-        required: true
-        type: string
+      vend_bypass_approval_step:
+        description: Bypass Approval Step
+        type: boolean
+        default: false
+        required: false
 
 jobs:
   ci:
@@ -19,10 +16,7 @@ jobs:
       - name: Check
         run: |
           {
-            echo '```yml'
-            echo 'inputs.input: ${{ inputs.input }}'
-            echo 'inputs.output: ${{ inputs.output }}'
-            echo 'github.event.inputs.input: ${{ github.event.inputs.input }}'
-            echo 'github.event.inputs.output: ${{ github.event.inputs.output }}'
+            echo '```yml'vend_secondary_virtual_network_size
+            echo 'inputs.output: ${{ inputs.vend_bypass_approval_step }}'
             echo '```'
           } | tee -a "$GITHUB_STEP_SUMMARY"
