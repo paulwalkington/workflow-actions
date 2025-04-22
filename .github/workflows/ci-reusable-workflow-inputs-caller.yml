@@ -40,4 +40,5 @@ jobs:
     needs: [set]
     uses: ./.github/workflows/ci-reusable-workflow-inputs-callee.yml
     with:
-      vend_bypass_approval_step: ${{ needs.set.outputs.vend_bypass_approval_step }}
+      #   vend_bypass_approval_step: ${{ needs.set.outputs.vend_bypass_approval_step }}
+      vend_bypass_approval_step: ${{ fromJSON(needs.set.outputs.vend_bypass_approval_step) }}
