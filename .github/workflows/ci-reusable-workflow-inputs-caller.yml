@@ -19,7 +19,7 @@ jobs:
       - name: Set
         id: set
         run: |
-          hasSize=$([ -n "${{ github.event.inputs.name }}" ] && echo "true" || echo "false")
+          hasSize=$([ -n "${{ github.event.inputs.input }}" ] && echo "true" || echo "false")
           output='OUTPUT'
           echo "output=$hasSize" >> "$GITHUB_OUTPUT"
   get:
