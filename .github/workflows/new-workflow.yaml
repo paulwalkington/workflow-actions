@@ -23,7 +23,7 @@ jobs:
   say_hello:
     runs-on: ubuntu-latest
     outputs:
-      hasName: ${{ steps.calculate-has-name.outputs.hasName }}
+      hasSize: ${{ steps.calculate-has-name.outputs.hasSize }}
 
     steps:
       - name: Check out the repository to the runner
@@ -35,10 +35,10 @@ jobs:
           echo  "Hello ${{ github.event.inputs.name }}!"
           echo "- in ${{ github.event.inputs.environment }}!"
 
-          hasName=$([ -n "${{ github.event.inputs.name }}" ] && echo "true" || echo "false")
-          echo "hasName=$hasName"
-          echo "$hasName"
-          echo "hasName=$hasName" >> "$GITHUB_OUTPUT"
+          hasSize=$([ -n "${{ github.event.inputs.name }}" ] && echo "true" || echo "false")
+          echo "hasSize=$hasSize"
+          echo "$hasSize"
+          echo "hasSize=$hasSize" >> "$GITHUB_OUTPUT"
 
   test-job:
     runs-on: ubuntu-latest
@@ -47,7 +47,7 @@ jobs:
       - name: Echo output
         run: |
           echo "== output =="
-          echo "${{needs.say_hello.outputs.hasName}}"
+          echo "${{needs.say_hello.outputs.hasSize}}"
 
   sub-workflow:
     needs: say_hello
@@ -55,4 +55,4 @@ jobs:
     with:
       environment: ${{ inputs.environment }}
       name: ${{ inputs.name }}
-      data: ${{needs.say_hello.outputs.hasName}}
+      data: ${{needs.say_hello.outputs.hasSize}}
