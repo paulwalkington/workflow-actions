@@ -30,25 +30,26 @@ jobs:
   say_hello:
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "Hello ${{ github.event.inputs.alternate_contacts }}!"
-          echo "- in ${{ github.event.inputs.home }}!"
+      # - run: |
+      #     echo "Hello ${{ github.event.inputs.alternate_contacts }}!"
+      #     echo "- in ${{ github.event.inputs.home }}!"
 
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
 
-      # - name: Make the script files executable
-      #   run: chmod +x scripts/build-tfvars-file.sh
+      - name: Make the script files executable
+        run: chmod +x scripts/build-tfvars-file.sh
 
-      # - name: Run a script
-      #   run: ./scripts/build-tfvars-file.sh
+      - name: Run a script
+        run: ./scripts/build-tfvars-file.sh
 
-      # - name: check file
-      #   run: |
-      #     echo "-----one the file-----"
-      #     filename="etc/env_eu-west-2_some_environment.tfvars"
-      #     value="`cat $filename`"
-      #     echo "$value"
+      - name: check file
+        run: |
+          echo "-----the file-----"
+          filename="etc/env_eu-west-2_some_environment.tfvars"
+          value="`cat $filename`"
+          echo "$value"
+
       - name: echo values
         run: |
           echo "${{ github.event.inputs.environment }}"
