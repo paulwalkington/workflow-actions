@@ -24,3 +24,8 @@ jobs:
             echo 'tfVariableList: ${{ inputs.tfVariableList }}'
             echo '```'
           } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Approval gate
+        if: ${{ inputs.vend_bypass_approval_step == 'true' }}
+        run: |
+          echo "this has been approved"
