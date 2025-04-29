@@ -41,7 +41,18 @@ jobs:
         run: chmod +x scripts/build-tfvars-file.sh
 
       - name: Run a script
-        run: ./scripts/build-tfvars-file.sh
+        run: |
+          ./scripts/build-tfvars-file.sh \
+            "${{ github.event.inputs.environment }}" \
+            "${{ github.event.inputs.name }}" \
+            "${{ github.event.inputs.emailAddress }}" \
+            "${{ github.event.inputs.workloadShortName }}" \
+            "${{ github.event.inputs.opsDlMail }}" \
+            "${{ github.event.inputs.securityDlMail }}" \
+            "${{ github.event.inputs.roles }}" \
+            "${{ github.event.inputs.dnsSubDomains }}" \
+            "${{ github.event.inputs.sesSubDomains }}" \
+            "${{ github.event.inputs.securityClass }}"
 
       - name: check file
         run: |

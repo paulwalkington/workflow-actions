@@ -21,20 +21,31 @@ function getAwsAccountGroupName () {
     fi
 }
 
+environment=$1
+name=$2
+emailAddress=$3
+workloadShortName=$4
+opsDlMail=$5
+securityDlMail=$6
+roles=$7
+dnsSubDomains=$8
+sesSubDomains=$9
+securityClass=$10
 
-environment="some_environment"
-name="some_name"
-emailAddress="some_email_address"
-workloadShortName="some_WORKload_short_name1"
-opsDlMail="some_ops_dl_mail"
-securityDlMail="some_security_dl_mail"
-roles="Administrator,ReadOnly,ApplicationUser"
-dnsSubDomains="foo,bar"
-sesSubDomains="foo,bar"
-securityClass="Non-Live"
+
+# environment="some_environment"
+# name="some_name"
+# emailAddress="some_email_address"
+# workloadShortName="some_WORKload_short_name1"
+# opsDlMail="some_ops_dl_mail"
+# securityDlMail="some_security_dl_mail"
+# roles="Administrator,ReadOnly,ApplicationUser"
+# dnsSubDomains="foo,bar"
+# sesSubDomains="foo,bar"
+# securityClass="Non-Live"
 
 vpcRequired="Yes"
-# these come rom the "get-vpc-cidr" step in the pipeline
+# these come from the "get-vpc-cidr" step in the pipeline
 vpcDetailsTransitSubnetNewBits=2 
 vpcDetailsTransitSubnetNetNum=0
 cidr="172.25.128.0/17"
