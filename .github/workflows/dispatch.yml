@@ -57,7 +57,8 @@ jobs:
       - name: check file
         run: |
           echo "-----the file-----"
-          filename="etc/env_eu-west-2_some_environment.tfvars"
+          environment="${{ github.event.inputs.environment }}"
+          filename="etc/env_eu-west-2_$environment.tfvars"
           value="`cat $filename`"
           echo "$value"
 
