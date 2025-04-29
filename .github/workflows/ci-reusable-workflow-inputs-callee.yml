@@ -1,0 +1,31 @@
+name: reusable_workflow_inputs_callee
+
+on:
+  workflow_call:
+    inputs:
+      tfVariableList:
+        type: string
+        required: true
+      vend_bypass_approval_step:
+        description: Bypass Approval Step
+        type: boolean
+        default: false
+        required: false
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check
+        run: |
+          {
+            echo '```yml'vend_secondary_virtual_network_size
+            echo 'vend_bypass_approval_step: ${{ inputs.vend_bypass_approval_step }}'
+            echo 'tfVariableList: ${{ inputs.tfVariableList }}'
+            echo '```'
+          } | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Approval gate
+        if: ${{ inputs.vend_bypass_approval_step == 'true' }}
+        run: |
+          echo "this has been approved"

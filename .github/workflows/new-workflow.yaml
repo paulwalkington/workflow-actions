@@ -1,0 +1,58 @@
+name: New workflow
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      environment:
+        required: true
+      name:
+        required: false
+      size:
+        description: Secondary Region Virtual Network Size
+        type: choice
+        options:
+          - small
+          - medium
+          - large
+          - x-small
+          - x-large
+
+permissions: write-all
+
+jobs:
+  say_hello:
+    runs-on: ubuntu-latest
+    outputs:
+      hasSize: ${{ steps.calculate-has-name.outputs.hasSize }}
+
+    steps:
+      - name: Check out the repository to the runner
+        uses: actions/checkout@v4
+
+      - name: calculate-has-name
+        id: calculate-has-name
+        run: |
+          echo  "Hello ${{ github.event.inputs.name }}!"
+          echo "- in ${{ github.event.inputs.environment }}!"
+
+          hasSize=$([ -n "${{ github.event.inputs.name }}" ] && echo "true" || echo "false")
+          echo "hasSize=$hasSize"
+          echo "$hasSize"
+          echo "hasSize=$hasSize" >> "$GITHUB_OUTPUT"
+
+  test-job:
+    runs-on: ubuntu-latest
+    needs: say_hello
+    steps:
+      - name: Echo output
+        run: |
+          echo "== output =="
+          echo "${{needs.say_hello.outputs.hasSize}}"
+
+  sub-workflow:
+    needs: say_hello
+    uses: ./.github/workflows/new-sub-workflow.yaml
+    with:
+      environment: ${{ inputs.environment }}
+      name: ${{ inputs.name }}
+      data: ${{needs.say_hello.outputs.hasSize}}

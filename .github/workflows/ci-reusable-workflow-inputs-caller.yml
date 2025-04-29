@@ -1,0 +1,63 @@
+name: reusable_workflow_inputs_caller
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      vend_workload_name:
+        description: Workload Name
+        type: string
+        required: true
+      vend_environment:
+        description: Workload Environment
+        type: choice
+        options:
+          - prod
+          - preprod
+          - dev
+          - qa
+          - test
+          - sit
+          - nft
+          - poc
+          - sandbox
+          - prototype
+          - uat
+      vend_secondary_virtual_network_size:
+        description: Secondary Region Virtual Network Size
+        type: choice
+        required: false
+        options:
+          - small
+          - medium
+          - large
+          - x-small
+          - x-large
+
+jobs:
+  set:
+    runs-on: ubuntu-latest
+    outputs:
+      vend_bypass_approval_step: ${{ steps.set.outputs.vend_bypass_approval_step }}
+    steps:
+      - name: Set
+        id: set
+        run: |
+
+          vend_bypass_approval_step=false
+          if [ -n "${{ github.event.inputs.vend_secondary_virtual_network_size }}" ]; then
+            vend_bypass_approval_step=true
+          fi
+
+          echo "vend_bypass_approval_step=$vend_bypass_approval_step" | tee -a "$GITHUB_STEP_SUMMARY"
+
+          output='OUTPUT'
+          echo "vend_bypass_approval_step=$vend_bypass_approval_step" >> "$GITHUB_OUTPUT"
+
+  callee:
+    name: callee
+    needs: [set]
+    uses: ./.github/workflows/ci-reusable-workflow-inputs-callee.yml
+    with:
+      tfVariableList: "vend_workload_name = ${{ inputs.vend_workload_name }};vend_environment = ${{ inputs.vend_environment }};vend_secondary = ${{ fromJSON(needs.set.outputs.vend_bypass_approval_step) }}"
+      vend_bypass_approval_step: ${{ fromJSON(needs.set.outputs.vend_bypass_approval_step) }}

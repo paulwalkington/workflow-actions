@@ -92,3 +92,15 @@ jobs:
           echo "-----one the file-----"
           value="`cat $filename`"
           echo "$value"
+
+  read-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Read File
+        uses: actions/checkout@v3
+
+      - name: call workflow
+        run: |
+          echo "${{ github.event.client_payload }}"
+          someData='${{ toJson(github.event.client_payload) }}'
