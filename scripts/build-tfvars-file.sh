@@ -83,6 +83,8 @@ avm_alternate_account_contacts = {
 }
 EOF
 
+echo "Created $filename"
+
 
 # add avm_sso_associations to the tfvars file
 if([ -n "$roles" ] )
