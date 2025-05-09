@@ -23,7 +23,6 @@ jobs:
           echo  "vend_instance ${{ github.event.client_payload.vend_instance }}"
 
           environmentName=$vend_workload_name-$vend_environment_type-$vend_instance
-          echo "environmentName=$environmentName" >> "$ENVIRONMENT_NAME"
           echo "ENVIRONMENT_NAME=$environmentName" >> $GITHUB_ENV
 
       - name: Make the script executable
