@@ -16,15 +16,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
-      # - name: calculate-environment-name
-      #   run: |
-      #     echo  "vend_workload_name ${{ github.event.client_payload.vend_workload_name }}"
-      #     echo  "vend_environment_type ${{ github.event.client_payload.vend_environment_type }}"
-      #     echo  "vend_instance ${{ github.event.client_payload.vend_instance }}"
-
-      #     environmentName=$vend_workload_name-$vend_environment_type-$vend_instance
-      #     echo "environmentName $environmentName"
-      #     echo "ENVIRONMENT_NAME=$environmentName" >> $GITHUB_ENV
+      - name: Set color
+        id: random-color-generator
+        run: echo "SELECTED_COLOR=green" >> $GITHUB_OUTPUT
+      - name: Get color
+        run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
 
       - name: calculate-environment-name
         id: calculate-environment-name
