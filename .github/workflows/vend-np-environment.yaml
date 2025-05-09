@@ -16,15 +16,29 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # - name: calculate-environment-name
+      #   run: |
+      #     echo  "vend_workload_name ${{ github.event.client_payload.vend_workload_name }}"
+      #     echo  "vend_environment_type ${{ github.event.client_payload.vend_environment_type }}"
+      #     echo  "vend_instance ${{ github.event.client_payload.vend_instance }}"
+
+      #     environmentName=$vend_workload_name-$vend_environment_type-$vend_instance
+      #     echo "environmentName $environmentName"
+      #     echo "ENVIRONMENT_NAME=$environmentName" >> $GITHUB_ENV
+
       - name: calculate-environment-name
+        id: calculate-environment-name
         run: |
           echo  "vend_workload_name ${{ github.event.client_payload.vend_workload_name }}"
           echo  "vend_environment_type ${{ github.event.client_payload.vend_environment_type }}"
           echo  "vend_instance ${{ github.event.client_payload.vend_instance }}"
 
           environmentName=$vend_workload_name-$vend_environment_type-$vend_instance
-
+          echo "environmentName $environmentName"
           echo "ENVIRONMENT_NAME=$environmentName" >> $GITHUB_ENV
+
+
+          echo "environmentName=$(echo $environmentName" >> $GITHUB_OUTPUT
 
       - name: Make the script executable
         run: chmod +x scripts/build-tfvars-file.sh
@@ -34,7 +48,7 @@ jobs:
           PAYLOAD: "${{ toJson(github.event.client_payload) }}"
         run: |
 
-          echo "environment Name ${{ env.ENVIRONMENT_NAME }}"
+          echo "environment Name ${{ steps.vars.outputs.environmentName }}"
 
 
           ./scripts/build-tfvars-file.sh \
@@ -52,7 +66,7 @@ jobs:
       - name: Display tfvars file
         run: |
           echo "-----the file-----"
-          environment="${{ env.ENVIRONMENT_NAME }}"
+          environment="${{ steps.vars.outputs.environmentName }}"
           filename="etc/env_eu-west-2_$environment.tfvars"
           echo "filename: $filename"
           value="`cat $filename`"
