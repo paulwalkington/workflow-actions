@@ -22,18 +22,18 @@ function getAwsAccountGroupName () {
 }
 
 
-vend_workload_name=$1
-vend_environment_type=$2
-vend_instance=$3
-email_address=$4
-ops_dl_email_address=$5
-security_dl_email_address=$6
-vend_roles=$7
-dns_sub_domains=$8
-ses_sub_domains=$9
-vend_security_class=${10}
-environment_name=${11}
-subnets_transit=${12}
+workloadName=$1
+environmentType=$2
+instance=$3
+emailAddress=$4
+opsDlEmailAddress=$5
+securityDlEmailAddress=$6
+Roles=$7
+dnsSubDomains=$8
+sesSubDomains=$9
+securityClass=${10}
+environmentName=${11}
+subnetsTransit=${12}
 cidr=${13}
 vpcRequired="Yes"
 
@@ -41,30 +41,30 @@ vpcRequired="Yes"
 
 
 
-# vend_workload_name="pds"
+# workloadName="pds"
 
-# vend_environment_type="development"
-# vend_instance='01'
+# environmentType="development"
+# instance='01'
 
-# email_address="halo-np+pds-1@test-and-trace.nhs.uk"
-# ops_dl_email_address="halo-np+pds-1-operations@test-and-trace.nhs.uk"
-# security_dl_email_address="halo-np+pds-1-security@test-and-trace.nhs.uk"
+# emailAddress="halo-np+pds-1@test-and-trace.nhs.uk"
+# opsDlEmailAddress="halo-np+pds-1-operations@test-and-trace.nhs.uk"
+# securityDlEmailAddress="halo-np+pds-1-security@test-and-trace.nhs.uk"
 
-# vend_roles="Administrator"
-# dns_sub_domains="ptest-1"
-# ses_sub_domains="ptest-1"
-# vend_security_class="hello"
-# subnets_transit="hello"
+# Roles="Administrator"
+# dnsSubDomains="ptest-1"
+# sesSubDomains="ptest-1"
+# securityClass="hello"
+# subnetsTransit="hello"
 # cidr="hello"
 # vpcRequired="Yes"
 
 
-workloadNameLowerCase=$(echo "$vend_workload_name" | tr '[:upper:]' '[:lower:]')
-opsDlMailLowerCase=$(echo "$ops_dl_email_address" | tr '[:upper:]' '[:lower:]')
-securityDlMailLowerCase=$(echo "$security_dl_email_address" | tr '[:upper:]' '[:lower:]')
+workloadNameLowerCase=$(echo "$workloadName" | tr '[:upper:]' '[:lower:]')
+opsDlMailLowerCase=$(echo "$opsDlEmailAddress" | tr '[:upper:]' '[:lower:]')
+securityDlMailLowerCase=$(echo "$securityDlEmailAddress" | tr '[:upper:]' '[:lower:]')
 
 # environment="$workloadNameLowerCase-$environmentType-$instance"
-environment="$environment_name"
+environment="$environmentName"
 
 filename="etc/env_eu-west-2_$environment.tfvars"
 echo "Creating $filename"
@@ -72,19 +72,19 @@ echo "Creating $filename"
 cat > "$filename"<< EOF
 environment           = "$environment"
 avm_aws_account_name  = "$environment"
-avm_aws_account_email = "$email_address"
+avm_aws_account_email = "$emailAddress"
 avm_aws_account_alias = "halo-np-$environment"
 avm_org_ou_name       = "$workloadNameLowerCase"
 
 avm_alternate_account_contacts = {
     operations = {
-        email_address = "$opsDlMailLowerCase"
+        emailAddress = "$opsDlMailLowerCase"
         name          = "AWS Alternate Contacts - $workloadNameLowerCase - Operations"
         phone_number  = "+442083277777"
         title         = "."
     }
     security = {
-        email_address = "$securityDlMailLowerCase"
+        emailAddress = "$securityDlMailLowerCase"
         name          = "AWS Alternate Contacts - $workloadNameLowerCase - Security"
         phone_number  = "+442083277777"
         title         = "."
@@ -182,7 +182,7 @@ EOF
 #     echo " ";
 #     echo "avm_vpc = {";
 #     echo "    main = {";
-#     echo "        subnets_transit = \"$subnets_transit\"";
+#     echo "        subnetsTransit = \"$subnetsTransit\"";
 #     echo "        vpc_cidr        = \"$cidr\"";
 #     echo "    }";
 #     echo "}"
