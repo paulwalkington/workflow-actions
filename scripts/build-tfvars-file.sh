@@ -32,9 +32,9 @@ vend_roles=$7
 dns_sub_domains=$8
 ses_sub_domains=$9
 vend_security_class=${10}
-subnets_transit=${11}
-cidr=${12}
-environment_name=${13}
+environment_name=${11}
+subnets_transit=${12}
+cidr=${13}
 vpcRequired="Yes"
 
 
