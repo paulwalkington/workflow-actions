@@ -60,8 +60,8 @@ vpcRequired="Yes"
 
 
 workloadNameLowerCase=$(echo "$workloadName" | tr '[:upper:]' '[:lower:]')
-opsDlMailLowerCase=$(echo "$opsDlMail" | tr '[:upper:]' '[:lower:]')
-securityDlMailLowerCase=$(echo "$securityDlMail" | tr '[:upper:]' '[:lower:]')
+opsDlMailLowerCase=$(echo "$ops_dl_email_address" | tr '[:upper:]' '[:lower:]')
+securityDlMailLowerCase=$(echo "$security_dl_email_address" | tr '[:upper:]' '[:lower:]')
 
 # environment="$workloadNameLowerCase-$environmentType-$instance"
 environment="$environment_name"
@@ -72,7 +72,7 @@ echo "Creating $filename"
 cat > "$filename"<< EOF
 environment           = "$environment"
 avm_aws_account_name  = "$environment"
-avm_aws_account_email = "$emailAddress"
+avm_aws_account_email = "$email_address"
 avm_aws_account_alias = "halo-np-$environment"
 avm_org_ou_name       = "$workloadNameLowerCase"
 
