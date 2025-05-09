@@ -59,7 +59,7 @@ vpcRequired="Yes"
 # vpcRequired="Yes"
 
 
-workloadNameLowerCase=$(echo "$workloadName" | tr '[:upper:]' '[:lower:]')
+workloadNameLowerCase=$(echo "$vend_workload_name" | tr '[:upper:]' '[:lower:]')
 opsDlMailLowerCase=$(echo "$ops_dl_email_address" | tr '[:upper:]' '[:lower:]')
 securityDlMailLowerCase=$(echo "$security_dl_email_address" | tr '[:upper:]' '[:lower:]')
 
