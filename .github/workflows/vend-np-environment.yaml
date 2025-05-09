@@ -19,6 +19,7 @@ jobs:
       - name: Set color
         id: random-color-generator
         run: echo "SELECTED_COLOR=green" >> $GITHUB_OUTPUT
+
       - name: Get color
         run: echo "The selected color is ${{ steps.random-color-generator.outputs.SELECTED_COLOR }}"
 
@@ -31,10 +32,8 @@ jobs:
 
           environmentName=$vend_workload_name-$vend_environment_type-$vend_instance
           echo "environmentName $environmentName"
-          echo "ENVIRONMENT_NAME=$environmentName" >> $GITHUB_ENV
 
-
-          echo "environmentName=$(echo $environmentName" >> $GITHUB_OUTPUT
+          echo "environmentName=$environmentName" >> $GITHUB_OUTPUT
 
       - name: Make the script executable
         run: chmod +x scripts/build-tfvars-file.sh
@@ -44,7 +43,8 @@ jobs:
           PAYLOAD: "${{ toJson(github.event.client_payload) }}"
         run: |
 
-          echo "environment Name ${{ steps.vars.outputs.environmentName }}"
+          environmentName="${{ steps.calculate-environment-name.outputs.environmentName }}" 
+          echo "environment Name: $environmentName"
 
 
           ./scripts/build-tfvars-file.sh \
