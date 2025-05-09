@@ -26,12 +26,17 @@ jobs:
       - name: calculate-environment-name
         id: calculate-environment-name
         run: |
+          vend_workload_name="${{ github.event.client_payload.vend_workload_name }}"
+          vend_environment_type="${{ github.event.client_payload.vend_environment_type }}"
+          vend_instance="${{ github.event.client_payload.vend_instance }}"
+
           echo  "vend_workload_name ${{ github.event.client_payload.vend_workload_name }}"
           echo  "vend_environment_type ${{ github.event.client_payload.vend_environment_type }}"
           echo  "vend_instance ${{ github.event.client_payload.vend_instance }}"
 
+
           environmentName=$vend_workload_name-$vend_environment_type-$vend_instance
-          echo "environmentName $environmentName"
+          echo "environmentName: $environmentName"
 
           echo "environmentName=$environmentName" >> $GITHUB_OUTPUT
 
