@@ -23,6 +23,7 @@ jobs:
           echo  "vend_instance ${{ github.event.client_payload.vend_instance }}"
 
           environmentName=$vend_workload_name-$vend_environment_type-$vend_instance
+
           echo "ENVIRONMENT_NAME=$environmentName" >> $GITHUB_ENV
 
       - name: Make the script executable
@@ -33,7 +34,7 @@ jobs:
           PAYLOAD: "${{ toJson(github.event.client_payload) }}"
         run: |
 
-          echo "environment Name $ENVIRONMENT_NAME"
+          echo "environment Name ${{ env.ENVIRONMENT_NAME }}"
 
 
           ./scripts/build-tfvars-file.sh \
@@ -51,7 +52,7 @@ jobs:
       - name: Display tfvars file
         run: |
           echo "-----the file-----"
-          environment="$ENVIRONMENT_NAME"
+          environment="${{ env.ENVIRONMENT_NAME }}"
           filename="etc/env_eu-west-2_$environment.tfvars"
           echo "filename: $filename"
           value="`cat $filename`"
