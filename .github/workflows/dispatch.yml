@@ -41,6 +41,7 @@ jobs:
         run: chmod +x scripts/build-tfvars-file.sh
 
       - name: Run a script
+        shell: bash
         run: |
           ./scripts/build-tfvars-file.sh \
             "${{ github.event.inputs.environment }}" \

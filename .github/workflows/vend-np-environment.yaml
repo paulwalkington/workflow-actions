@@ -1,0 +1,58 @@
+name: Vend a new non-prod environment
+
+on:
+  repository_dispatch:
+    types: [vend-aws-account-np]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  process-request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: calculate-environment-name
+        run: |
+          echo  "vend_workload_name ${{ github.event.client_payload.vend_workload_name }}"
+          echo  "vend_environment_type ${{ github.event.client_payload.vend_environment_type }}"
+          echo  "vend_instance ${{ github.event.client_payload.vend_instance }}"
+
+          environmentName=$vend_workload_name-$vend_environment_type-$vend_instance
+          echo "environmentName=$environmentName" >> "$ENVIRONMENT_NAME"
+
+      - name: Make the script executable
+        run: chmod +x scripts/build-tfvars-file.sh
+
+      - name: Generate .tfvars File
+        env:
+          PAYLOAD: "${{ toJson(github.event.client_payload) }}"
+        run: |
+
+          echo "environment Name $ENVIRONMENT_NAME"
+
+
+          ./scripts/build-tfvars-file.sh \
+            "${{ github.event.client_payload.vend_workload_name }}" \
+            "${{ github.event.client_payload.vend_environment_type }}" \
+            "${{ github.event.client_payload.vend_instance }}" \
+            "${{ github.event.client_payload.vend_email_addresses.email_address }}" \
+            "${{ github.event.client_payload.vend_email_addresses.ops_dl_email_address }}" \
+            "${{ github.event.client_payload.vend_email_addresses.security_dl_email_address }}" \
+            "${{ github.event.client_payload.vend_roles }}" \
+            "${{ github.event.client_payload.vend_sub_domains.dns_sub_domains }}" \
+            "${{ github.event.client_payload.vend_sub_domains.ses_sub_domains }}" \
+            "${{ github.event.client_payload.vend_sub_domains.vend_security_class }}" \
+
+      - name: Display tfvars file
+        run: |
+          echo "-----the file-----"
+          environment="$ENVIRONMENT_NAME"
+          filename="etc/env_eu-west-2_$environment.tfvars"
+          echo "filename: $filename"
+          value="`cat $filename`"
+          echo "$value"

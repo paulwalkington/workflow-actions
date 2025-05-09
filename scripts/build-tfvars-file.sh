@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 
 function getAwsAccountGroupName () {
     workloadShortName=$1
@@ -8,8 +8,8 @@ function getAwsAccountGroupName () {
 
     workloadShortNameLength=${#workloadShortName}
 
-    workloadShortNameUpper=$(echo ${workloadShortName:0:1} | tr '[:lower:]' '[:upper:]')
-    workloadShortNameLower=$(echo ${workloadShortName:1:$workloadShortNameLength} | tr '[:upper:]' '[:lower:]')
+    workloadShortNameUpper=$(echo "${workloadShortName:0:1}" | tr '[:lower:]' '[:upper:]')
+    workloadShortNameLower=$(echo "${workloadShortName:1:$workloadShortNameLength}" | tr '[:upper:]' '[:lower:]')
     workloadShortNameFormatted=$workloadShortNameUpper$workloadShortNameLower
 
 
@@ -21,177 +21,180 @@ function getAwsAccountGroupName () {
     fi
 }
 
-environment=$1
-name=$2
-emailAddress=$3
-workloadShortName=$4
-opsDlMail=$5
-securityDlMail=$6
-roles=$7
-dnsSubDomains=$8
-sesSubDomains=$9
-securityClass=$10
 
-
-# environment="some_environment"
-# name="some_name"
-# emailAddress="some_email_address"
-# workloadShortName="some_WORKload_short_name1"
-# opsDlMail="some_ops_dl_mail"
-# securityDlMail="some_security_dl_mail"
-# roles="Administrator,ReadOnly,ApplicationUser"
-# dnsSubDomains="foo,bar"
-# sesSubDomains="foo,bar"
-# securityClass="Non-Live"
-
+vend_workload_name=$1
+vend_environment_type=$2
+vend_instance=$3
+email_address=$4
+ops_dl_email_address=$5
+security_dl_email_address=$6
+vend_roles=$7
+dns_sub_domains=$8
+ses_sub_domains=$9
+vend_security_class=${10}
+subnets_transit=${11}
+cidr=${12}
+environment_name=${13}
 vpcRequired="Yes"
-# these come from the "get-vpc-cidr" step in the pipeline
-vpcDetailsTransitSubnetNewBits=2 
-vpcDetailsTransitSubnetNetNum=0
-cidr="172.25.128.0/17"
 
 
 
-workloadShortNameLowerCase=$(echo "$workloadShortName" | tr '[:upper:]' '[:lower:]')
+
+
+# vend_workload_name="pds"
+
+# vend_environment_type="development"
+# vend_instance='01'
+
+# email_address="halo-np+pds-1@test-and-trace.nhs.uk"
+# ops_dl_email_address="halo-np+pds-1-operations@test-and-trace.nhs.uk"
+# security_dl_email_address="halo-np+pds-1-security@test-and-trace.nhs.uk"
+
+# vend_roles="Administrator"
+# dns_sub_domains="ptest-1"
+# ses_sub_domains="ptest-1"
+# vend_security_class="hello"
+# subnets_transit="hello"
+# cidr="hello"
+# vpcRequired="Yes"
+
+
+workloadNameLowerCase=$(echo "$workloadName" | tr '[:upper:]' '[:lower:]')
 opsDlMailLowerCase=$(echo "$opsDlMail" | tr '[:upper:]' '[:lower:]')
 securityDlMailLowerCase=$(echo "$securityDlMail" | tr '[:upper:]' '[:lower:]')
 
+# environment="$workloadNameLowerCase-$environmentType-$instance"
+environment="$environment_name"
 
-
-
-# filename="etc/env_eu-west-2_$environment.tfvars"
-# cat > "$filename"<< EOF
-cat <<EOF > etc/env_eu-west-2_$environment.tfvars
+filename="etc/env_eu-west-2_$environment.tfvars"
+cat > "$filename"<< EOF
 environment           = "$environment"
-avm_aws_account_name  = "$name"
+avm_aws_account_name  = "$environment"
 avm_aws_account_email = "$emailAddress"
-avm_aws_account_alias = "halo-pr-$environment"
-avm_org_ou_name       = "$workloadShortNameLowerCase"
+avm_aws_account_alias = "halo-np-$environment"
+avm_org_ou_name       = "$workloadNameLowerCase"
 
 avm_alternate_account_contacts = {
     operations = {
         email_address = "$opsDlMailLowerCase"
-        name          = "AWS Alternate Contacts - $workloadShortNameLowerCase - Operations"
+        name          = "AWS Alternate Contacts - $workloadNameLowerCase - Operations"
         phone_number  = "+442083277777"
         title         = "."
     }
     security = {
         email_address = "$securityDlMailLowerCase"
-        name          = "AWS Alternate Contacts - $workloadShortNameLowerCase - Security"
+        name          = "AWS Alternate Contacts - $workloadNameLowerCase - Security"
         phone_number  = "+442083277777"
         title         = "."
     }
 }
 EOF
 
-echo "Created $filename"
+# # add avm_sso_associations to the tfvars file
+# if([ -n "$roles" ] )
+# then
+#     IFS=',' read -ra rolesSeperated <<< "$roles"
 
+#     avmSsoAssociations=()
 
-# add avm_sso_associations to the tfvars file
-if([ -n "$roles" ] )
-then
-    IFS=',' read -ra rolesSeperated <<< "$roles"
+#     for role in "${rolesSeperated[@]}"
+#     do
+#         awsAccountGroupName=$(getAwsAccountGroupName "$workloadShortName" "development" "$role" true  )
+#         avmSsoAssociation=("\"$awsAccountGroupName\" = [ \"$role\" ]")
+#         avmSsoAssociations+=("$avmSsoAssociation")
+#     done
 
-    avmSsoAssociations=()
-
-    for role in "${rolesSeperated[@]}"
-    do
-        awsAccountGroupName=$(getAwsAccountGroupName "aai" "Development" $role true  )
-        avmSsoAssociation=("\"$awsAccountGroupName\" = [ \"$role\" ]")
-        avmSsoAssociations+=("$avmSsoAssociation")
-    done
-
-    {
-        echo " ";
-        echo "avm_sso_associations = {";
-     } >> etc/env_eu-west-2_$environment.tfvars
+#     {
+#         echo " ";
+#         echo "avm_sso_associations = {";
+#      } >> "etc/env_eu-west-2_$environment.tfvars"
      
-    for avmSsoAssociation in "${avmSsoAssociations[@]}"
-    do
-        echo "    $avmSsoAssociation" >> etc/env_eu-west-2_$environment.tfvars
-    done
+#     for avmSsoAssociation in "${avmSsoAssociations[@]}"
+#     do
+#         echo "    $avmSsoAssociation" >> "etc/env_eu-west-2_$environment.tfvars"
+#     done
 
-    echo "}" >>  etc/env_eu-west-2_$environment.tfvars
-fi
+#     echo "}" >>  "etc/env_eu-west-2_$environment.tfvars"
+# fi
 
-# add avm_aws_account_ses_subdomains to the tfvars file
+# # add avm_aws_account_ses_subdomains to the tfvars file
 
-if([ -n "$sesSubDomains" ] )
-then
+# if([ -n "$sesSubDomains" ] )
+# then
 
-    IFS=',' read -ra sesSubDomainsSeperated <<< "$sesSubDomains"
+#     IFS=',' read -ra sesSubDomainsSeperated <<< "$sesSubDomains"
 
-    {
-        echo " ";
-        echo "avm_aws_account_ses_subdomains = {";
-        echo "    \"test-and-trace.nhs.uk\" = [";
-    } >> etc/env_eu-west-2_$environment.tfvars
+#     {
+#         echo " ";
+#         echo "avm_aws_account_ses_subdomains = {";
+#         # echo "    \"test-and-trace.nhs.uk\" = ["; //this might be only for prod deployment
+#         echo "    \"halo-np.org.uk\" = [";
+#     } >> "etc/env_eu-west-2_$environment.tfvars"
 
-    for sesSubDomain in "${sesSubDomainsSeperated[@]}"
-    do
-        sesSubDomainLowerCase=$(echo "$sesSubDomain" | tr '[:upper:]' '[:lower:]')
-        echo "        \"$sesSubDomainLowerCase\"," >> etc/env_eu-west-2_$environment.tfvars
-    done
-
-
-
-    {
-        echo "    ]";
-        echo "}";
-    } >>  etc/env_eu-west-2_$environment.tfvars
-fi
-
-# add avm_aws_account_subdomains to the tfvars file
-
-if([ -n "$dnsSubDomains" ] )
-then
-
-    IFS=',' read -ra dnsSubDomainsSeperated <<< "$dnsSubDomains"
-
-    {
-        echo " ";
-        echo "avm_aws_account_subdomains = {";
-        echo "    \"test-and-trace.nhs.uk\" = [";
-     } >> etc/env_eu-west-2_$environment.tfvars
-
-    for dnsSubDomain in "${dnsSubDomainsSeperated[@]}"
-    do
-        dnsSubDomainLowerCase=$(echo "$dnsSubDomain" | tr '[:upper:]' '[:lower:]')
-        echo "        \"$dnsSubDomainLowerCase\"," >> etc/env_eu-west-2_$environment.tfvars
-    done
+#     for sesSubDomain in "${sesSubDomainsSeperated[@]}"
+#     do
+#         sesSubDomainLowerCase=$(echo "$sesSubDomain" | tr '[:upper:]' '[:lower:]')
+#         echo "        \"$sesSubDomainLowerCase\"," >> "etc/env_eu-west-2_$environment.tfvars"
+#     done
 
 
 
-    {
-        echo "    ]";
-        echo "}";
-     } >>  etc/env_eu-west-2_$environment.tfvars
-fi
+#     {
+#         echo "    ]";
+#         echo "}";
+#     } >>  "etc/env_eu-west-2_$environment.tfvars"
+# fi
 
-# add avm_vpcs to the tfvars file
+# # add avm_aws_account_subdomains to the tfvars file
 
-if [[ "$vpcRequired" == "Yes" ]]
-then
-{ 
-    echo " ";
-    echo " ";
-    echo "avm_vpc = {";
-    echo "    main = {";
-    echo "        subnets_transit = \"$vpcDetailsTransitSubnetNewBits,$vpcDetailsTransitSubnetNetNum\"";
-    echo "        vpc_cidr        = \"$cidr\"";
-    echo "    }";
-    echo "}"
-} >> etc/env_eu-west-2_$environment.tfvars
-fi
+# if([ -n "$dnsSubDomains" ] )
+# then
 
-# add others to the tfvars file
+#     IFS=',' read -ra dnsSubDomainsSeperated <<< "$dnsSubDomains"
+
+#     {
+#         echo " ";
+#         echo "avm_aws_account_subdomains = {";
+#         # echo "    \"test-and-trace.nhs.uk\" = ["; //this might be only for prod deployment
+#         echo "    \"halo-np.org.uk\" = [";
+#      } >> "etc/env_eu-west-2_$environment.tfvars"
+
+#     for dnsSubDomain in "${dnsSubDomainsSeperated[@]}"
+#     do
+#         dnsSubDomainLowerCase=$(echo "$dnsSubDomain" | tr '[:upper:]' '[:lower:]')
+#         echo "        \"$dnsSubDomainLowerCase\"," >> "etc/env_eu-west-2_$environment.tfvars"
+#     done
+
+#     {
+#         echo "    ]";
+#         echo "}";
+#      } >>  "etc/env_eu-west-2_$environment.tfvars"
+# fi
+
+# # add avm_vpcs to the tfvars file
+
+# if [[ "$vpcRequired" == "Yes" ]]
+# then
+# { 
+#     echo " ";
+#     echo " ";
+#     echo "avm_vpc = {";
+#     echo "    main = {";
+#     echo "        subnets_transit = \"$subnets_transit\"";
+#     echo "        vpc_cidr        = \"$cidr\"";
+#     echo "    }";
+#     echo "}"
+# } >> "etc/env_eu-west-2_$environment.tfvars"
+# fi
+
+# # add others to the tfvars file
 
 
-if [[ "$securityClass" == "Non-Live" ]]
-then
-{ 
-    echo "" ; 
-    echo "avm_auto_shutdown_enabled       = true"; 
-    echo "config_kms_key_deletion_enabled = false"; 
-} >> etc/env_eu-west-2_$environment.tfvars
-fi
+# if [[ "$securityClass" == "Non-Live" ]]
+# then
+# { 
+#     echo "" ; 
+#     echo "avm_auto_shutdown_enabled       = true"; 
+#     echo "config_kms_key_deletion_enabled = false"; 
+# } >> "etc/env_eu-west-2_$environment.tfvars"
+# fi
