@@ -68,42 +68,9 @@ jobs:
       - name: Create Groups and Distribution Lists
         shell: pwsh
         run: |
-          # Import Utils.psm1
-          Import-Module ./lib/group-utils.psm1
+          $securityDl = "securityDlEmail"
 
-          # Define variables from environment
-          $workloadShortName="${{ env.WORKLOAD_SHORT_NAME }}"
-          $roles="${{ env.ROLES }}"
-          $environment="${{ env.ENVIRONMENT }}"
-
-          # # Connect to Microsoft Graph
-          # $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
-          # $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
-          # Connect-MgGraph -AccessToken $secureToken
-
-          # # Get existing groups in Entra ID
-          # $groups = Get-MgGroup -All:$true
-
-          # # Create distribution lists in Entra ID
-          # $securityDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Security" -Description "Security Contact email address for $workloadShortName AWS accounts" -Groups $groups
-
-          # $opsDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Operations" -Description "Operations Contact email address for $workloadShortName AWS accounts" -Groups $groups
-
-          # # Define Enterprise App configuration for AWS SSO
-          # $enterpriseAppConfig = @{
-          #   ObjectId = '${{ env.UkhsaAwsEnterpriseAppObjectId }}'
-          #   UserRoleId = '${{ env.UkhsaAwsEnterpriseAppUserRoleId }}'
-          # }
-
-          # # Create workload groups in Entra ID
-          # Add-RoleGroups -roles "${{ env.ROLES }}" `
-          #                -ownerSPN "${{ env.MoverWorkflowEnterpriseAppObjectId }}" `
-          #                -workloadShortName $workloadShortName `
-          #                -environment $environment `
-          #                -enterpriseAppConfig $enterpriseAppConfig `
-          #                -tenantId "${{ secrets.AZURE_TENANT_ID }}" `
-          #                -isUkhsaGroupFormat $true `
-          #                -groups $groups
+          $opsDl = "opsDlEmail"
 
   # get-vpc-cidr:
   #   runs-on: ubuntu-latest
