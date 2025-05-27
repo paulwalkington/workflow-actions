@@ -217,23 +217,23 @@ jobs:
           value="`cat $filename`"
           echo "$value"
 
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v4.1.0
-        with:
-          role-to-assume: arn:aws:iam::359337185549:role/GitHubAction-AssumeRoleWithAction
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.AWS_REGION }}
+      # - name: configure aws credentials
+      #   uses: aws-actions/configure-aws-credentials@v4.1.0
+      #   with:
+      #     role-to-assume: arn:aws:iam::359337185549:role/GitHubAction-AssumeRoleWithAction
+      #     role-session-name: GitHub_to_AWS_via_FederatedOIDC
+      #     aws-region: ${{ env.AWS_REGION }}
 
-      - name: Install Terraform
-        uses: hashicorp/setup-terraform@v2.0.0
-        with:
-          terraform_version: 1.7.0
+      # - name: Install Terraform
+      #   uses: hashicorp/setup-terraform@v2.0.0
+      #   with:
+      #     terraform_version: 1.7.0
 
-      - name: Run terraform plan avm
-        run: |
-          make terraformrc
-          terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}"
-          ./bin/terraform.sh -n -w -r eu-west-2 -p halo -g np -e "$terraformEnvironment" -c avm -a plan
+      # - name: Run terraform plan avm
+      #   run: |
+      #     make terraformrc
+      #     terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}"
+      #     ./bin/terraform.sh -n -w -r eu-west-2 -p halo -g np -e "$terraformEnvironment" -c avm -a plan
 
       # - name: Run terraform apply avm
       #   run: |
