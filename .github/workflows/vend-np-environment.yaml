@@ -104,8 +104,6 @@ jobs:
       - name: Generate .tfvars File
         env:
           PAYLOAD: "${{ toJson(github.event.client_payload) }}"
-          formattedOutput: ${{ needs.get-vpc-cidr.outputs.output1 }}
-          Cidr: ${{ needs.get-vpc-cidr.outputs.output2 }}
         run: |
 
 
@@ -113,6 +111,10 @@ jobs:
           opsDl="${{ needs.create-groups.outputs.opsDl }}"
           echo "securityDlEmail - $securityDlEmail"
           echo "opsDl - $opsDl"
+          formattedOutput="${{ needs.get-vpc-cidr.outputs.output1 }}"
+          echo "formattedOutput - $formattedOutput"
+          cidr="${{ needs.get-vpc-cidr.outputs.output2 }}"
+          echo "cidr - $cidr"
           terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
           echo "terraform environment - $terraformEnvironment"
 
@@ -130,8 +132,8 @@ jobs:
             "${{ github.event.client_payload.vend_sub_domains.ses_sub_domains }}" \
             "${{ github.event.client_payload.vend_sub_domains.vend_security_class }}" \
             "$terraformEnvironment" \
-            "${{ env.formattedOutput }}" \
-            "${{ env.Cidr }}" \
+            "$formattedOutput" \
+            "$cidr" \
 
       - name: Display tfvars file
         run: |
