@@ -21,9 +21,9 @@ jobs:
   create-groups:
     runs-on: ubuntu-latest
     if: ${{ github.event.client_payload.vend_roles != null }}
-    # outputs:
-    #   securityDlEmail: ${{ steps.create-groups-and-distribution-lists.outputs.securityDlEmail }}
-    #   opsDl: ${{ steps.create-groups-and-distribution-lists.outputs.opsDl }}
+    outputs:
+      securityDlEmail: ${{ steps.create-groups-and-distribution-lists.outputs.securityDlEmail }}
+      opsDl: ${{ steps.create-groups-and-distribution-lists.outputs.opsDl }}
 
     steps:
       - name: Checkout repository
@@ -63,8 +63,8 @@ jobs:
 
 
 
-          echo "OPS_DL_EMAIL_ADDRESS=$opsDl" | Out-File -FilePath $Env:GITHUB_ENV -Append
-          echo "SECURITY_DL_EMAIL_ADDRESS=$securityDl" | Out-File -FilePath $Env:GITHUB_ENV -Append
+          "OPS_DL_EMAIL_ADDRESS=$opsDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          "SECURITY_DL_EMAIL_ADDRESS=$securityDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
 
   process-request:
     runs-on: ubuntu-latest
@@ -105,12 +105,14 @@ jobs:
           PAYLOAD: "${{ toJson(github.event.client_payload) }}"
           formattedOutput: ${{ needs.get-vpc-cidr.outputs.output1 }}
           Cidr: ${{ needs.get-vpc-cidr.outputs.output2 }}
+          SECURITY_DL_EMAIL_ADDRESS: ${{needs.create-groups.outputs.securityDlEmail}}
+          OPS_DL_EMAIL_ADDRESS: ${{needs.create-groups.outputs.opsDl}}
         run: |
 
-
-          echo "OPS_DL_EMAIL_ADDRESS = ${{ env.OPS_DL_EMAIL_ADDRESS }}"
-          echo "SECURITY_DL_EMAIL_ADDRESS = ${{ env.SECURITY_DL_EMAIL_ADDRESS }}"
-
+          echo "securityDlEmail - ${{ needs.create-groups.outputs.securityDlEmail }}"
+          echo "securityDlEmail - $SECURITY_DL_EMAIL_ADDRESS"
+          echo "opsDl - ${{ needs.create-groups.outputs.opsDl }}"
+          echo "opsDl - $OPS_DL_EMAIL_ADDRESS"
 
           terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
           echo "terraform environment - $terraformEnvironment"
