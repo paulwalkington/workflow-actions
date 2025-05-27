@@ -63,6 +63,8 @@ jobs:
 
 
 
+          echo "securityDlEmail=hello" >> "$GITHUB_OUTPUT"
+          echo "opsDl=hello" >> "$GITHUB_OUTPUT"
           "OPS_DL_EMAIL_ADDRESS=$opsDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
           "SECURITY_DL_EMAIL_ADDRESS=$securityDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
 
