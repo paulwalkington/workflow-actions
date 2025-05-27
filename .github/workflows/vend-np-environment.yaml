@@ -95,15 +95,15 @@ jobs:
           echo  "vend_environment_type ${{ github.event.client_payload.vend_environment_type }}"
           echo  "vend_environment_name ${{ github.event.client_payload.vend_environment_name }}"
 
-          terraformEnvironment=$vend_workload_short_name-$vend_environment_type
 
+          terraformEnvironment="${vend_workload_short_name}-${vend_environment_type}"
 
-          if ($null -ne "${{ github.event.client_payload.vend_environment_name }}") {
-              $terraformEnvironment = $terraformEnvironment + "-$vend_environment_name"
-          }
+          if [[ -n "$vend_environment_name" ]];
+          then
+              terraformEnvironment="$terraformEnvironment.$vend_environment_name"
+          fi
 
           echo "terraformEnvironment: $terraformEnvironment"
-
           echo "terraformEnvironment=$terraformEnvironment" >> $GITHUB_OUTPUT
 
       - name: Generate .tfvars File
