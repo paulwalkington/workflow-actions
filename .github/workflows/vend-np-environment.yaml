@@ -21,7 +21,7 @@ jobs:
   create-groups:
     runs-on: ubuntu-latest
     outputs:
-      securityDlEmailAdress: ${{ steps.create-groups-and-distribution-lists.outputs.securityDlEmailAddress }}
+      securityDlEmailAddress: ${{ steps.create-groups-and-distribution-lists.outputs.securityDlEmailAddress }}
       opsDlEmailAddress: ${{ steps.create-groups-and-distribution-lists.outputs.opsDlEmailAddress }}
 
     steps:
@@ -62,10 +62,8 @@ jobs:
 
 
 
-          # echo "securityDlEmail=hello" >> "$GITHUB_OUTPUT"
-          # echo "opsDl=hello" >> "$GITHUB_OUTPUT"
           "opsDlEmailAddress=$opsDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
-          "securityDlEmailAdress=$securityDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          "securityDlEmailAddress=$securityDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
 
   process-request:
     runs-on: ubuntu-latest
@@ -103,13 +101,14 @@ jobs:
 
       - name: Generate .tfvars File
         run: |
-          securityDlEmailAdress="${{ needs.create-groups.outputs.securityDlEmailAdress }}"
-          opsDlEmailAdress="${{ needs.create-groups.outputs.opsDlEmailAddress }}"
+          securityDlEmailAddress="${{ needs.create-groups.outputs.securityDlEmailAddress }}"
+          opsDlEmailAddress="${{ needs.create-groups.outputs.opsDlEmailAddress }}"
+
           formattedOutput="${{ needs.get-vpc-cidr.outputs.output1 }}"
           cidr="${{ needs.get-vpc-cidr.outputs.output2 }}"
           terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
-          echo "securityDlEmailAdress: $securityDlEmailAdress"
-          echo "opsDlEmailAdress: $opsDlEmailAdress"
+          echo "securityDlEmailAddress: $securityDlEmailAddress"
+          echo "opsDlEmailAddress: $opsDlEmailAddress"
 
 
           ./scripts/build-tfvars-file.sh \
@@ -117,8 +116,8 @@ jobs:
             "${{ github.event.client_payload.vend_environment_type }}" \
             "${{ github.event.client_payload.vend_environment_name }}" \
             "${{ github.event.client_payload.vend_email_addresses.email_address }}" \
-            "$opsDlEmailAdress" \
-            "$securityDlEmailAdress" \
+            "$opsDlEmailAddress" \
+            "$securityDlEmailAddress" \
             "${{ github.event.client_payload.vend_roles }}" \
             "${{ github.event.client_payload.vend_sub_domains.dns_sub_domains }}" \
             "${{ github.event.client_payload.vend_sub_domains.ses_sub_domains }}" \
