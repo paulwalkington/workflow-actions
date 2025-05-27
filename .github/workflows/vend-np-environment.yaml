@@ -18,6 +18,23 @@ permissions:
   id-token: write
 
 jobs:
+  check-pr:
+    runs-on: ubuntu-latest
+    outputs:
+      pr-number: ${{ steps.check-prs.outputs.PR_NUMBER }}
+    steps:
+      - name: Check PRs
+        id: check-prs
+        run: |
+          # ...
+          echo "PR_NUMBER=$pr_number" >> $GITHUB_OUTPUT
+
+  publish:
+    needs: [check-pr]
+    runs-on: ubuntu-latest
+    env:
+      PR_NUMBER: ${{ needs.check-pr.outputs.pr-number }}
+
   create-groups:
     runs-on: ubuntu-latest
     if: ${{ github.event.client_payload.vend_roles != null }}
@@ -61,6 +78,7 @@ jobs:
           $securityDl = "securityDlEmail"
           $opsDl = "opsDlEmail"
 
+          echo "PR_NUMBER=$pr_number" >> $GITHUB_OUTPUT
           echo "securityDlEmailAddress=$securityDl" >> $GITHUB_OUTPUT
           echo "opsDlEmailAddress=$opsDl" >> $GITHUB_OUTPUT
 
