@@ -21,8 +21,8 @@ jobs:
   create-groups:
     runs-on: ubuntu-latest
     outputs:
-      securityDlEmail: ${{ steps.create-groups-and-distribution-lists.outputs.securityDlEmail }}
-      opsDl: ${{ steps.create-groups-and-distribution-lists.outputs.opsDl }}
+      securityDlEmailAdress: ${{ steps.create-groups-and-distribution-lists.outputs.securityDlEmailAddress }}
+      opsDlEmailAddress: ${{ steps.create-groups-and-distribution-lists.outputs.opsDlEmailAddress }}
 
     steps:
       - name: Checkout repository
@@ -64,8 +64,8 @@ jobs:
 
           # echo "securityDlEmail=hello" >> "$GITHUB_OUTPUT"
           # echo "opsDl=hello" >> "$GITHUB_OUTPUT"
-          "opsDl=$opsDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
-          "securityDlEmail=$securityDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          "opsDlEmailAddress=$opsDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          "securityDlEmailAdress=$securityDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
 
   process-request:
     runs-on: ubuntu-latest
@@ -102,31 +102,20 @@ jobs:
           echo "terraformEnvironment=$terraformEnvironment" >> $GITHUB_OUTPUT
 
       - name: Generate .tfvars File
-        env:
-          PAYLOAD: "${{ toJson(github.event.client_payload) }}"
         run: |
-
-
-          securityDlEmail="${{ needs.create-groups.outputs.securityDlEmail }}"
-          opsDl="${{ needs.create-groups.outputs.opsDl }}"
-          echo "securityDlEmail - $securityDlEmail"
-          echo "opsDl - $opsDl"
+          securityDlEmailAdress="${{ needs.create-groups.outputs.securityDlEmailAdress }}"
+          opsDlEmailAdress="${{ needs.create-groups.outputs.opsDlEmailAdress }}"
           formattedOutput="${{ needs.get-vpc-cidr.outputs.output1 }}"
-          echo "formattedOutput - $formattedOutput"
           cidr="${{ needs.get-vpc-cidr.outputs.output2 }}"
-          echo "cidr - $cidr"
           terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
-          echo "terraform environment - $terraformEnvironment"
-
-
 
           ./scripts/build-tfvars-file.sh \
             "${{ github.event.client_payload.vend_workload_short_name }}" \
             "${{ github.event.client_payload.vend_environment_type }}" \
             "${{ github.event.client_payload.vend_environment_name }}" \
             "${{ github.event.client_payload.vend_email_addresses.email_address }}" \
-            "$opsDl" \
-            "$securityDlEmail" \
+            "$opsDlEmailAdress" \
+            "$securityDlEmailAdress" \
             "${{ github.event.client_payload.vend_roles }}" \
             "${{ github.event.client_payload.vend_sub_domains.dns_sub_domains }}" \
             "${{ github.event.client_payload.vend_sub_domains.ses_sub_domains }}" \
