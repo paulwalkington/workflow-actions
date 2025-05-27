@@ -106,17 +106,16 @@ jobs:
           PAYLOAD: "${{ toJson(github.event.client_payload) }}"
           formattedOutput: ${{ needs.get-vpc-cidr.outputs.output1 }}
           Cidr: ${{ needs.get-vpc-cidr.outputs.output2 }}
-          SECURITY_DL_EMAIL_ADDRESS: ${{needs.create-groups.outputs.securityDlEmail}}
-          OPS_DL_EMAIL_ADDRESS: ${{needs.create-groups.outputs.opsDl}}
         run: |
 
-          echo "securityDlEmail - ${{ needs.create-groups.outputs.securityDlEmail }}"
-          echo "securityDlEmail - $SECURITY_DL_EMAIL_ADDRESS"
-          echo "opsDl - ${{ needs.create-groups.outputs.opsDl }}"
-          echo "opsDl - $OPS_DL_EMAIL_ADDRESS"
 
+          securityDlEmail="${{ needs.create-groups.outputs.securityDlEmail }}"
+          opsDl="${{ needs.create-groups.outputs.opsDl }}"
+          echo "securityDlEmail - $securityDlEmail"
+          echo "opsDl - $opsDl"
           terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
           echo "terraform environment - $terraformEnvironment"
+
 
 
           ./scripts/build-tfvars-file.sh \
@@ -124,13 +123,13 @@ jobs:
             "${{ github.event.client_payload.vend_environment_type }}" \
             "${{ github.event.client_payload.vend_environment_name }}" \
             "${{ github.event.client_payload.vend_email_addresses.email_address }}" \
-            "${{ github.event.client_payload.vend_email_addresses.ops_dl_email_address }}" \
-            "${{ github.event.client_payload.vend_email_addresses.security_dl_email_address }}" \
+            "$opsDl" \
+            "$securityDlEmail" \
             "${{ github.event.client_payload.vend_roles }}" \
             "${{ github.event.client_payload.vend_sub_domains.dns_sub_domains }}" \
             "${{ github.event.client_payload.vend_sub_domains.ses_sub_domains }}" \
             "${{ github.event.client_payload.vend_sub_domains.vend_security_class }}" \
-            "${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" \
+            "$terraformEnvironment" \
             "${{ env.formattedOutput }}" \
             "${{ env.Cidr }}" \
 
