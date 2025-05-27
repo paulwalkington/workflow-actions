@@ -104,7 +104,7 @@ jobs:
       - name: Generate .tfvars File
         run: |
           securityDlEmailAdress="${{ needs.create-groups.outputs.securityDlEmailAdress }}"
-          opsDlEmailAdress="${{ needs.create-groups.outputs.opsDlEmailAdress }}"
+          opsDlEmailAdress="${{ needs.create-groups.outputs.opsDlEmailAddress }}"
           formattedOutput="${{ needs.get-vpc-cidr.outputs.output1 }}"
           cidr="${{ needs.get-vpc-cidr.outputs.output2 }}"
           terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
