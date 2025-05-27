@@ -108,6 +108,9 @@ jobs:
           formattedOutput="${{ needs.get-vpc-cidr.outputs.output1 }}"
           cidr="${{ needs.get-vpc-cidr.outputs.output2 }}"
           terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
+          echo "securityDlEmailAdress: $securityDlEmailAdress"
+          echo "opsDlEmailAdress: $opsDlEmailAdress"
+
 
           ./scripts/build-tfvars-file.sh \
             "${{ github.event.client_payload.vend_workload_short_name }}" \
