@@ -21,24 +21,13 @@ jobs:
   create-groups:
     runs-on: ubuntu-latest
     if: ${{ github.event.client_payload.vend_roles != null }}
+    outputs:
+      securityDlEmail: ${{ steps.create-groups-and-distribution-lists.outputs.securityDlEmail }}
+      opsDl: ${{ steps.create-groups-and-distribution-lists.outputs.opsDl }}
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      # - name: Log in to Azure using federated credentials
-      #   uses: azure/login@v2
-      #   with:
-      #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
-      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      #     allow-no-subscriptions: true
-
-      # - name: Authenticate with Microsoft Graph (Federated Credentials)
-      #   shell: pwsh
-      #   run: |
-      #     $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
-      #     $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
-      #     Connect-MgGraph -AccessToken $secureToken
 
       - name: Set environment variables from payload
         shell: pwsh
@@ -66,11 +55,14 @@ jobs:
           echo "ROLES=$Roles" | Out-File -FilePath $Env:GITHUB_ENV -Append
 
       - name: Create Groups and Distribution Lists
+        id: create-groups-and-distribution-lists
         shell: pwsh
         run: |
           $securityDl = "securityDlEmail"
-
           $opsDl = "opsDlEmail"
+
+          echo "securityDlEmailAddress=$securityDl" >> $GITHUB_OUTPUT
+          echo "opsDlEmailAddress=$opsDl" >> $GITHUB_OUTPUT
 
   process-request:
     runs-on: ubuntu-latest
@@ -111,7 +103,14 @@ jobs:
           PAYLOAD: "${{ toJson(github.event.client_payload) }}"
           formattedOutput: ${{ needs.get-vpc-cidr.outputs.output1 }}
           Cidr: ${{ needs.get-vpc-cidr.outputs.output2 }}
+          securityDlEmail: ${{needs.create-groups.outputs.securityDlEmail}}
+          opsDl: ${{needs.create-groups.outputs.opsDl}}
         run: |
+
+          echo "securityDlEmail - ${{ needs.create-groups.outputs.securityDlEmail }}"
+          echo "securityDlEmail - $securityDlEmail"
+          echo "opsDl - ${{ needs.create-groups.outputs.opsDl }}"
+          echo "opsDl - $opsDl"
 
           terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
           echo "terraform environment - $terraformEnvironment"
