@@ -20,7 +20,6 @@ permissions:
 jobs:
   create-groups:
     runs-on: ubuntu-latest
-    if: ${{ github.event.client_payload.vend_roles != null }}
     outputs:
       securityDlEmail: ${{ steps.create-groups-and-distribution-lists.outputs.securityDlEmail }}
       opsDl: ${{ steps.create-groups-and-distribution-lists.outputs.opsDl }}
