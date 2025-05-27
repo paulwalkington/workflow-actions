@@ -115,7 +115,6 @@ jobs:
             "${{ github.event.client_payload.vend_workload_short_name }}" \
             "${{ github.event.client_payload.vend_environment_type }}" \
             "${{ github.event.client_payload.vend_environment_name }}" \
-            "${{ github.event.client_payload.vend_email_addresses.email_address }}" \
             "$opsDlEmailAddress" \
             "$securityDlEmailAddress" \
             "${{ github.event.client_payload.vend_roles }}" \

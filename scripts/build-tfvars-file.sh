@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-function getAwsAccountGroupName () {
+function createAwsAccountGroupName () {
     workloadShortName=$1
     environmentType=$2
     environmentName=$3
@@ -27,20 +27,41 @@ function getAwsAccountGroupName () {
     fi
 }
 
+function createEmailAddress () {
+    mailDomain=$1
+    awsAccountName=$2
+    
+    prefix="halo-pr+"
+    prefixLength=${#prefix}
+    mailDomainLength=${#mailDomain}
+    awsAccountNameLength=${#awsAccountName}
+
+     # 64 is the max length constraint in AWS
+    maxEmailLength=64
+    # +1 for the @
+
+    if [ $((prefixLength + awsAccountNameLength + mailDomainLength + 1)) -gt $maxEmailLength ]; then
+        awsAccountName=$(echo "$awsAccountName" | cut -c1-$((maxEmailLength - prefixLength - mailDomainLength - 1)) | tr '[:upper:]' '[:lower:]')
+    else
+        awsAccountName=$(echo "$awsAccountName" | tr '[:upper:]' '[:lower:]')
+    fi
+
+    echo "$prefix$awsAccountName@$mailDomain"
+}
+
 
 workloadShortName=$1
 environmentType=$2
 environmentName=$3
-emailAddress=$4
-opsDlEmailAddress=$5
-securityDlEmailAddress=$6
-roles=$7
-dnsSubDomains=$8
-sesSubDomains=$9
-securityClass=${10}
-terraformEnvironment=${11}
-subnetsTransit=${12}
-cidr=${13}
+opsDlEmailAddress=$4
+securityDlEmailAddress=$5
+roles=$6
+dnsSubDomains=$7
+sesSubDomains=$8
+securityClass=$9
+terraformEnvironment=${10}
+subnetsTransit=${11}
+cidr=${12}
 
 
 
@@ -67,6 +88,7 @@ cidr=${13}
 workloadShortNameLowerCase=$(echo "$workloadShortName" | tr '[:upper:]' '[:lower:]')
 opsDlMailLowerCase=$(echo "$opsDlEmailAddress" | tr '[:upper:]' '[:lower:]')
 securityDlMailLowerCase=$(echo "$securityDlEmailAddress" | tr '[:upper:]' '[:lower:]')
+emailAddress=$(createEmailAddress "test-and-trace.nhs.uk" "$terraformEnvironment")
 
 filename="etc/env_eu-west-2_$terraformEnvironment.tfvars"
 echo "Creating $filename"
@@ -103,7 +125,7 @@ EOF
 
 #     for role in "${rolesSeperated[@]}"
 #     do
-#         awsAccountGroupName=$(getAwsAccountGroupName "$workloadShortName" "$environmentType" "$environmentName" "$role" true  )
+#         awsAccountGroupName=$(createAwsAccountGroupName "$workloadShortName" "$environmentType" "$environmentName" "$role" true  )
 #         avmSsoAssociation=("\"$awsAccountGroupName\" = [ \"$role\" ]")
 #         avmSsoAssociations+=("$avmSsoAssociation")
 #     done
