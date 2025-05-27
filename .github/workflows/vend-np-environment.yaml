@@ -100,7 +100,7 @@ jobs:
 
           if [[ -n "$vend_environment_name" ]];
           then
-              terraformEnvironment="$terraformEnvironment.$vend_environment_name"
+              terraformEnvironment="$terraformEnvironment-$vend_environment_name"
           fi
 
           echo "terraformEnvironment: $terraformEnvironment"
