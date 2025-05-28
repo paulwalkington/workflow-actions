@@ -54,7 +54,6 @@ on:
         description: Secondary Region Virtual Network Size
         type: choice
         default: small
-        required: false
         options:
           - small
           - medium
