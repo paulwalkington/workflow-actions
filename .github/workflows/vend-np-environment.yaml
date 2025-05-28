@@ -57,13 +57,19 @@ jobs:
         id: create-groups-and-distribution-lists
         shell: pwsh
         run: |
-          $securityDl = "securityDlEmail"
-          $opsDl = "opsDlEmail"
+          $securityDlEmail = "securityDlEmail"
+          $opsDlEmail = "opsDlEmail"
+
+          $opsDlEmailAddress = $opsDlEmail.Mail.ToLower()
+          $securityDlEmailAddress = $securityDlEmail.Mail.ToLower()
 
 
 
-          "opsDlEmailAddress=$opsDl.toLower()" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
-          "securityDlEmailAddress=$securityDl.toLower()" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          "opsDlEmailAddress=$opsDlEmailAddress" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          "securityDlEmailAddress=$securityDlEmailAddress" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+
+          # "opsDlEmailAddress=$opsDl.toLower()" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          # "securityDlEmailAddress=$securityDl.toLower()" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
 
   process-request:
     runs-on: ubuntu-latest
