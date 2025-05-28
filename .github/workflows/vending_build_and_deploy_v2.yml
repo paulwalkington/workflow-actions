@@ -85,4 +85,5 @@ jobs:
           fi
 
           echo "vend_secondary=$vend_secondary" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "vend_secondary_virtual_network_size=$vend_secondary_virtual_network_size" | tee -a "$GITHUB_STEP_SUMMARY"
           echo "vend_secondary=$vend_secondary" >> "$GITHUB_OUTPUT"
