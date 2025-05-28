@@ -53,6 +53,7 @@ on:
       vend_secondary_virtual_network_size:
         description: Secondary Region Virtual Network Size
         type: choice
+        default: small
         required: false
         options:
           - small
