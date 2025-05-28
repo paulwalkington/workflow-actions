@@ -62,8 +62,8 @@ jobs:
 
 
 
-          "opsDlEmailAddress=$opsDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
-          "securityDlEmailAddress=$securityDl" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          "opsDlEmailAddress=$opsDl.toLower()" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          "securityDlEmailAddress=$securityDl.toLower()" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
 
   process-request:
     runs-on: ubuntu-latest
