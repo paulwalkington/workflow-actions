@@ -1,0 +1,88 @@
+# Create Workload based the param passed by the Jira service desk
+name: Vend build and deploy V2
+run-name: Vend WorkLoad ( ${{ inputs.vend_workload_name }} - ${{ inputs.vend_environment }} )
+on:
+  workflow_dispatch:
+    inputs:
+      vend_workload_name:
+        description: Workload Name
+        type: string
+        required: true
+      vend_environment:
+        description: Workload Environment
+        type: choice
+        options:
+          - prod
+          - preprod
+          - dev
+          - qa
+          - test
+          - sit
+          - nft
+          - poc
+          - sandbox
+          - prototype
+          - uat
+      vend_instance:
+        description: Instance name or number
+        type: string
+        required: true
+        default: "01"
+      vend_budget:
+        description: Budget (£)
+        type: number
+        required: true
+      vend_workload_contact:
+        description: Workload Contacts (csv)
+        type: string
+        required: true
+      vend_hybrid_network:
+        description: Hybrid Connectivity required?
+        type: boolean
+        default: false
+      vend_virtual_network_size:
+        description: Virtual Network Size
+        type: choice
+        default: small
+        options:
+          - small
+          - medium
+          - large
+          - x-small
+          - x-large
+      vend_secondary_virtual_network_size:
+        description: Secondary Region Virtual Network Size
+        type: choice
+        required: false
+        options:
+          - small
+          - medium
+          - large
+          - x-small
+          - x-large
+      vend_workload_tags:
+        description: Workload Tags
+        type: string
+        default: "Team:TBA,DataClassification:TBA,Support:TBA,BookOfWorkProjectNumber:TBA,Department:TBA"
+      vend_bypass_approval_step:
+        description: Bypass Approval Step
+        type: boolean
+        default: false
+        required: false
+
+jobs:
+  Calculate_if_second_virtual_network_is_needed:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: calculate vend_secondary value
+        id: Calculate_if_second_virtual_network_is_needed
+        run: |
+
+          vend_secondary=false
+          if [ -n "${{ github.event.inputs.vend_secondary_virtual_network_size }}" ]; then
+            vend_secondary=true
+          fi
+
+          echo "vend_secondary=$vend_secondary" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "vend_secondary=$vend_secondary" >> "$GITHUB_OUTPUT"
