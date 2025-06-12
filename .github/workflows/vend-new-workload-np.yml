@@ -11,7 +11,8 @@ env:
 
 permissions:
   id-token: write
-  contents: read
+  contents: write
+
 jobs:
   VendNewWorkload:
     runs-on: ubuntu-latest
