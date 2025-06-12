@@ -17,12 +17,13 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v3
 
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v1.7.0
-        with:
-          role-to-assume: arn:aws:iam::359337185549:role/GitHubAction-AssumeRoleWithAction
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.AWS_REGION }}
+      - name: Display env_eu-west-2_np.tfvars before
+        run: |
+          echo "-----the file-----"
+          filename="etc/env_eu-west-2_np.tfvars"
+          echo "filename: $filename"
+          value="`cat $filename`"
+          echo "$value"
 
       - name: Add workload entry to env_eu-west-2_np.tfvars if it does not exist
         run: |
@@ -33,3 +34,11 @@ jobs:
           if ! grep -q "$WORKLOAD_ENTRY" "$FILE"; then
             sed -i "/\"workloads\" = {/a\\$WORKLOAD_ENTRY" "$FILE"
           fi
+
+      - name: Display env_eu-west-2_np.tfvars after
+        run: |
+          echo "-----the file-----"
+          filename="etc/env_eu-west-2_np.tfvars"
+          echo "filename: $filename"
+          value="`cat $filename`"
+          echo "$value"
