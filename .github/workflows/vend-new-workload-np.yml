@@ -62,26 +62,26 @@ jobs:
 
           git add ${{ env.TF_VARS_FILE }}
 
-          # Check if there are changes to commit
-          if git diff --cached --quiet; then
-            echo "No changes to commit. Skipping commit and push."
-          else
-            git commit -m "add-new-workload-called-$workloadName"
-            git push https://${{ env.GH_PAT }}@github.com/${{ github.repository }} "$branch_name"
-          fi
+      #     # Check if there are changes to commit
+      #     if git diff --cached --quiet; then
+      #       echo "No changes to commit. Skipping commit and push."
+      #     else
+      #       git commit -m "add-new-workload-called-$workloadName"
+      #       git push https://${{ env.GH_PAT }}@github.com/${{ github.repository }} "$branch_name"
+      #     fi
 
-      - name: Create Pull Request with GitHub CLI
-        run: |
-          # Define the branch name
-          workloadName="${{ github.event.client_payload.avm_org_ou_name }}"
-          branch_name="add-new-workload-called-$workloadName"
-          pr_title="add-new-workload-called-$workloadName"
-          pr_body="Automated PR to add new workload to env_eu-west-2_np.tfvars"
+      # - name: Create Pull Request with GitHub CLI
+      #   run: |
+      #     # Define the branch name
+      #     workloadName="${{ github.event.client_payload.avm_org_ou_name }}"
+      #     branch_name="add-new-workload-called-$workloadName"
+      #     pr_title="add-new-workload-called-$workloadName"
+      #     pr_body="Automated PR to add new workload to env_eu-west-2_np.tfvars"
 
-          # Check if a PR already exists for this branch
-          if gh pr list --head "$branch_name" --json number | jq -e '. | length > 0'; then
-            echo "A PR already exists for branch $branch_name. Skipping PR creation."
-          else
-            # Create a new PR
-            gh pr create --base develop --head "$branch_name" --title "$pr_title" --body "$pr_body"
-          fi
+      #     # Check if a PR already exists for this branch
+      #     if gh pr list --head "$branch_name" --json number | jq -e '. | length > 0'; then
+      #       echo "A PR already exists for branch $branch_name. Skipping PR creation."
+      #     else
+      #       # Create a new PR
+      #       gh pr create --base develop --head "$branch_name" --title "$pr_title" --body "$pr_body"
+      #     fi
