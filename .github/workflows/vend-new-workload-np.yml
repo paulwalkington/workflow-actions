@@ -1,0 +1,35 @@
+name: Create New Workload in AWS Non-Prod
+
+on:
+  repository_dispatch:
+    types: [create-new-workload-np]
+
+env:
+  AWS_REGION: "eu-west-2"
+
+permissions:
+  id-token: write
+  contents: read
+jobs:
+  VendNewWorkload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v3
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v1.7.0
+        with:
+          role-to-assume: arn:aws:iam::359337185549:role/GitHubAction-AssumeRoleWithAction
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Add workload entry to env_eu-west-2_np.tfvars if it does not exist
+        run: |
+          FILE="etc/env_eu-west-2_np.tfvars"
+          WORKLOAD_NAME="${{ github.event.client_payload.avm_org_ou_name }}"
+          WORKLOAD_ENTRY="    \"$WORKLOAD_NAME\" = {}"
+
+          if ! grep -q "$WORKLOAD_ENTRY" "$FILE"; then
+            sed -i "/\"workloads\" = {/a\\$WORKLOAD_ENTRY" "$FILE"
+          fi
