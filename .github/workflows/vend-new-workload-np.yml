@@ -21,7 +21,7 @@ jobs:
 
       - name: Add workload entry to env_eu-west-2_np.tfvars if it does not exist
         run: |
-          FILE="${{ env.GH_PAT }}"
+          FILE="${{ env.TF_VARS_FILE }}"
           WORKLOAD_NAME="${{ github.event.client_payload.avm_org_ou_name }}"
           WORKLOAD_ENTRY="    \"$WORKLOAD_NAME\" = {}"
 
@@ -32,10 +32,14 @@ jobs:
       - name: Display env_eu-west-2_np.tfvars after
         run: |
           echo "-----the file-----"
-          filename="${{ env.GH_PAT }}"
+          filename="${{ env.TF_VARS_FILE }}"
           echo "filename: $filename"
           value="`cat $filename`"
           echo "$value"
+
+      - name: Authenticate GitHub CLI
+        run: |
+          echo "${{ env.GH_PAT }}" | gh auth login --with-token
 
       - name: Commit and Push Changes
         run: |
@@ -55,14 +59,14 @@ jobs:
             git checkout -b "$branch_name"
           fi
 
-          git add etc/${{ env.GH_PAT }}
+          git add etc/${{ env.TF_VARS_FILE }}
 
           # Check if there are changes to commit
           if git diff --cached --quiet; then
             echo "No changes to commit. Skipping commit and push."
           else
             git commit -m "add new workload for $workloadName"
-            git push https://${{ env.GH_PAT }}@github.com/${{ github.repository }} "$branch_name"
+            git push https://${{ env.TF_VARS_FILE }}@github.com/${{ github.repository }} "$branch_name"
           fi
 
       - name: Create Pull Request with GitHub CLI
