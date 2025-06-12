@@ -48,7 +48,7 @@ jobs:
           git config --global user.email "svc.GitHubCloudVend@ukhsa.gov.uk"
 
           # Define the branch name
-          branch_name="add new workload for $workloadName"
+          branch_name="add-new-workload-called-[$workloadName]"
 
           # Check if the branch already exists on the remote
           if git ls-remote --exit-code --heads origin "$branch_name"; then
@@ -65,15 +65,15 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to commit. Skipping commit and push."
           else
-            git commit -m "add new workload for $workloadName"
+            git commit -m "add-new-workload-called-[$workloadName]"
             git push https://${{ env.TF_VARS_FILE }}@github.com/${{ github.repository }} "$branch_name"
           fi
 
       - name: Create Pull Request with GitHub CLI
         run: |
           # Define the branch name
-          branch_name="add new workload for $workloadName"
-          pr_title="add new workload for $workloadName"
+          branch_name="add-new-workload-called-[$workloadName]"
+          pr_title="add-new-workload-called-[$workloadName]"
           pr_body="Automated PR to add new workload to env_eu-west-2_np.tfvars"
 
           # Check if a PR already exists for this branch
