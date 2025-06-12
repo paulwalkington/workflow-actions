@@ -73,6 +73,7 @@ jobs:
       - name: Create Pull Request with GitHub CLI
         run: |
           # Define the branch name
+          workloadName="${{ github.event.client_payload.avm_org_ou_name }}"
           branch_name="add-new-workload-called-$workloadName"
           pr_title="add-new-workload-called-$workloadName"
           pr_body="Automated PR to add new workload to env_eu-west-2_np.tfvars"
