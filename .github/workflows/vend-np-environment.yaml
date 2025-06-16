@@ -5,10 +5,6 @@ on:
     types: [vend-aws-account-np]
 
 env:
-  IPAM_BASE_URL: "https://8tni4nw7e5.execute-api.eu-west-2.amazonaws.com/main/v1/ipam"
-  UkhsaAwsEnterpriseAppObjectId: "537f6b3f-5e02-4ed3-b7a7-5400f8215b74"
-  UkhsaAwsEnterpriseAppUserRoleId: "8774f594-1d59-4279-b9d9-59ef09a23530"
-  MoverWorkflowEnterpriseAppObjectId: "32058243-c6d3-4bbf-95d6-9a7b072b5570"
   AWS_REGION: "eu-west-2"
 
 permissions:
