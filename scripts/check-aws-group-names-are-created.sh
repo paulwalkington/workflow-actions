@@ -1,6 +1,6 @@
 #!/bin/bash
 
-function hasAwsGroupNameBeenCreated () {
+function haveAwsGroupNameBeenCreated () {
     groupName=$1
     # groupName="Grp.Aws.Console.Foo.prod.18.Administrator1"
     waitTimeInSeconds=2
@@ -42,7 +42,7 @@ function haveAwsGroupNamesBeenCreated (){
     IFS=',' read -ra groupNamesSeparated <<< "$groupNames"
 
     for groupName in "${groupNamesSeparated[@]}"; do
-        hasAwsGroupNameBeenCreated "$groupName"
+        haveAwsGroupNameBeenCreated "$groupName"
         if [ $? -ne 0 ]; then
             echo "Group $groupName not found."
             exit 1

@@ -195,7 +195,7 @@ jobs:
         run: |
           awsAccountGroupNames="${{ steps.create-aws-group-names.outputs.awsAccountGroupNames }}" 
 
-          source ./scripts/check-aws-group-names.sh
+          source ./scripts/check-aws-group-names-are-created.sh
           haveAwsGroupNamesBeenCreated "$awsAccountGroupNames"
 
       - name: Generate .tfvars File
