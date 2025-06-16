@@ -184,20 +184,6 @@ jobs:
           environmentType="${{ github.event.client_payload.vend_environment_type }}"
           environmentName="${{ github.event.client_payload.vend_environment_name }}"
 
-          # source ./scripts/create-aws-group-name.sh
-
-          # IFS=',' read -ra rolesSeparated <<< "$roles"
-
-          # awsAccountGroupNames=()
-
-          # for role in "${rolesSeparated[@]}"
-          # do
-          #   awsAccountGroupName=$(createAwsAccountGroupName "$workloadShortName" "$environmentType" "$environmentName" "$role" "true"  )
-          #   awsAccountGroupNames+=("$awsAccountGroupName")
-          # done
-
-          # awsAccountGroupNamesJoined=$(IFS=','; echo "${awsAccountGroupNames[*]}")
-
           source ./scripts/create-aws-group-names.sh
 
           awsAccountGroupNames=$(createAwsAccountGroupNames "$workloadShortName" "$environmentType" "$environmentName" "$roles"  )
@@ -208,7 +194,9 @@ jobs:
       - name: wait for group names to be in aws
         run: |
           awsAccountGroupNames="${{ steps.create-aws-group-names.outputs.awsAccountGroupNames }}" 
-          echo "awsAccountGroupNames: $awsAccountGroupNames"
+
+          source ./scripts/check-aws-group-names.sh
+          haveAwsGroupNamesBeenCreated "$awsAccountGroupNames"
 
       - name: Generate .tfvars File
         run: |
