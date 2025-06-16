@@ -5,7 +5,6 @@ function createAwsAccountGroupName () {
     environmentType=$2
     environmentName=$3
     role=$4
-    isUkhsaGroupFormat=$5
 
     workloadShortNameLength=${#workloadShortName}
 
@@ -20,9 +19,6 @@ function createAwsAccountGroupName () {
     fi
 
     if $isUkhsaGroupFormat && [ -n "$isUkhsaGroupFormat" ]
-    then
-        echo "Grp.Aws.Console.$workloadShortNameFormatted.$environment.$role"
-    else 
-        echo "WlAws$workloadShortNameFormatted$environment$role"
-    fi
+
+    echo "Grp.Aws.Console.$workloadShortNameFormatted.$environment.$role"
 }

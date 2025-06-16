@@ -188,21 +188,26 @@ jobs:
           environmentType="${{ github.event.client_payload.vend_environment_type }}"
           environmentName="${{ github.event.client_payload.vend_environment_name }}"
 
-          source ./scripts/create-aws-group-name.sh
+          # source ./scripts/create-aws-group-name.sh
 
-          IFS=',' read -ra rolesSeparated <<< "$roles"
+          # IFS=',' read -ra rolesSeparated <<< "$roles"
 
-          awsAccountGroupNames=()
+          # awsAccountGroupNames=()
 
-          for role in "${rolesSeparated[@]}"
-          do
-            awsAccountGroupName=$(createAwsAccountGroupName "$workloadShortName" "$environmentType" "$environmentName" "$role" "true"  )
-            awsAccountGroupNames+=("$awsAccountGroupName")
-          done
+          # for role in "${rolesSeparated[@]}"
+          # do
+          #   awsAccountGroupName=$(createAwsAccountGroupName "$workloadShortName" "$environmentType" "$environmentName" "$role" "true"  )
+          #   awsAccountGroupNames+=("$awsAccountGroupName")
+          # done
 
-          awsAccountGroupNamesJoined=$(IFS=','; echo "${awsAccountGroupNames[*]}")
+          # awsAccountGroupNamesJoined=$(IFS=','; echo "${awsAccountGroupNames[*]}")
 
-          echo "awsAccountGroupNames=$awsAccountGroupNamesJoined" >> $GITHUB_OUTPUT
+          source ./scripts/create-aws-group-names.sh
+
+          awsAccountGroupNames=$(createAwsAccountGroupNames "$workloadShortName" "$environmentType" "$environmentName" "$roles"  )
+          echo "awsAccountGroupNames: $awsAccountGroupNames"
+
+          echo "awsAccountGroupNames=$awsAccountGroupNames" >> $GITHUB_OUTPUT
 
       - name: wait for group names to be in aws
         run: |
