@@ -194,6 +194,7 @@ jobs:
       - name: wait for group names to be in aws
         run: |
           awsAccountGroupNames="${{ steps.create-aws-group-names.outputs.awsAccountGroupNames }}" 
+          echo "awsAccountGroupNames: $awsAccountGroupNames"
 
           source ./scripts/check-aws-group-names-are-created.sh
           haveAwsGroupNamesBeenCreated "$awsAccountGroupNames"
