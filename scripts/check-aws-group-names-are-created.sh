@@ -24,6 +24,8 @@ function haveAwsGroupNameBeenCreated () {
         #     echo "Group not found, retrying in $waitTimeInSeconds seconds..."
         # fi
 
+        echo "Group not found, retrying in $waitTimeInSeconds seconds..."
+
         sleep $waitTimeInSeconds
         totalTimeWaitedInSeconds=$((totalTimeWaitedInSeconds + waitTimeInSeconds))
     done
