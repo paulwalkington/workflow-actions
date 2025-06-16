@@ -14,15 +14,15 @@ function haveAwsGroupNameBeenCreated () {
     while [ $totalTimeWaitedInSeconds -lt $maxWaitTimeInSeconds ]; do
 
         
-        aws identitystore list-groups --region eu-west-2 --identity-store-id d-9c67117535 --no-paginate > groups.txt
+        # aws identitystore list-groups --region eu-west-2 --identity-store-id d-9c67117535 --no-paginate > groups.txt
 
-        if grep -q "$groupName" groups.txt; then
-            groupFound=true
-            echo "Group with groupName [$groupName] found"
-            break
-        else
-            echo "Group not found, retrying in $waitTimeInSeconds seconds..."
-        fi
+        # if grep -q "$groupName" groups.txt; then
+        #     groupFound=true
+        #     echo "Group with groupName [$groupName] found"
+        #     break
+        # else
+        #     echo "Group not found, retrying in $waitTimeInSeconds seconds..."
+        # fi
 
         sleep $waitTimeInSeconds
         totalTimeWaitedInSeconds=$((totalTimeWaitedInSeconds + waitTimeInSeconds))
