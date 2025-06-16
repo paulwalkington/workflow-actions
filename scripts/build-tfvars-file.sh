@@ -27,7 +27,7 @@ function createEmailAddress () {
 
 workloadShortName=$1
 environmentType=$2
-environmentName=$3
+awsAccountGroupNames=${3}
 opsDlEmailAddress=$4
 securityDlEmailAddress=$5
 roles=$6
@@ -44,7 +44,7 @@ cidr=${11}
 # workloadShortName="pds"
 
 # environmentType="tooling"
-# environmentName='01'
+# awsAccountGroupNames="Grp.Aws.Console.Foo.dev.13.Administrator,Grp.Aws.Console.Foo.dev.13.Billing"
 
 # emailAddress="halo-np+pds-1@test-and-trace.nhs.uk"
 # opsDlEmailAddress="halo-np+pds-1-operations@test-and-trace.nhs.uk"
@@ -92,18 +92,18 @@ EOF
 # add avm_sso_associations to the tfvars file
 
 # this is setting Input Field Separator to a comma so that we can split the roles string into an array
-IFS=',' read -ra rolesSeparated <<< "$roles"
+IFS=',' read -ra awsAccountGroupNamesSeparated <<< "$awsAccountGroupNames"
 
-avmSsoAssociations=()
 
-isUkhsaGroupFormat=true
-
-for role in "${rolesSeparated[@]}"
+for awsAccountGroupName in "${awsAccountGroupNamesSeparated[@]}"
 do
-    awsAccountGroupName=$(createAwsAccountGroupName "$workloadShortName" "$environmentType" "$environmentName" "$role" "$isUkhsaGroupFormat"  )
+    IFS='.' read -ra awsAccountGroupNameParts <<< "$awsAccountGroupName"
+    role=${awsAccountGroupNameParts[${#awsAccountGroupNameParts[@]} - 1]}
+
     avmSsoAssociation=("\"$awsAccountGroupName\" = [ \"$role\" ]")
     avmSsoAssociations+=("$avmSsoAssociation")
 done
+
 
 {
     echo " ";
