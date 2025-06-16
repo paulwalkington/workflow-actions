@@ -200,7 +200,9 @@ jobs:
             awsAccountGroupNames+=("$awsAccountGroupName")
           done
 
-          echo "awsAccountGroupNames=$awsAccountGroupNames" >> $GITHUB_OUTPUT
+          awsAccountGroupNamesJoined=$(IFS=','; echo "${awsAccountGroupNames[*]}")
+
+          echo "awsAccountGroupNames=$awsAccountGroupNamesJoined" >> $GITHUB_OUTPUT
 
       - name: wait for group names to be in aws
         run: |

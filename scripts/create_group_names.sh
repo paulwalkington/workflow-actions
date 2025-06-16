@@ -16,3 +16,7 @@ do
     awsAccountGroupName=$(createAwsAccountGroupName "$workloadShortName" "$environmentType" "$environmentName" "$role" "true"  )
     awsAccountGroupNames+=("$awsAccountGroupName")
 done
+
+awsAccountGroupNamesJoined=$(IFS=','; echo "${awsAccountGroupNames[*]}")
+echo "$awsAccountGroupNamesJoined"
+
