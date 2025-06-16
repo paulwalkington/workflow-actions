@@ -150,8 +150,6 @@ jobs:
 
   process-request:
     runs-on: ubuntu-latest
-    # needs: [get-vpc-cidr, create-groups]
-    # if: ${{ needs.get-vpc-cidr.result == 'success' || needs.get-vpc-cidr.result == 'skipped' }}
 
     steps:
       - name: Checkout Repository
@@ -182,19 +180,32 @@ jobs:
           echo "terraformEnvironment: $terraformEnvironment"
           echo "terraformEnvironment=$terraformEnvironment" >> $GITHUB_OUTPUT
 
-      - name: create group names
+      - name: create aws group names
+        id: create-aws-group-names
         run: |
-          iterate roles and call createAwsAccountGroupName method for each one
-          create in format ROLE-GROUPNAME
-          e.g.
-          Administrator-Grp.Aws.Console.Foo.prod.18.Administrator
+          roles="${{ github.event.client_payload.vend_roles }}"
+          workloadShortName="${{ github.event.client_payload.vend_workload_short_name }}"
+          environmentType="${{ github.event.client_payload.vend_environment_type }}"
+          environmentName="${{ github.event.client_payload.vend_environment_name }}"
 
-          echo "RolesAndGroupNames=$RolesAndGroupNames" >> $GITHUB_OUTPUT
+          source ./scripts/create-aws-group-name.sh
+
+          IFS=',' read -ra rolesSeparated <<< "$roles"
+
+          awsAccountGroupNames=()
+
+          for role in "${rolesSeparated[@]}"
+          do
+            awsAccountGroupName=$(createAwsAccountGroupName "$workloadShortName" "$environmentType" "$environmentName" "$role" "true"  )
+            awsAccountGroupNames+=("$awsAccountGroupName")
+          done
+
+          echo "awsAccountGroupNames=$awsAccountGroupNames" >> $GITHUB_OUTPUT
 
       - name: wait for group names to be in aws
         run: |
-          iterate roles=groupNames calling check-for-group.sh   
-          if any return exit code not 0 then they have fail
+          awsAccountGroupNames="${{ steps.create-aws-group-names.outputs.awsAccountGroupNames }}" 
+          echo "awsAccountGroupNames: $awsAccountGroupNames"
 
       - name: Generate .tfvars File
         run: |
