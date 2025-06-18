@@ -172,27 +172,27 @@ jobs:
         with:
           token: ${{ env.GH_PAT }}
 
-      - name: Run networkUtils.psm1 for VPC configuration
-        id: get-vpc-cidr
-        run: |
-          Import-Module ./lib/ipam/networkUtils.psm1
+      # - name: Run networkUtils.psm1 for VPC configuration
+      #   id: get-vpc-cidr
+      #   run: |
+      #     Import-Module ./lib/ipam/networkUtils.psm1
 
-          $vpcDetails = Get-VpcDetails -VpcType "UKHSA" -VpcSize "${{github.event.inputs.vend_vpc_size }}"
-          Write-Host "VPC Details: $($vpcDetails | Out-String)"
+      #     $vpcDetails = Get-VpcDetails -VpcType "UKHSA" -VpcSize "${{github.event.inputs.vend_vpc_size }}"
+      #     Write-Host "VPC Details: $($vpcDetails | Out-String)"
 
-          $subnetsTransit = "$($vpcDetails.TransitSubnetNewBits),$($vpcDetails.TransitSubnetNetNum)"
-          Write-Host "Formatted Output: $subnetsTransit"
-          "subnetsTransit=$subnetsTransit" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+      #     $subnetsTransit = "$($vpcDetails.TransitSubnetNewBits),$($vpcDetails.TransitSubnetNetNum)"
+      #     Write-Host "Formatted Output: $subnetsTransit"
+      #     "subnetsTransit=$subnetsTransit" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
 
-          $Cidr = Add-IpamCidr -ipamBaseUrl "${{ env.IPAM_BASE_URL }}" -prefix "$($vpcDetails.CidrPrefix)" -requestor "${{ github.event.inputs.vend_vpc_requestor }}" -awsIpamApiKey "${{ env.IPAM_API_KEY }}" -supernet "$($vpcDetails.IpamSupernet)"
-          Write-Host "Cidr: $Cidr"
-          "Cidr=$Cidr" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
-        shell: pwsh
+      #     $Cidr = Add-IpamCidr -ipamBaseUrl "${{ env.IPAM_BASE_URL }}" -prefix "$($vpcDetails.CidrPrefix)" -requestor "${{ github.event.inputs.vend_vpc_requestor }}" -awsIpamApiKey "${{ env.IPAM_API_KEY }}" -supernet "$($vpcDetails.IpamSupernet)"
+      #     Write-Host "Cidr: $Cidr"
+      #     "Cidr=$Cidr" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+      #   shell: pwsh
 
-      - name: Set outputs
-        run: |
-          echo "${{ steps.get-vpc-cidr.outputs.subnetsTransit }}"
-          echo ${{ steps.get-vpc-cidr.outputs.Cidr }}
+      # - name: Set outputs
+      #   run: |
+      #     echo "${{ steps.get-vpc-cidr.outputs.subnetsTransit }}"
+      #     echo ${{ steps.get-vpc-cidr.outputs.Cidr }}
 
   process-request:
     runs-on: ubuntu-latest
