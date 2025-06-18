@@ -93,23 +93,16 @@ jobs:
           $workloadShortName = "${{ github.event.inputs.vend_workload_short_name }}"
           $workloadShortName = $workloadShortName.Substring(0,1).ToUpper() + $workloadShortName.Substring(1).ToLower()
 
-          $environmentType = "${{ github.event.inputs.vend_environment_type }}"
+          $environment = "${{ github.event.inputs.vend_environment_type }}"
+          $environmentName = "${{ github.event.inputs.vend_environment_name }}"
 
 
-          if ("$environmentType") {
-              $environment = $environment + ".$environmentType"
+
+          if ("$environmentName") {
+              $environment = $environment + ".$environmentName"
           }
 
-          echo "Setting environment variables for workload: environment: $environment"
-
-          $Roles = "Admin"
-          if ("${{ github.event.inputs.vend_roles }}") {
-              $Roles = "${{ github.event.inputs.vend_roles }}"
-          }
-
-          echo "Roles: $Roles"
-
-
+          echo "environment: $environment"
 
           echo $workloadShortName
           echo $environment
