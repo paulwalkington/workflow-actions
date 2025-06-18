@@ -1,33 +1,28 @@
 #!/bin/bash
 
+maxWaitTimeInSeconds=2700
+totalTimeWaitedInSeconds=0
+waitTimeInSeconds=120
+
 function hasAwsGroupNameBeenCreated () {
     groupName=$1
-    # groupName="Grp.Aws.Console.Foo.prod.18.Administrator1"
-    waitTimeInSeconds=2
-    maxWaitTimeInSeconds=4
 
-    totalTimeWaitedInSeconds=0
     groupFound=false
 
-    echo "hello"
-
-    echo "Checking for group with groupName [$groupName]"
+    echo "Checking for group with groupName [$groupName]" >&2
 
     while [ $totalTimeWaitedInSeconds -lt $maxWaitTimeInSeconds ]; do
 
         
-        # aws identitystore list-groups --region eu-west-2 --identity-store-id d-9c67117535 --no-paginate > groups.txt
+        aws identitystore list-groups --region eu-west-2 --identity-store-id d-9c67117535 --no-paginate > groups.txt
 
-        # if grep -q "$groupName" groups.txt; then
-        #     groupFound=true
-        #     echo "Group with groupName [$groupName] found"
-        #     break
-        # else
-        #     echo "Group not found, retrying in $waitTimeInSeconds seconds..."
-        # fi
-
-        groupFound=true
-
+        if grep -q "$groupName" groups.txt; then
+            groupFound=true
+            echo "Group with groupName [$groupName] found" >&2
+            break
+        else
+            echo "Group [$groupName] not found, retrying in $waitTimeInSeconds seconds..." >&2
+        fi
 
         sleep $waitTimeInSeconds
         totalTimeWaitedInSeconds=$((totalTimeWaitedInSeconds + waitTimeInSeconds))
@@ -41,9 +36,6 @@ function hasAwsGroupNameBeenCreated () {
         echo "Group with groupName [$groupName] not found after waiting $totalTimeWaitedInSeconds seconds"
         exit 1
     fi
-
-
-
 }
 
 function haveAwsGroupNamesBeenCreated (){
@@ -67,6 +59,4 @@ function haveAwsGroupNamesBeenCreated (){
     echo "All groups found successfully."
 
 }
-
-haveAwsGroupNamesBeenCreated "someName,bill"
 

@@ -1,0 +1,537 @@
+{
+    "Groups": [
+        {
+            "GroupId": "0642d274-5061-70e9-c2b6-6734ba94f6db",
+            "DisplayName": "Grp.Aws.Console.LandingZone.NonProduction.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "523dacb3-6273-439f-a34e-296db919a14f"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "06c23234-b021-7018-757e-e9c315b4804f",
+            "DisplayName": "Grp.Aws.Console.Foo5.Development04.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "c7fc2b1a-4ae9-46dc-9c69-1861cf19b02e"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "06c292f4-2021-7074-67c8-961746efdb40",
+            "DisplayName": "Grp.Aws.Console.Foo10.Development.10.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "44f76584-04f0-4e84-b02a-214f787f83e1"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "06e2d254-b001-70ed-7149-9a5c430c9d66",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.11.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "f3f3e24f-53d6-498b-9b00-88a679d9cc7c"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "06f2c294-40a1-7054-addc-7e2977c811b8",
+            "DisplayName": "Grp.Aws.Console.Mauro-test.prod.18.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "c439952b-3ad2-448b-beba-6850e84bd9d7"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "168262b4-e051-70b7-278c-29cd1ccf41b4",
+            "DisplayName": "Grp.Aws.Console.Foo14.test14.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "f14a6dbf-1db7-44b8-95e5-6110bc1b06b4"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "16f27274-3051-70a9-0741-e0aaa1ff8412",
+            "DisplayName": "Grp.Aws.Console.Foo.prod.17.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "ac09fbc3-54d9-45b6-ad6b-b91f68f9c4e6"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "26b2c254-e0e1-70cb-fd6d-10e3f389bb3e",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.17.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "bd85af4c-7b33-405e-999e-493c234a3226"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "26b2e2b4-5081-70b7-bc9b-1762def9d43d",
+            "DisplayName": "Grp.Aws.Console.LandingZone.NonProduction.SecurityAuditor",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "00d19288-f481-48cf-91cb-bd1b4f4797dc"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "26c23204-9011-7090-9e0b-bfff000d403a",
+            "DisplayName": "Grp.Aws.Console.Foo.prod.18.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "9f9c21cd-1f5b-4225-a5b0-2c8ed56e2ba2"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "26d2a2e4-d0f1-705d-da50-f871e6f805e7",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.15.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "86634deb-b52f-4c28-adf5-e39d5f2f696f"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "36328254-1041-70d6-823b-f4df73fd435a",
+            "DisplayName": "Grp.Aws.Console.Foo5.Development04.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "97487b3c-7059-4373-a22f-985a2c3c978d"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "3652a284-8031-70b8-3e53-2c8c9a8f1e5f",
+            "DisplayName": "Grp.Aws.Console.Foo13.test13.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "57c937cc-97bc-4393-85db-3378521034fd"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "3692e2f4-10b1-7014-471c-b60a550a26eb",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.13.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "c76553ec-99fa-40a1-b6bd-0cdba2320228"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "3692f2a4-a051-70b9-acf6-f96add62c01c",
+            "DisplayName": "Grp.Aws.Console.Pwwe.prod.tik.c17a36c983bdaa143803a320ceaad309",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "e9cbfe58-c45f-423e-be96-2f9d69a5d315"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "461272e4-6071-7036-6265-a5166360dfbe",
+            "DisplayName": "AllUsers",
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "4612d264-2081-70c2-7cfa-294edce8763a",
+            "DisplayName": "Grp.Aws.Console.Foo.Development.10.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "446335c8-34a2-4b63-b668-c4edbe7d8ac9"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "5602d214-f051-70e5-9c0b-1e9c739f162e",
+            "DisplayName": "Grp.Aws.Console.Foo.prod.17.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "404444f2-d13c-4b7c-a3ab-f7756e126357"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "56321214-90e1-70d3-49de-e8220e583182",
+            "DisplayName": "Grp.Aws.Console.LandingZone.NonProduction.Audit.ReadOnly",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "de744282-eb78-437c-845b-8c337ab67e27"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "565232d4-f011-7088-df35-e63c4fc8939f",
+            "DisplayName": "grp.AWS.Cid.halo.NonProduction.Admin",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "ce9ff4ee-66e5-4d34-9420-fd5ff0601f64"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "5662b254-00b1-70a5-5a8d-470c280fb748",
+            "DisplayName": "Grp.Aws.Console.Foo.Development.10.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "7370caa1-439e-4230-962b-32bf60fab8a7"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "5682f234-8061-7062-6bcb-72f6bff6b067",
+            "DisplayName": "grp.AWS.Cid.halo.NonProduction.Author",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "95b3026a-178b-44ce-9e2c-8c346fb4f7a6"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "6612f254-e0c1-704d-d8b9-1f83c71a80ff",
+            "DisplayName": "Grp.Aws.Console.Foo16.test16.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "69017b55-96b3-4f2f-aa5e-8a3b378ba38f"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "6692a2e4-6011-708f-fbef-c7cd15fb15c1",
+            "DisplayName": "Grp.Aws.Console.LandingZone.NonProduction.BillingAdmin",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "62196df1-ee56-4d72-87dd-88943b9b3698"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "66f28264-4081-7000-0630-3e1bb7439190",
+            "DisplayName": "Grp.Aws.Console.Test.dev.vvv.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "e80d046d-83d4-4c49-9935-777eeb158b62"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "76327284-3031-7039-a8a4-98a8fb5812f2",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.16.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "71d231da-08f1-48c8-be0f-f1ddbd5d4959"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "7632c2a4-7051-7044-2704-83ffb6bc74f4",
+            "DisplayName": "grp.AWS.Cid.halo.NonProduction.Reader",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "01dd27fc-25ff-401d-9bc8-05b3d69e5d66"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "7662b204-70a1-7010-a887-6b7ef7ddd47e",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.12.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "6cfd94b0-714b-4307-9f5a-d078f9523ad7"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "76a2c234-c071-706a-2c6a-bc28d8e23838",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.17.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "b6d16f1b-3c25-4f83-aab6-66eae2599955"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "76b202d4-c0f1-7087-5e4a-9be4f052e23c",
+            "DisplayName": "Grp.Aws.Console.Test.dev.mbx.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "f6ddf25c-089a-478f-8cfc-64589f2b3609"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "86423294-20a1-7082-01f6-0c653bab7d35",
+            "DisplayName": "Grp.Aws.Console.LandingZone.NonProduction.ReadOnly",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "d69742b2-dc6a-4d8d-84f3-9166badcd3fa"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "86b202e4-d0e1-7060-69b1-b83a50f04ac3",
+            "DisplayName": "Grp.Aws.Console.Foo.prod.18.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "337d4660-ddd0-439d-bd6a-db6a458a138e"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "9632e274-8061-7081-9fba-e5f41373f199",
+            "DisplayName": "Grp.Aws.Console.Foo18.test18.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "6bbf6971-46c8-4497-ad30-d84f29046517"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "96c2c264-5091-703c-dae0-3f7e86e1ce73",
+            "DisplayName": "Grp.Aws.Console.Foo18.test18.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "68e8b0a8-e876-43eb-9d50-d6652c35d05d"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "a65292a4-e011-707b-9e9e-778bda9792a3",
+            "DisplayName": "Grp.Aws.Console.LandingZone.NonProduction.Assurance",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "37429b46-27c4-4b5a-97ae-0b066dea0940"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "b6026234-c021-7016-075b-447a9497af3b",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.16.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "e74eb903-008f-459e-bb43-a3d493a87d5a"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "b68262a4-e021-709e-ebea-9cfeb2e02f8f",
+            "DisplayName": "Grp.Aws.Console.Mauro-testttttttt.prod.18.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "9066730a-c0f1-48a8-bb6e-4f778838e2b0"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "c6625254-8041-7094-e868-7e637e91d4a7",
+            "DisplayName": "Grp.Aws.Console.Foo10.Development.10.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "5a3a5c0e-ed62-4ad1-929c-77a20d91f3c1"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "c672d284-20b1-70f5-88e9-6c2370001064",
+            "DisplayName": "Grp.Aws.Console.Foo.prod.15.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "210a980d-5371-412d-9485-fee8c9f4f717"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "c6e2b2e4-80c1-7064-2ca2-36b0d1627394",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.15.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "26f6a117-daf4-450c-b2db-97b591547062"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "d60212d4-7051-7006-20de-e7ded2267d92",
+            "DisplayName": "Grp.Aws.Console.LandingZone.NonProduction.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "aa9b616a-c139-45f2-a2e6-8ee103e66dbf"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "d6026204-4051-7099-81b0-d061b8d26f20",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.11.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "c02b8188-fe85-430f-84c1-30e24a6679c5"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "d652b2e4-70e1-707c-df8d-99e9a0894ee6",
+            "DisplayName": "Grp.Aws.Console.Mauro-testttttttt.prod.18.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "9dd9cb04-d656-459c-accf-9f1e6a0e4cd6"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "d652d2d4-6081-70e2-27e2-f6b7d5599ccc",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.12.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "7ed84f02-b430-4a8c-ab78-c046b135726e"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "e682d204-f031-7022-940d-9ac48c08905b",
+            "DisplayName": "Grp.Aws.Console.Foo16.test16.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "c5c555d2-8cfc-4360-8216-e5c4a76c1f28"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "e69262f4-60d1-7039-a2b1-091a9dba934a",
+            "DisplayName": "Grp.Aws.Console.Pwwe.prod.tik.2f8af2c983bdaa143803a320ceaad3ed",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "1d3ade11-f187-4924-b551-60749ae0ea3c"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "f63292f4-7021-70ba-4c46-fb83c956fab3",
+            "DisplayName": "Grp.Aws.Console.Foo.prod.15.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "fe6b526e-2958-4f2d-861a-fd541cf103ad"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "f64222d4-a021-70e1-59d7-332529ca4d54",
+            "DisplayName": "Grp.Aws.Console.Mauro-test.prod.18.Billing",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "8459b496-47d7-449f-b13f-f280b94508f8"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        },
+        {
+            "GroupId": "f6d2d2f4-f091-7007-30c5-68da486a0b23",
+            "DisplayName": "Grp.Aws.Console.Foo.dev.13.Administrator",
+            "ExternalIds": [
+                {
+                    "Issuer": "https://scim.aws.com/h5E6a94b342-2a1c-4197-89bf-8913b9d1011d",
+                    "Id": "87a0939c-af14-4ffa-a1c3-f68434d7c472"
+                }
+            ],
+            "IdentityStoreId": "d-9c67117535"
+        }
+    ]
+}

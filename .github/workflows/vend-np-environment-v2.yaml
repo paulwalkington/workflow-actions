@@ -1,0 +1,359 @@
+name: Vend a new non-prod environment
+
+on:
+  workflow_dispatch:
+    inputs:
+      vend_workload_short_name:
+        description: Workload Short Name
+        type: string
+        required: true
+      vend_environment_type:
+        description: Environment Type
+        type: choice
+        required: true
+        options:
+          - Sandbox
+          - Dev
+          - Test
+          - Preprod
+          - Prod
+          - Tooling
+      vend_environment_name:
+        description: Environment Name
+        type: string
+        required: false
+      vend_roles:
+        description: Roles
+        type: string
+        required: true
+      vend_dns_sub_domain:
+        description: DNS Sub Domains
+        type: string
+        required: false
+      vend_ses_sub_domain:
+        description: SES Sub Domains
+        type: string
+        required: false
+      vend_vpc_size:
+        description: VPC Size
+        type: choice
+        required: true
+        options:
+          - Small
+          - Medium
+          - Large
+          - X-Large
+      vend_vpc_requestor:
+        description: VPC Requestor
+        type: string
+        required: true
+
+env:
+  # GH_PAT: ${{ secrets.GH_PAT_TO_2025_04_30 }}
+  # IPAM_BASE_URL: "https://8tni4nw7e5.execute-api.eu-west-2.amazonaws.com/main/v1/ipam"
+  # IPAM_API_KEY: ${{ secrets.IPAM_API_KEY_NONPROD }}
+  # UkhsaAwsEnterpriseAppObjectId: "537f6b3f-5e02-4ed3-b7a7-5400f8215b74"
+  # UkhsaAwsEnterpriseAppUserRoleId: "8774f594-1d59-4279-b9d9-59ef09a23530"
+  # MoverWorkflowEnterpriseAppObjectId: "32058243-c6d3-4bbf-95d6-9a7b072b5570"
+  AWS_REGION: "eu-west-2"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  create-groups:
+    runs-on: ubuntu-latest
+    outputs:
+      securityDlEmailAddress: ${{ steps.create-groups-and-distribution-lists.outputs.securityDlEmailAddress }}
+      opsDlEmailAddress: ${{ steps.create-groups-and-distribution-lists.outputs.opsDlEmailAddress }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log in to Azure using federated credentials
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
+
+      # - name: Authenticate with Microsoft Graph (Federated Credentials)
+      #   shell: pwsh
+      #   run: |
+      #     $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
+      #     $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
+      #     Connect-MgGraph -AccessToken $secureToken
+
+      - name: Set environment variables from payload
+        shell: pwsh
+        run: |
+
+          $workloadShortName = "${{ github.event.inputs.vend_workload_short_name }}"
+          $workloadShortName = $workloadShortName.Substring(0,1).ToUpper() + $workloadShortName.Substring(1).ToLower()
+
+          $environment = "${{ github.event.inputs.vend_environment_type }}"
+
+          if ($null -ne "${{ github.event.inputs.vend_environment_name }}") {
+              $environment = $environment + ".${{ github.event.inputs.vend_environment_name }}"
+          }
+
+          $Roles = "Admin"
+          if ($null -ne "${{ github.event.inputs.vend_roles }}") {
+              $Roles = "${{ github.event.inputs.vend_roles }}"
+          }
+
+          echo $workloadShortName
+          echo $environment
+          echo $Roles
+
+          echo "WORKLOAD_SHORT_NAME=$workloadShortName" | Out-File -FilePath $Env:GITHUB_ENV -Append
+          echo "ENVIRONMENT=$environment" | Out-File -FilePath $Env:GITHUB_ENV -Append
+          echo "ROLES=$Roles" | Out-File -FilePath $Env:GITHUB_ENV -Append
+
+      # - name: Create Groups and Distribution Lists
+      #   id: create-groups-and-distribution-lists
+      #   shell: pwsh
+      #   run: |
+      #     # Import Utils.psm1
+      #     Import-Module ./lib/group-utils.psm1
+
+      #     # Define variables from environment
+      #     $workloadShortName="${{ env.WORKLOAD_SHORT_NAME }}"
+      #     $roles="${{ env.ROLES }}"
+      #     $environment="${{ env.ENVIRONMENT }}"
+
+      #     # Connect to Microsoft Graph
+      #     $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
+      #     $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
+      #     Connect-MgGraph -AccessToken $secureToken
+
+      #     # Get existing groups in Entra ID
+      #     $groups = Get-MgGroup -All:$true
+
+      #     # Create distribution lists in Entra ID
+      #     $securityDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Security" -Description "Security Contact email address for $workloadShortName AWS accounts" -Groups $groups
+      #     $opsDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Operations" -Description "Operations Contact email address for $workloadShortName AWS accounts" -Groups $groups
+
+      #     # Define Enterprise App configuration for AWS SSO
+      #     $enterpriseAppConfig = @{
+      #       ObjectId = '${{ env.UkhsaAwsEnterpriseAppObjectId }}'
+      #       UserRoleId = '${{ env.UkhsaAwsEnterpriseAppUserRoleId }}'
+      #     }
+
+      #     # Create workload groups in Entra ID
+      #     Add-RoleGroups -roles "${{ env.ROLES }}" `
+      #                    -ownerSPN "${{ env.MoverWorkflowEnterpriseAppObjectId }}" `
+      #                    -workloadShortName $workloadShortName `
+      #                    -environment $environment `
+      #                    -enterpriseAppConfig $enterpriseAppConfig `
+      #                    -tenantId "${{ secrets.AZURE_TENANT_ID }}" `
+      #                    -isUkhsaGroupFormat $true `
+      #                    -groups $groups
+
+      #     $opsDlEmailAddress = $opsDl.Mail.ToLower()
+      #     $securityDlEmailAddress = $securityDl.Mail.ToLower()
+
+      #     "opsDlEmailAddress=$opsDlEmailAddress" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+      #     "securityDlEmailAddress=$securityDlEmailAddress" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+
+  get-vpc-cidr:
+    runs-on: ubuntu-latest
+    needs: create-groups
+
+    outputs:
+      subnetsTransit: ${{ steps.get-vpc-cidr.outputs.subnetsTransit }}
+      cidr: ${{ steps.get-vpc-cidr.outputs.Cidr }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ env.GH_PAT }}
+
+      - name: Run networkUtils.psm1 for VPC configuration
+        id: get-vpc-cidr
+        run: |
+          Import-Module ./lib/ipam/networkUtils.psm1
+
+          $vpcDetails = Get-VpcDetails -VpcType "UKHSA" -VpcSize "${{github.event.inputs.vend_vpc_size }}"
+          Write-Host "VPC Details: $($vpcDetails | Out-String)"
+
+          $subnetsTransit = "$($vpcDetails.TransitSubnetNewBits),$($vpcDetails.TransitSubnetNetNum)"
+          Write-Host "Formatted Output: $subnetsTransit"
+          "subnetsTransit=$subnetsTransit" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+
+          $Cidr = Add-IpamCidr -ipamBaseUrl "${{ env.IPAM_BASE_URL }}" -prefix "$($vpcDetails.CidrPrefix)" -requestor "${{ github.event.inputs.vend_vpc_requestor }}" -awsIpamApiKey "${{ env.IPAM_API_KEY }}" -supernet "$($vpcDetails.IpamSupernet)"
+          Write-Host "Cidr: $Cidr"
+          "Cidr=$Cidr" | Out-File -FilePath $env:GITHUB_OUTPUT -Encoding utf8 -Append
+        shell: pwsh
+
+      - name: Set outputs
+        run: |
+          echo "${{ steps.get-vpc-cidr.outputs.subnetsTransit }}"
+          echo ${{ steps.get-vpc-cidr.outputs.Cidr }}
+
+  process-request:
+    runs-on: ubuntu-latest
+    needs: [get-vpc-cidr, create-groups]
+    if: ${{ needs.get-vpc-cidr.result == 'success' || needs.get-vpc-cidr.result == 'skipped' }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        # with:
+        #   token: ${{ env.GH_PAT }}
+
+      - name: Authenticate GitHub CLI
+        run: |
+          # echo "${{ env.GH_PAT }}" | gh auth login --with-token
+
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v4.1.0
+        with:
+          role-to-assume: arn:aws:iam::359337185549:role/GitHubAction-AssumeRoleWithAction
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Make the scripts executable
+        run: |
+          chmod +x scripts/build-tfvars-file.sh
+          chmod +x scripts/create-aws-group-names.sh
+          chmod +x scripts/check-aws-group-names-are-created.sh
+
+      - name: calculate-terraform-environment
+        id: calculate-terraform-environment
+        run: |
+          vend_workload_short_name="${{ github.event.inputs.vend_workload_short_name }}"
+          vend_environment_type="${{ github.event.inputs.vend_environment_type }}"
+          vend_environment_name="${{ github.event.inputs.vend_environment_name }}"
+
+          echo  "vend_workload_short_name $vend_workload_short_name"
+          echo  "vend_environment_type $vend_environment_type"
+          echo  "vend_environment_name $vend_environment_name"
+
+
+          terraformEnvironment="${vend_workload_short_name}-${vend_environment_type}"
+
+          if [[ -n "$vend_environment_name" ]];
+          then
+              terraformEnvironment="$terraformEnvironment-$vend_environment_name"
+          fi
+
+          echo "terraformEnvironment: $terraformEnvironment"
+          echo "terraformEnvironment=$terraformEnvironment" >> $GITHUB_OUTPUT
+
+      - name: create aws group names
+        id: create-aws-group-names
+        run: |
+          roles="${{ github.event.inputs.vend_roles }}"
+          workloadShortName="${{ github.event.inputs.vend_workload_short_name }}"
+          environmentType="${{ github.event.inputs.vend_environment_type }}"
+          environmentName="${{ github.event.inputs.vend_environment_name }}"
+
+          source ./scripts/create-aws-group-names.sh
+
+          awsAccountGroupNames=$(createAwsAccountGroupNames "$workloadShortName" "$environmentType" "$environmentName" "$roles"  )
+          echo "awsAccountGroupNames: $awsAccountGroupNames"
+
+          echo "awsAccountGroupNames=$awsAccountGroupNames" >> $GITHUB_OUTPUT
+
+      - name: wait for group names to be in aws
+        run: |
+          awsAccountGroupNames="${{ steps.create-aws-group-names.outputs.awsAccountGroupNames }}" 
+          echo "awsAccountGroupNames: $awsAccountGroupNames"
+
+          # source ./scripts/check-aws-group-names-are-created.sh
+          # haveAwsGroupNamesBeenCreated "$awsAccountGroupNames"
+
+      - name: Generate .tfvars File
+        run: |
+          securityDlEmailAddress="${{ needs.create-groups.outputs.securityDlEmailAddress }}"
+          opsDlEmailAddress="${{ needs.create-groups.outputs.opsDlEmailAddress }}"
+
+          subnetsTransit="${{ needs.get-vpc-cidr.outputs.subnetsTransit }}"
+          cidr="${{ needs.get-vpc-cidr.outputs.cidr }}"
+          terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
+
+
+          ./scripts/build-tfvars-file.sh \
+            "${{ github.event.inputs.vend_workload_short_name }}" \
+            "${{ github.event.inputs.vend_environment_type }}" \
+            "${{ steps.create-aws-group-names.outputs.awsAccountGroupNames }}" \
+            "$opsDlEmailAddress" \
+            "$securityDlEmailAddress" \
+            "${{ github.event.inputs.vend_roles }}" \
+            "${{ github.event.inputs.vend_dns_sub_domain }}" \
+            "${{ github.event.inputs.vend_ses_sub_domain }}" \
+            "$terraformEnvironment" \
+            "$subnetsTransit" \
+            "$cidr" \
+
+      - name: Display tfvars file
+        run: |
+          terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
+          filename="etc/env_eu-west-2_$terraformEnvironment.tfvars"
+          echo "filename: $filename"
+          value="`cat $filename`"
+          echo "$value"
+
+      - name: Commit and Push Changes
+        run: |
+          terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
+          git config --global user.name "svc-ghubcloudvend-ukhsa-gov-uk"
+          git config --global user.email "svc.GitHubCloudVend@ukhsa.gov.uk"
+
+          # Define the branch name
+          branch_name="vend-account-for-$terraformEnvironment"
+
+          # Check if the branch already exists on the remote
+          if git ls-remote --exit-code --heads origin "$branch_name"; then
+            echo "Branch $branch_name already exists. Checking it out."
+            git checkout "$branch_name"
+          else
+            echo "Branch $branch_name does not exist. Creating and checking it out."
+            git checkout -b "$branch_name"
+          fi
+
+          git add etc/env_eu-west-2_$terraformEnvironment.tfvars
+
+          # Check if there are changes to commit
+          if git diff --cached --quiet; then
+            echo "No changes to commit. Skipping commit and push."
+          else
+            git commit -m "Add vend file for $terraformEnvironment"
+            git push https://${{ env.GH_PAT }}@github.com/${{ github.repository }} "$branch_name"
+          fi
+
+      - name: Create Pull Request with GitHub CLI
+        run: |
+          terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}" 
+          branch_name="vend-account-for-$terraformEnvironment"
+          pr_title="Add vend file for $terraformEnvironment"
+          pr_body="Automated PR to add .tfvars for $terraformEnvironment"
+
+          # Check if a PR already exists for this branch
+          if gh pr list --head "$branch_name" --json number | jq -e '. | length > 0'; then
+            echo "A PR already exists for branch $branch_name. Skipping PR creation."
+          else
+            # Create a new PR
+            gh pr create --base develop --head "$branch_name" --title "$pr_title" --body "$pr_body"
+          fi
+
+      # - name: Install Terraform
+      #   uses: hashicorp/setup-terraform@v2.0.0
+      #   with:
+      #     terraform_version: 1.7.0
+
+      # - name: Run terraform plan avm
+      #   run: |
+      #     make terraformrc
+      #     terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}"
+      #     ./bin/terraform.sh -n -w -r eu-west-2 -p halo -g np -e "$terraformEnvironment" -c avm -a plan
+
+      # - name: Run terraform apply avm
+      #   run: |
+      #     make terraformrc
+      #     terraformEnvironment="${{ steps.calculate-terraform-environment.outputs.terraformEnvironment }}"
+      #     ./bin/terraform.sh -n -w -r eu-west-2 -p halo -g np -e  "$terraformEnvironment" -c avm -a apply
