@@ -49,7 +49,7 @@ on:
         required: true
 
 env:
-  # GH_PAT: ${{ secrets.GH_PAT_TO_2025_04_30 }}
+  GH_PAT: ${{ secrets.GH_PAT }}
   # IPAM_BASE_URL: "https://8tni4nw7e5.execute-api.eu-west-2.amazonaws.com/main/v1/ipam"
   # IPAM_API_KEY: ${{ secrets.IPAM_API_KEY_NONPROD }}
   # UkhsaAwsEnterpriseAppObjectId: "537f6b3f-5e02-4ed3-b7a7-5400f8215b74"
@@ -168,7 +168,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           token: ${{ env.GH_PAT }}
 
