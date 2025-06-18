@@ -209,12 +209,12 @@ jobs:
         run: |
           # echo "${{ env.GH_PAT }}" | gh auth login --with-token
 
-      - name: configure aws credentials
-        uses: aws-actions/configure-aws-credentials@v4.1.0
-        with:
-          role-to-assume: arn:aws:iam::359337185549:role/GitHubAction-AssumeRoleWithAction
-          role-session-name: GitHub_to_AWS_via_FederatedOIDC
-          aws-region: ${{ env.AWS_REGION }}
+      # - name: configure aws credentials
+      #   uses: aws-actions/configure-aws-credentials@v4.1.0
+      #   with:
+      #     role-to-assume: arn:aws:iam::359337185549:role/GitHubAction-AssumeRoleWithAction
+      #     role-session-name: GitHub_to_AWS_via_FederatedOIDC
+      #     aws-region: ${{ env.AWS_REGION }}
 
       - name: Make the scripts executable
         run: |
