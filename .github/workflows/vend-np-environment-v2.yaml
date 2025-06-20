@@ -305,6 +305,8 @@ jobs:
           # Define the branch name
           branch_name="vend-account-for-$terraformEnvironment"
 
+          git fetch
+
           # Check if the branch already exists on the remote
           if git ls-remote --exit-code --heads origin "$branch_name"; then
             echo "Branch $branch_name already exists. Checking it out."
