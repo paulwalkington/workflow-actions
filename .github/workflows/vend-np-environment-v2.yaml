@@ -117,9 +117,9 @@ jobs:
           Import-Module ./lib/group-utils.psm1
 
           # Define variables from environment
-          $workloadShortName="${{ env.WORKLOAD_SHORT_NAME }}"
-          $roles="${{ env.ROLES }}"
-          $environment="${{ env.ENVIRONMENT }}"
+          workloadShortName="${{ env.WORKLOAD_SHORT_NAME }}"
+          roles="${{ env.ROLES }}"
+          environment="${{ env.ENVIRONMENT }}"
 
           # # Connect to Microsoft Graph
           # $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
@@ -147,7 +147,7 @@ jobs:
                          -enterpriseAppConfig $enterpriseAppConfig `
                          -tenantId "${{ secrets.AZURE_TENANT_ID }}" `
                          -isUkhsaGroupFormat $true `
-                         -groups $groups
+                         -groups ""
 
           # $opsDlEmailAddress = $opsDl.Mail.ToLower()
           # $securityDlEmailAddress = $securityDl.Mail.ToLower()
