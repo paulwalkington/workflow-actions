@@ -147,7 +147,7 @@ jobs:
                          -workloadShortName $workloadShortName `
                          -environment $environment `
                          -enterpriseAppConfig $enterpriseAppConfig `
-                         -tenantId "${{ secrets.AZURE_TENANT_ID }}" `
+                         -tenantId "hello" `
                          -isUkhsaGroupFormat $true `
                          -groups ""
 
