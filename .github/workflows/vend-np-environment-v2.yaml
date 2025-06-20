@@ -282,7 +282,6 @@ jobs:
             "${{ steps.create-aws-group-names.outputs.awsAccountGroupNames }}" \
             "$opsDlEmailAddress" \
             "$securityDlEmailAddress" \
-            "${{ github.event.inputs.vend_roles }}" \
             "${{ github.event.inputs.vend_dns_sub_domain }}" \
             "${{ github.event.inputs.vend_ses_sub_domain }}" \
             "$terraformEnvironment" \

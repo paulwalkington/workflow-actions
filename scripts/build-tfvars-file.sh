@@ -30,12 +30,11 @@ environmentType=$2
 awsAccountGroupNames=${3}
 opsDlEmailAddress=$4
 securityDlEmailAddress=$5
-roles=$6
-dnsSubDomains=$7
-sesSubDomains=$8
-terraformEnvironment=$9
-subnetsTransit=${10}
-cidr=${11}
+dnsSubDomains=$6
+sesSubDomains=$7
+terraformEnvironment=$8
+subnetsTransit=${9}
+cidr=${10}
 
 
 
@@ -50,7 +49,6 @@ cidr=${11}
 # opsDlEmailAddress="halo-np+pds-1-operations@test-and-trace.nhs.uk"
 # securityDlEmailAddress="halo-np+pds-1-security@test-and-trace.nhs.uk"
 
-# roles="Administrator"
 # dnsSubDomains="ptest-1"
 # sesSubDomains="ptest-1"
 # terraformEnvironment="stuff"
@@ -91,7 +89,7 @@ EOF
 
 # add avm_sso_associations to the tfvars file
 
-# this is setting Input Field Separator to a comma so that we can split the roles string into an array
+# this is setting Input Field Separator to a comma so that we can split the awsAccountGroupNames string into an array
 IFS=',' read -ra awsAccountGroupNamesSeparated <<< "$awsAccountGroupNames"
 
 
