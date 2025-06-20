@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./scripts/create-aws-group-name.sh
+source ./scripts/create-aws-group-names.sh
 
 function createEmailAddress () {
     mailDomain=$1
