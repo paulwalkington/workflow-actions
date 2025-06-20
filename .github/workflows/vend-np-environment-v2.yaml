@@ -200,11 +200,13 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+        with:
+          token: ${{ env.GH_PAT }}
 
       - name: Authenticate GitHub CLI
         run: |
-          # echo "${{ env.GH_PAT }}" | gh auth login --with-token
+          echo "${{ env.GH_PAT }}" | gh auth login --with-token
 
       # - name: configure aws credentials
       #   uses: aws-actions/configure-aws-credentials@v4.1.0
