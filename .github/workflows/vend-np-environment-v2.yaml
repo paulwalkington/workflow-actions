@@ -54,7 +54,8 @@ env:
   # IPAM_API_KEY: ${{ secrets.IPAM_API_KEY_NONPROD }}
   # UkhsaAwsEnterpriseAppObjectId: "537f6b3f-5e02-4ed3-b7a7-5400f8215b74"
   # UkhsaAwsEnterpriseAppUserRoleId: "8774f594-1d59-4279-b9d9-59ef09a23530"
-  # MoverWorkflowEnterpriseAppObjectId: "32058243-c6d3-4bbf-95d6-9a7b072b5570"
+  MoverWorkflowEnterpriseAppObjectId: "43894c04-a67d-4514-b35d-eac82ff04424"
+  AwsVendingEnterpriseAppObjectId: "32058243-c6d3-4bbf-95d6-9a7b072b5570"
   AWS_REGION: "eu-west-2"
 
 permissions:
@@ -96,13 +97,9 @@ jobs:
           $environment = "${{ github.event.inputs.vend_environment_type }}"
           $environmentName = "${{ github.event.inputs.vend_environment_name }}"
 
-
-
           if ("$environmentName") {
               $environment = $environment + ".$environmentName"
           }
-
-          echo "environment: $environment"
 
           echo $workloadShortName
           echo $environment
@@ -112,51 +109,51 @@ jobs:
           echo "ENVIRONMENT=$environment" | Out-File -FilePath $Env:GITHUB_ENV -Append
           echo "ROLES=$Roles" | Out-File -FilePath $Env:GITHUB_ENV -Append
 
-      # - name: Create Groups and Distribution Lists
-      #   id: create-groups-and-distribution-lists
-      #   shell: pwsh
-      #   run: |
-      #     # Import Utils.psm1
-      #     Import-Module ./lib/group-utils.psm1
+      - name: Create Groups and Distribution Lists
+        id: create-groups-and-distribution-lists
+        shell: pwsh
+        run: |
+          # Import Utils.psm1
+          Import-Module ./lib/group-utils.psm1
 
-      #     # Define variables from environment
-      #     $workloadShortName="${{ env.WORKLOAD_SHORT_NAME }}"
-      #     $roles="${{ env.ROLES }}"
-      #     $environment="${{ env.ENVIRONMENT }}"
+          # Define variables from environment
+          $workloadShortName="${{ env.WORKLOAD_SHORT_NAME }}"
+          $roles="${{ env.ROLES }}"
+          $environment="${{ env.ENVIRONMENT }}"
 
-      #     # Connect to Microsoft Graph
-      #     $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
-      #     $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
-      #     Connect-MgGraph -AccessToken $secureToken
+          # # Connect to Microsoft Graph
+          # $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
+          # $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
+          # Connect-MgGraph -AccessToken $secureToken
 
-      #     # Get existing groups in Entra ID
-      #     $groups = Get-MgGroup -All:$true
+          # Get existing groups in Entra ID
+          # $groups = Get-MgGroup -All:$true
 
-      #     # Create distribution lists in Entra ID
-      #     $securityDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Security" -Description "Security Contact email address for $workloadShortName AWS accounts" -Groups $groups
-      #     $opsDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Operations" -Description "Operations Contact email address for $workloadShortName AWS accounts" -Groups $groups
+          # Create distribution lists in Entra ID
+          # $securityDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Security" -Description "Security Contact email address for $workloadShortName AWS accounts" -Groups $groups
+          # $opsDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Operations" -Description "Operations Contact email address for $workloadShortName AWS accounts" -Groups $groups
 
-      #     # Define Enterprise App configuration for AWS SSO
-      #     $enterpriseAppConfig = @{
-      #       ObjectId = '${{ env.UkhsaAwsEnterpriseAppObjectId }}'
-      #       UserRoleId = '${{ env.UkhsaAwsEnterpriseAppUserRoleId }}'
-      #     }
+          # Define Enterprise App configuration for AWS SSO
+          $enterpriseAppConfig = @{
+            ObjectId = '${{ env.UkhsaAwsEnterpriseAppObjectId }}'
+            UserRoleId = '${{ env.UkhsaAwsEnterpriseAppUserRoleId }}'
+          }
 
-      #     # Create workload groups in Entra ID
-      #     Add-RoleGroups -roles "${{ env.ROLES }}" `
-      #                    -ownerSPN "${{ env.MoverWorkflowEnterpriseAppObjectId }}" `
-      #                    -workloadShortName $workloadShortName `
-      #                    -environment $environment `
-      #                    -enterpriseAppConfig $enterpriseAppConfig `
-      #                    -tenantId "${{ secrets.AZURE_TENANT_ID }}" `
-      #                    -isUkhsaGroupFormat $true `
-      #                    -groups $groups
+          # Create workload groups in Entra ID
+          Add-RoleGroups -roles "${{ env.ROLES }}" `
+                         -ownerSPNs @('${{ env.AwsVendingEnterpriseAppObjectId }}', '${{ env.MoverWorkflowEnterpriseAppObjectId }}') `
+                         -workloadShortName $workloadShortName `
+                         -environment $environment `
+                         -enterpriseAppConfig $enterpriseAppConfig `
+                         -tenantId "${{ secrets.AZURE_TENANT_ID }}" `
+                         -isUkhsaGroupFormat $true `
+                         -groups $groups
 
-      #     $opsDlEmailAddress = $opsDl.Mail.ToLower()
-      #     $securityDlEmailAddress = $securityDl.Mail.ToLower()
+          # $opsDlEmailAddress = $opsDl.Mail.ToLower()
+          # $securityDlEmailAddress = $securityDl.Mail.ToLower()
 
-      #     "opsDlEmailAddress=$opsDlEmailAddress" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
-      #     "securityDlEmailAddress=$securityDlEmailAddress" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          # "opsDlEmailAddress=$opsDlEmailAddress" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
+          # "securityDlEmailAddress=$securityDlEmailAddress" | Out-File -Append -FilePath $env:GITHUB_OUTPUT
 
   get-vpc-cidr:
     runs-on: ubuntu-latest
