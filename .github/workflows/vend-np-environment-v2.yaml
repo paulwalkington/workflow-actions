@@ -117,7 +117,7 @@ jobs:
           Import-Module ./lib/group-utils.psm1
 
           # Define variables from environment
-          workloadShortName="${{ env.WORKLOAD_SHORT_NAME }}"
+          workloadShortName="hello"
           roles="${{ env.ROLES }}"
           environment="${{ env.ENVIRONMENT }}"
 
