@@ -1,4 +1,4 @@
-name: Vend a new non-prod environment
+name: Vend a new non-prod environment v2
 
 on:
   workflow_dispatch:
