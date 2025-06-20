@@ -101,6 +101,8 @@ jobs:
               $environment = $environment + ".$environmentName"
           }
 
+          $roles = "${{ github.event.inputs.vend_roles }}"
+
           echo $workloadShortName
           echo $environment
           echo $Roles
