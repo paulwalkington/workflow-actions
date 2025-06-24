@@ -1,0 +1,18 @@
+name: Create New Workload in AWS Prod
+
+# placeholder to allow the workflow to be called on the main branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      avm_org_ou_name:
+        description: Aws organisation name
+        type: string
+        required: true
+
+jobs:
+  CreateNewWorkload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: error message
+        run: echo "This can only be run from the main branch"
