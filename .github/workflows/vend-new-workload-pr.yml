@@ -1,5 +1,7 @@
 name: Create New Workload in AWS Prod
 
+# placeholder to allow the workflow to be called on the main branch
+
 on:
   workflow_dispatch:
     inputs:
@@ -7,15 +9,6 @@ on:
         description: Aws organisation name
         type: string
         required: true
-
-env:
-  AWS_REGION: "eu-west-2"
-  GH_PAT: ${{ secrets.GH_PAT }}
-  TF_VARS_FILE: "etc/env_eu-west-2_pr.tfvars"
-
-permissions:
-  id-token: write
-  contents: write
 
 jobs:
   CreateNewWorkload:
