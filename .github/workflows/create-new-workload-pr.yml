@@ -19,6 +19,7 @@ permissions:
 
 jobs:
   CreateNewWorkload:
+    if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
@@ -26,7 +27,6 @@ jobs:
 
       - name: Add workload entry to env_eu-west-2_pr.tfvars
         run: |
-
           FILE="${{ env.TF_VARS_FILE }}"
           WORKLOAD_NAME="${{ github.event.inputs.avm_org_ou_name }}"
           WORKLOAD_ENTRY="    \"$WORKLOAD_NAME\" = {}"
@@ -40,7 +40,6 @@ jobs:
 
           echo "Adding workload $WORKLOAD_NAME to $FILE"
           sed -i "/\"workloads\" = {/a\\$WORKLOAD_ENTRY" "$FILE"
-          fi
 
       - name: Display env_eu-west-2_pr.tfvars after
         run: |
