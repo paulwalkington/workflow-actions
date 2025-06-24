@@ -1,4 +1,9 @@
+          
+name=""  
+result="hello"        
+          
+if [[ -n "$name" ]]; then
+    result="${result}.name"
+fi
 
-value=$1
-
-echo $value
+echo $result

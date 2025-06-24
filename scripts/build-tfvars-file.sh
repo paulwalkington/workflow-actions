@@ -1,37 +1,12 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-function createAwsAccountGroupName () {
-    workloadShortName=$1
-    environmentType=$2
-    environmentName=$3
-    role=$4
-    isUkhsaGroupFormat=$5
-
-    workloadShortNameLength=${#workloadShortName}
-
-    workloadShortNameUpper=$(echo "${workloadShortName:0:1}" | tr '[:lower:]' '[:upper:]')
-    workloadShortNameLower=$(echo "${workloadShortName:1:$workloadShortNameLength}" | tr '[:upper:]' '[:lower:]')
-    workloadShortNameFormatted=$workloadShortNameUpper$workloadShortNameLower
-
-    environment="${environmentType}"
-
-    if [ -n "$environmentName" ]; then
-        environment="$environmentType.$environmentName"
-    fi
-
-    if $isUkhsaGroupFormat && [ -n "$isUkhsaGroupFormat" ]
-    then
-        echo "Grp.Aws.Console.$workloadShortNameFormatted.$environment.$role"
-    else 
-        echo "WlAws$workloadShortNameFormatted$environment$role"
-    fi
-}
+source ./scripts/create-aws-group-names.sh
 
 function createEmailAddress () {
     mailDomain=$1
     awsAccountName=$2
     
-    prefix="halo-pr+"
+    prefix="halo-np+"
     prefixLength=${#prefix}
     mailDomainLength=${#mailDomain}
     awsAccountNameLength=${#awsAccountName}
@@ -52,16 +27,14 @@ function createEmailAddress () {
 
 workloadShortName=$1
 environmentType=$2
-environmentName=$3
+awsAccountGroupNames=${3}
 opsDlEmailAddress=$4
 securityDlEmailAddress=$5
-roles=$6
-dnsSubDomains=$7
-sesSubDomains=$8
-securityClass=$9
-terraformEnvironment=${10}
-subnetsTransit=${11}
-cidr=${12}
+dnsSubDomains=$6
+sesSubDomains=$7
+terraformEnvironment=$8
+subnetsTransit=${9}
+cidr=${10}
 
 
 
@@ -69,20 +42,18 @@ cidr=${12}
 
 # workloadShortName="pds"
 
-# environmentType="test"
-# environmentName='01'
+# environmentType="tooling"
+# awsAccountGroupNames="Grp.Aws.Console.Foo.dev.13.Administrator,Grp.Aws.Console.Foo.dev.13.Billing"
 
 # emailAddress="halo-np+pds-1@test-and-trace.nhs.uk"
 # opsDlEmailAddress="halo-np+pds-1-operations@test-and-trace.nhs.uk"
 # securityDlEmailAddress="halo-np+pds-1-security@test-and-trace.nhs.uk"
 
-# roles="Administrator"
 # dnsSubDomains="ptest-1"
 # sesSubDomains="ptest-1"
-# securityClass="Non-Live"
 # terraformEnvironment="stuff"
-# subnetsTransit="hello"
-# cidr="hello"
+# subnetsTransit="subnetsTransithello"
+# cidr="cidrhello"
 
 
 workloadShortNameLowerCase=$(echo "$workloadShortName" | tr '[:upper:]' '[:lower:]')
@@ -116,108 +87,109 @@ avm_alternate_account_contacts = {
 }
 EOF
 
-# # add avm_sso_associations to the tfvars file
-# if [ -n "$roles" ] 
-# then
-#     IFS=',' read -ra rolesSeperated <<< "$roles"
+# add avm_sso_associations to the tfvars file
 
-#     avmSsoAssociations=()
+# this is setting Input Field Separator to a comma so that we can split the awsAccountGroupNames string into an array
+IFS=',' read -ra awsAccountGroupNamesSeparated <<< "$awsAccountGroupNames"
 
-#     for role in "${rolesSeperated[@]}"
-#     do
-#         awsAccountGroupName=$(createAwsAccountGroupName "$workloadShortName" "$environmentType" "$environmentName" "$role" true  )
-#         avmSsoAssociation=("\"$awsAccountGroupName\" = [ \"$role\" ]")
-#         avmSsoAssociations+=("$avmSsoAssociation")
-#     done
 
-#     {
-#         echo " ";
-#         echo "avm_sso_associations = {";
-#      } >> "$filename"
+for awsAccountGroupName in "${awsAccountGroupNamesSeparated[@]}"
+do
+    IFS='.' read -ra awsAccountGroupNameParts <<< "$awsAccountGroupName"
+    role=${awsAccountGroupNameParts[${#awsAccountGroupNameParts[@]} - 1]}
+
+    avmSsoAssociation=("\"$awsAccountGroupName\" = [ \"$role\" ]")
+    avmSsoAssociations+=("$avmSsoAssociation")
+done
+
+
+{
+    echo " ";
+    echo "avm_sso_associations = {";
+} >> "$filename"
      
-#     for avmSsoAssociation in "${avmSsoAssociations[@]}"
-#     do
-#         echo "    $avmSsoAssociation" >> "$filename"
-#     done
+for avmSsoAssociation in "${avmSsoAssociations[@]}"
+do
+    echo "    $avmSsoAssociation" >> "$filename"
+done
 
-#     echo "}" >>  "$filename"
-# fi
-
-# # add avm_aws_account_ses_subdomains to the tfvars file
-
-# if([ -n "$sesSubDomains" ] )
-# then
-
-#     IFS=',' read -ra sesSubDomainsSeperated <<< "$sesSubDomains"
-
-#     {
-#         echo " ";
-#         echo "avm_aws_account_ses_subdomains = {";
-#         # echo "    \"test-and-trace.nhs.uk\" = ["; //this might be only for prod deployment
-#         echo "    \"halo-np.org.uk\" = [";
-#     } >> "$filename"
-
-#     for sesSubDomain in "${sesSubDomainsSeperated[@]}"
-#     do
-#         sesSubDomainLowerCase=$(echo "$sesSubDomain" | tr '[:upper:]' '[:lower:]')
-#         echo "        \"$sesSubDomainLowerCase\"," >> "$filename"
-#     done
+echo "}" >>  "$filename"
 
 
+# add avm_aws_account_ses_subdomains to the tfvars file
 
-#     {
-#         echo "    ]";
-#         echo "}";
-#     } >>  "$filename"
-# fi
-
-# # add avm_aws_account_subdomains to the tfvars file
-
-# if([ -n "$dnsSubDomains" ] )
-# then
-
-#     IFS=',' read -ra dnsSubDomainsSeperated <<< "$dnsSubDomains"
-
-#     {
-#         echo " ";
-#         echo "avm_aws_account_subdomains = {";
-#         # echo "    \"test-and-trace.nhs.uk\" = ["; //this might be only for prod deployment
-#         echo "    \"halo-np.org.uk\" = [";
-#      } >> "$filename"
-
-#     for dnsSubDomain in "${dnsSubDomainsSeperated[@]}"
-#     do
-#         dnsSubDomainLowerCase=$(echo "$dnsSubDomain" | tr '[:upper:]' '[:lower:]')
-#         echo "        \"$dnsSubDomainLowerCase\"," >> "$filename"
-#     done
-
-#     {
-#         echo "    ]";
-#         echo "}";
-#      } >>  "$filename"
-# fi
-
-# # add avm_vpcs to the tfvars file
-# { 
-#     echo " ";
-#     echo " ";
-#     echo "avm_vpcs = {";
-#     echo "    main = {";
-#     echo "        subnets_transit = \"$subnetsTransit\"";
-#     echo "        vpc_cidr        = \"$cidr\"";
-#     echo "    }";
-#     echo "}"
-# } >> "$filename"
-
-
-# add others to the tfvars file
-
-
-if [[ "$securityClass" == "Non-Live" ]]
+if([ -n "$sesSubDomains" ] )
 then
+
+    # this is setting Input Field Separator to a comma so that we can split the sesSubDomains string into an array
+    IFS=',' read -ra sesSubDomainsSeparated <<< "$sesSubDomains"
+
+    {
+        echo " ";
+        echo "avm_aws_account_ses_subdomains = {";
+        # echo "    \"test-and-trace.nhs.uk\" = ["; //this might be only for prod deployment
+        echo "    \"halo-np.org.uk\" = [";
+    } >> "$filename"
+
+    for sesSubDomain in "${sesSubDomainsSeparated[@]}"
+    do
+        sesSubDomainLowerCase=$(echo "$sesSubDomain" | tr '[:upper:]' '[:lower:]')
+        echo "        \"$sesSubDomainLowerCase\"," >> "$filename"
+    done
+
+
+
+    {
+        echo "    ]";
+        echo "}";
+    } >>  "$filename"
+fi
+
+# add avm_aws_account_subdomains to the tfvars file
+
+if([ -n "$dnsSubDomains" ] )
+then
+
+    # this is setting Input Field Separator to a comma so that we can split the dnsSubDomains string into an array
+    IFS=',' read -ra dnsSubDomainsSeparated <<< "$dnsSubDomains"
+
+    {
+        echo " ";
+        echo "avm_aws_account_subdomains = {";
+        # echo "    \"test-and-trace.nhs.uk\" = ["; //this might be only for prod deployment
+        echo "    \"halo-np.org.uk\" = [";
+     } >> "$filename"
+
+    for dnsSubDomain in "${dnsSubDomainsSeparated[@]}"
+    do
+        dnsSubDomainLowerCase=$(echo "$dnsSubDomain" | tr '[:upper:]' '[:lower:]')
+        echo "        \"$dnsSubDomainLowerCase\"," >> "$filename"
+    done
+
+    {
+        echo "    ]";
+        echo "}";
+     } >>  "$filename"
+fi
+
+# add avm_vpcs to the tfvars file
 { 
+    echo " ";
+    echo " ";
+    echo "avm_vpcs = {";
+    echo "    main = {";
+    echo "        subnets_transit = \"$subnetsTransit\"";
+    echo "        vpc_cidr        = \"$cidr\"";
+    echo "    }";
+    echo "}"
+} >> "$filename"
+
+
+case $environmentType in
+    (dev|test|sandbox|tooling) 
+    { 
     echo "" ; 
     echo "avm_auto_shutdown_enabled       = true"; 
     echo "config_kms_key_deletion_enabled = false"; 
-} >> "$filename"
-fi
+} >> "$filename";; # OK
+esac
