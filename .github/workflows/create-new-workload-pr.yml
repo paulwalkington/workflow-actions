@@ -89,5 +89,5 @@ jobs:
             echo "A PR already exists for branch $branch_name. Skipping PR creation."
           else
             # Create a new PR
-            gh pr create --base develop --head "$branch_name" --title "$pr_title" --body "$pr_body"
+            gh pr create --base main --head "$branch_name" --title "$pr_title" --body "$pr_body"
           fi
