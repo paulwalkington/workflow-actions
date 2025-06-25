@@ -43,6 +43,7 @@ org_ous = {
   "network"    = {}
 
   "workloads" = {
+    "paulwork5" = {}
     "aai"    = {}
     "ace"    = {}
     "alytic" = {}
