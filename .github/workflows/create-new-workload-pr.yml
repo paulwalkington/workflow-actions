@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       avm_org_ou_name:
-        description: Aws organisation name
+        description: AWS organisation name
         type: string
         required: true
 
