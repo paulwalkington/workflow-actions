@@ -48,17 +48,9 @@ org_ous = {
   "network"    = {}
 
   "workloads" = {
-    "adfc" = {}
-    "bill" = {}
-    "foo" = {}
-    "foo3" = {}
-    "testbox" = {}
+    "paulboo" = {}
   } 
 }
-org_ous_default_additional_regions = [
-  "eu-west-1",
-]
-
 ##
 # AHA (AWS Health Aware)
 ##

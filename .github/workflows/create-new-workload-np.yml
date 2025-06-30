@@ -36,11 +36,8 @@ jobs:
           echo "-----the file-----"
           echo "Adding workload $workloadName to $filename"
 
-          # Check if the file exists
-
-          ./scripts/add-new-workload.sh \
-            "$filename" \
-            "$workloadName" \
+          source ./scripts/add-new-workload.sh
+          addNewWorkload "$filename" "$workloadName"
 
       - name: Display env_eu-west-2_np.tfvars after
         run: |
