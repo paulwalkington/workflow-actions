@@ -48,14 +48,12 @@ org_ous = {
   "network"    = {}
 
   "workloads" = {
-    "foo" = {}
     "adfc" = {}
-    "demo" ={}
-  }
+    "foo" = {}
+    "paulboo13" = {}
+    "testbox" = {}
+  } 
 }
-root_aws_account_id        = "359337185549"
-org_ous_additional_regions = {}
-
 org_ous_core_additional_regions = [
   "eu-west-1",
 ]
@@ -113,7 +111,6 @@ primary_alerts_chatbot = {
   slack_channel_id   = "C01RPCDMU30"
   slack_workspace_id = "T019X3MSH9Q"
 }
-
 
 ##
 # Security Route53
@@ -508,6 +505,7 @@ ipam_available_cidr_ranges = {
   ]
   ukhsa = [
     "172.25.128.0/17",
+    "172.26.128.0/17",
   ]
 }
 
@@ -550,7 +548,6 @@ notification_schedules = {
   np-contact-centre-saml        = { deadline = "2026-11-29", title = "Renew SAML Certificate in Contact Centre Test", description = "Renew the SAML Signing Certificate for the Contact Centre Test Enterprise Application in Azure, and update it in the CC Dev2 AWS account" },
 }
 
-
 ##
 # EC2 Usage Report
 ##
@@ -587,3 +584,4 @@ sso_assumable_roles = {
 audit_sso_associations = {
   "Grp.Aws.Console.LandingZone.NonProduction.Audit.ReadOnly" = ["ReadOnly"]
 }
+

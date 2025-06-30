@@ -11,25 +11,28 @@ function addNewWorkload () {
     BEGIN { RS=""; FS="\n"; OFS="\n" }
     /  "workloads" = {/ {
         for (i=1; i<=NF; i++) {
+            if ($i !~ "{}" && $i !~ /workloads/) {
+                # skip empty lines and lines with "workloads"
+                break
+            }
             if ($i ~ "{}") {
                 # break
                 print $i
             }
-            if ($i ~ "root_aws_account_id") {
-                break
-            }
+
+
         }
     }
     ' $input_file  > $temp_workloads_file
 
     # add new workload value to temp file
-    echo "    \"$new_workload_name\" = {}" >> $temp_workloads_file
+    printf "    \"$new_workload_name\" = {}" >> $temp_workloads_file
     # sort workloads value in temp file
     sort -o $temp_workloads_file $temp_workloads_file
 
     # format the temp file to match the expected structure
-    echo "  \"workloads\" = {\n$(cat $temp_workloads_file)" > $temp_workloads_file
-    echo "  } \n}" >> $temp_workloads_file
+    printf "  \"workloads\" = {\n$(cat $temp_workloads_file)" > $temp_workloads_file
+    printf "\n  } \n}" >> $temp_workloads_file
 
 
 
@@ -47,10 +50,12 @@ function addNewWorkload () {
             print $0"\n" 
         }
     }
-    ' test_file.txt > $temp_file
+    ' $input_file > $temp_file
     # replace original file
     mv $temp_file $input_file
 
     # clean up temp files
-    rm -f $temp_workloads_file
+    # rm -f $temp_workloads_file
 }
+
+
