@@ -1,8 +1,7 @@
-# FILE="env_eu-west-2_np.tfvars"
-FILE="test_file.txt"
-NEW_FILE="updated_test_file.txt"
-TEMP_WORKLOAD_FILE="temp_workloads_file.txt"
-INPUT="bill"
+input_file=$1
+new_workload_name=$2
+temp_file="updated_test_file.txt"
+temp_workloads_file="temp_workloads_file.txt"
 
 # extract workload values to temp file
 awk '
@@ -18,26 +17,26 @@ BEGIN { RS=""; FS="\n"; OFS="\n" }
         }
     }
 }
-' $FILE  > $TEMP_WORKLOAD_FILE
+' $input_file  > $temp_workloads_file
 
 # add new workload value to temp file
-echo "    \"$INPUT\" = {}" >> $TEMP_WORKLOAD_FILE
+echo "    \"$new_workload_name\" = {}" >> $temp_workloads_file
 # sort workloads value in temp file
-sort -o $TEMP_WORKLOAD_FILE $TEMP_WORKLOAD_FILE
+sort -o $temp_workloads_file $temp_workloads_file
 
 # format the temp file to match the expected structure
-echo "  \"workloads\" = {\n$(cat $TEMP_WORKLOAD_FILE)" > $TEMP_WORKLOAD_FILE
-echo "  } \n}" >> $TEMP_WORKLOAD_FILE
+echo "  \"workloads\" = {\n$(cat $temp_workloads_file)" > $temp_workloads_file
+echo "  } \n}" >> $temp_workloads_file
 
 
 
 # replace the workloads section in the original file with the updated temp file and save to new temp file
-awk -v TEMP_WORKLOAD_FILE=${TEMP_WORKLOAD_FILE} '
+awk -v temp_workloads_file=${temp_workloads_file} '
 BEGIN { RS=""; FS="\n"; OFS="\n" }
 {
     if ($0 ~ /  "workloads" = {/) {
 
-        while ((getline line < TEMP_WORKLOAD_FILE) > 0) {
+        while ((getline line < temp_workloads_file) > 0) {
             print line
         }
 
@@ -45,6 +44,6 @@ BEGIN { RS=""; FS="\n"; OFS="\n" }
          print $0"\n" 
     }
 }
-' test_file.txt > $NEW_FILE
+' test_file.txt > $temp_file
 # replace original file
-mv $NEW_FILE $FILE
+mv $temp_file $input_file
