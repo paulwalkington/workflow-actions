@@ -51,13 +51,10 @@ org_ous = {
     "adfc" = {}
     "foo" = {}
     "paulboo13" = {}
+    "paulwork5" = {}
     "testbox" = {}
   } 
 }
-org_ous_core_additional_regions = [
-  "eu-west-1",
-]
-
 org_ous_default_additional_regions = [
   "eu-west-1",
 ]
