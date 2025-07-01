@@ -24,7 +24,7 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v4
 
-      - name: Add workload entry to env_eu-west-2_np.tfvars
+      - name: Add workload entry to env_eu-west-2_pr.tfvars
         run: |
 
           FILE="${{ env.TF_VARS_FILE }}"
