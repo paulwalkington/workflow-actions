@@ -41,14 +41,6 @@ jobs:
           echo "Adding workload $WORKLOAD_NAME to $FILE"
           sed -i "/\"workloads\" = {/a\\$WORKLOAD_ENTRY" "$FILE"
 
-      - name: Display env_eu-west-2_np.tfvars after
-        run: |
-          echo "-----the file-----"
-          filename="${{ env.TF_VARS_FILE }}"
-          echo "filename: $filename"
-          value="`cat $filename`"
-          echo "$value"
-
       - name: Authenticate GitHub CLI
         run: |
           echo "${{ env.GH_PAT }}" | gh auth login --with-token
