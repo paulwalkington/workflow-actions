@@ -35,7 +35,7 @@ jobs:
           WORKLOAD_NAME="${{ github.event.inputs.avm_org_ou_name }}"
           WORKLOAD_ENTRY="    \"$WORKLOAD_NAME\" = {}"
 
-          echo "Attempting to add workload $workloadName to $FILE"
+          echo "Attempting to add workload $WORKLOAD_NAME to $FILE"
 
           if grep -q "$WORKLOAD_ENTRY" "$FILE"; then
             echo "workload $WORKLOAD_NAME already exists in $FILE"
