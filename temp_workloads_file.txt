@@ -1,0 +1,7 @@
+  "workloads" = {
+    "adfc" = {}
+    "foo" = {}
+    "paulboo14" = {}
+    "testbox" = {}
+  } 
+}

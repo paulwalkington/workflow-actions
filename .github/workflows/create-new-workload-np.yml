@@ -31,13 +31,15 @@ jobs:
       - name: Add workload entry to env_eu-west-2_np.tfvars
         run: |
 
-          filename="${{ env.TF_VARS_FILE }}"
-          workloadName="${{ github.event.inputs.avm_org_ou_name }}"
-          echo "-----the file-----"
-          echo "Adding workload $workloadName to $filename"
+          FILE="${{ env.TF_VARS_FILE }}"
+          WORKLOAD_NAME="${{ github.event.inputs.avm_org_ou_name }}"
+          WORKLOAD_ENTRY="    \"$WORKLOAD_NAME\" = {}"
 
-          source ./scripts/add-new-workload.sh
-          addNewWorkload "$filename" "$workloadName"
+          echo "Attempting to add workload $workloadName to $filename"
+          if ! grep -q "$WORKLOAD_ENTRY" "$FILE"; then
+            echo "Adding workload $workloadName to $filename"
+            sed -i "/\"workloads\" = {/a\\$WORKLOAD_ENTRY" "$FILE"
+          fi
 
       - name: Display env_eu-west-2_np.tfvars after
         run: |
