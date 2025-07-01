@@ -50,7 +50,7 @@ org_ous = {
   "workloads" = {
     "foo" = {}
     "adfc" = {}
-    "demo" ={}
+    "testbox" = {}
   }
 }
 root_aws_account_id        = "359337185549"
@@ -508,6 +508,7 @@ ipam_available_cidr_ranges = {
   ]
   ukhsa = [
     "172.25.128.0/17",
+    "172.26.128.0/17",
   ]
 }
 
