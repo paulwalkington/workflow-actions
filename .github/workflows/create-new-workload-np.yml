@@ -36,10 +36,14 @@ jobs:
           WORKLOAD_ENTRY="    \"$WORKLOAD_NAME\" = {}"
 
           echo "Attempting to add workload $workloadName to $filename"
-          if ! grep -q "$WORKLOAD_ENTRY" "$FILE"; then
-            echo "Adding workload $workloadName to $filename"
-            sed -i "/\"workloads\" = {/a\\$WORKLOAD_ENTRY" "$FILE"
+
+          if grep -q "$WORKLOAD_ENTRY" "$FILE"; then
+            echo "workload $workloadName already exists in $filename"
+            exit 1
           fi
+
+          echo "Adding workload $workloadName to $filename"
+          sed -i "/\"workloads\" = {/a\\$WORKLOAD_ENTRY" "$FILE"
 
       - name: Display env_eu-west-2_np.tfvars after
         run: |
