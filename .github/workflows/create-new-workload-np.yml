@@ -24,10 +24,6 @@ jobs:
       - name: Git clone the repository
         uses: actions/checkout@v4
 
-      - name: Make the scripts executable
-        run: |
-          chmod +x scripts/add-new-workload.sh
-
       - name: Add workload entry to env_eu-west-2_np.tfvars
         run: |
 
@@ -38,7 +34,7 @@ jobs:
           echo "Attempting to add workload $WORKLOAD_NAME to $FILE"
 
           if grep -q "$WORKLOAD_ENTRY" "$FILE"; then
-            echo "workload $WORKLOAD_NAME already exists in $FILE"
+            echo "Workload $WORKLOAD_NAME already exists in $FILE"
             exit 1
           fi
 
