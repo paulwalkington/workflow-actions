@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 environment = "pr"
 
 aws_account_root_email = {
@@ -7,16 +6,6 @@ aws_account_root_email = {
   primary  = "svc_aws_1@test-and-trace.nhs.uk"
   security = "halo-pr+security@test-and-trace.nhs.uk"
   shared   = "halo-pr+shared@test-and-trace.nhs.uk"
-=======
-environment = "np"
-
-aws_account_root_email = {
-  audit    = "halo-np+audit@test-and-trace.nhs.uk"
-  network  = "halo-np+network@test-and-trace.nhs.uk"
-  primary  = "svc_aws_2@test-and-trace.nhs.uk"
-  security = "halo-np+security@test-and-trace.nhs.uk"
-  shared   = "halo-np+shared@test-and-trace.nhs.uk"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 }
 
 org_delegated_administrators = {
@@ -31,24 +20,12 @@ org_delegated_administrators = {
       "config-multiaccountsetup.amazonaws.com",
       "detective.amazonaws.com",
       "fms.amazonaws.com",
-<<<<<<< HEAD
       "guardduty.amazonaws.com",
-=======
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
       "inspector2.amazonaws.com",
       "ssm.amazonaws.com",
       "storage-lens.s3.amazonaws.com",
     ]
   }
-<<<<<<< HEAD
-=======
-
-  regional = {
-    security = [
-      "guardduty.amazonaws.com",
-    ]
-  }
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 }
 
 org_cidr = "10.0.0.0/9"
@@ -66,7 +43,6 @@ org_ous = {
   "network"    = {}
 
   "workloads" = {
-<<<<<<< HEAD
     "aai"    = {}
     "ace"    = {}
     "alytic" = {}
@@ -164,11 +140,6 @@ cost_allocation_tags_active = [
   "map-migrated",
 ]
 
-=======
-    "paulboo" = {}
-  } 
-}
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 ##
 # AHA (AWS Health Aware)
 ##
@@ -185,17 +156,12 @@ aha = {
   ]
 }
 
-<<<<<<< HEAD
 ##
 # SES
 ##
 
 org_security_noreply_email = "no-reply@security.test-and-trace.nhs.uk"
 security_domain_enable_ses = true
-=======
-org_security_noreply_email   = "no-reply@security.halo-np.org.uk"
-org_security_xacct_role_name = "HaloOrgSecurityCrossAccount"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 
 # This is an example
 #root_ses_rfc2142_sns_topic_external_subscribers = [
@@ -207,11 +173,7 @@ org_security_xacct_role_name = "HaloOrgSecurityCrossAccount"
 #]
 
 ##
-<<<<<<< HEAD
 # Slack
-=======
-# Alerts
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 ##
 
 aggregated_alerts_cwslack = {
@@ -228,24 +190,11 @@ codecommit_cwslack = {
 
 primary_alerts_chatbot = {
   enable             = true
-<<<<<<< HEAD
   slack_channel_id   = "G01CH82Q0GH"
-=======
-  slack_channel_id   = "C01RPCDMU30"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
   slack_workspace_id = "T019X3MSH9Q"
 }
 
 ##
-<<<<<<< HEAD
-=======
-# Security Route53
-##
-
-security_domain_enable_ses = true
-
-##
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 # IAM
 ##
 
@@ -311,11 +260,7 @@ network_firewall = {
   bastion_asg_size_min               = 1
   instance_type                      = "m5.xlarge"
   bastion_instance_type              = "t2.medium"
-<<<<<<< HEAD
   ami_name                           = "PanOS-10.0.2-CustomImage-874"
-=======
-  ami_name                           = "PanOS-10.0.2-CustomImage-22247"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
   ami_build_dir                      = "ami_build"
   ami_build_user                     = "ssm-user"
   seed_ami_name                      = "PA-VM-AWS-10.1.14-h8-0825b781-215f-4686-8da2-b95275cc8dd0"
@@ -337,11 +282,7 @@ network_panorama = {
   count                    = 2
   instance_type            = "m5.4xlarge"
   volume_size              = 2048
-<<<<<<< HEAD
   volume_count             = 4
-=======
-  volume_count             = 1
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
   seed_ami_name            = "Panorama-AWS-10.0.2-f264c750-1102-41c9-a14d-b54ea51780e4-ami-043b1436d961638fa.4"
   product_code             = "eclz7j04vu9lf8ont8ta3n17o"
   monitoring               = true
@@ -391,21 +332,12 @@ network_fw_subnets = {
 
 azure_config = {
   panorama_cidrs = [
-<<<<<<< HEAD
     "20.77.131.249/32",
     "20.77.131.144/32",
   ]
 
   firewall_cidrs = [
     "51.132.174.250/32",
-=======
-    "20.77.154.154/32",
-    "51.132.157.177/32",
-  ]
-
-  firewall_cidrs = [
-    "20.77.154.125/32",
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
   ]
 }
 
@@ -413,7 +345,6 @@ network_azure = {
   vpn0 : {
     tunnel1_inside_cidr = "169.254.21.0/30"
     tunnel2_inside_cidr = "169.254.21.4/30"
-<<<<<<< HEAD
     vng_ip              = "20.90.243.232"
     asn                 = "65284"
   },
@@ -421,43 +352,13 @@ network_azure = {
     tunnel1_inside_cidr = "169.254.22.0/30"
     tunnel2_inside_cidr = "169.254.22.4/30"
     vng_ip              = "20.90.243.204"
-=======
-    vng_ip              = "51.145.108.152"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
     asn                 = "65284"
   },
 }
 
-<<<<<<< HEAD
 network_dx_gateways = {
   ukhsa-datacenters : {
     asn = 64513
-=======
-##
-# Route53 Root Domain
-##
-
-root_domains = {
-  "halo-np.org.uk" = {
-    ses_enable = false
-    primary    = true
-    records = [{
-      name = "example.halo-np.org.uk"
-      type = "A"
-      ttl  = 300
-
-      records = [
-        "127.0.0.1",
-      ]
-    }]
-  }
-}
-
-network_dx_gateways = {
-  # null indicates no direct connect gateway should be created, see both aws_dx_gateway*.tf
-  ukhsa-datacenters : {
-    asn = null
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
     allowed_prefixes = [
       "172.25.128.0/17",
       "192.168.0.0/20",
@@ -475,13 +376,7 @@ network_dx_gateways = {
 # Note, this also includes transit gateway routing
 network_vpc_routing = {
   ndrs : {
-<<<<<<< HEAD
     id = "tgw-attach-04e7e86dadd7a2362"
-=======
-    # use a transit gateway attachment that *isn't* associated to a tgw route table, for testing.
-    id = null
-    # "192.168.0.0/20" should remain as the first element, for DEPENDENCY in ec2_transit_gateway_routes_all_spokes.tf    
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
     cidrs = [
       "192.168.0.0/20",
       "192.168.64.0/21",
@@ -500,7 +395,6 @@ network_vpc_routing = {
   }
 }
 
-<<<<<<< HEAD
 network_dx_connections_hosted = {
   colindale-pri : {
     dx_connection_id = "dxcon-fftngk8m"
@@ -536,8 +430,6 @@ network_dx_connections_hosted = {
   }
 }
 
-=======
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 pdns_ip_addresses = [
   "25.25.25.25",
   "25.26.27.28",
@@ -550,7 +442,6 @@ aadds_ip_addresses = [
 
 ad_domain = "int.nihp.nhs.uk."
 
-<<<<<<< HEAD
 ##
 # Route53 Root Domain
 ##
@@ -1234,10 +1125,6 @@ root_domains = {
     ]
   }
 }
-=======
-#Shared Subnets
-subnet_id = ["subnet-012467aea8120a663", "subnet-07bb53e1ccb3369d1", "subnet-03234649d70b929fd" ]
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 
 ###
 # Logging
@@ -1246,13 +1133,9 @@ subnet_id = ["subnet-012467aea8120a663", "subnet-07bb53e1ccb3369d1", "subnet-032
 cloudwatch_logs_notification_prefixes = [
   "apigateway",
   "transfer",
-<<<<<<< HEAD
   "workspaces-audit",
   "workspaces-login",
   "workspaces-secure",
-=======
-  "workspaces-login",
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 ]
 
 audit_cloudwatch_firehose_enable    = true
@@ -1277,21 +1160,13 @@ sentinel_ukhsa = {
 lzp_github = {
   organization                  = "test-and-trace"
   repo_name                     = "halo-landingzone-aws"
-<<<<<<< HEAD
   branch                        = "main"
-=======
-  branch                        = "develop"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
   deploy_key_ssm_parameter_name = "LandingZoneGitHubRSA"
 }
 
 lzp_chatbot = {
   enable             = true
-<<<<<<< HEAD
   slack_channel_id   = "C01J4HH2RCM"
-=======
-  slack_channel_id   = "C01J4HFE9S9"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
   slack_workspace_id = "T019X3MSH9Q"
 }
 
@@ -1300,13 +1175,8 @@ lzp_docker_image = {
   version = "1.0.0"
 }
 
-<<<<<<< HEAD
 lzp_sfn_concurrency = 40
 lzp_sfn_schedule    = "cron(0 11 * * ? *)"
-=======
-lzp_sfn_concurrency = 0
-lzp_sfn_schedule    = "cron(0 9 * * ? *)"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 
 lzp_tfr_provider_mirror_enable = true
 
@@ -1348,7 +1218,6 @@ tfr_public_lb_subnets = {
 
 tfr_modules_chatbot = {
   enable             = true
-<<<<<<< HEAD
   slack_channel_id   = "C05EFGJ634N" # #aws-builds-pr channel
   slack_workspace_id = "T019X3MSH9Q"
 }
@@ -1356,9 +1225,6 @@ tfr_modules_chatbot = {
 lzp_github_notifications_chatbot = {
   enable             = true
   slack_channel_id   = "C05B3Q51XE1" # #halo-hosting-aws-prod-deployments channel
-=======
-  slack_channel_id   = "C05E7KXNQJ3" # #aws-builds-np channel
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
   slack_workspace_id = "T019X3MSH9Q"
 }
 
@@ -1370,11 +1236,7 @@ tfr_modules_docker_image = {
 tfr_modules_github = {
   organization                  = "test-and-trace"
   repo_name                     = "halo-terraform-modules"
-<<<<<<< HEAD
   branch                        = "main"
-=======
-  branch                        = "develop"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
   deploy_key_ssm_parameter_name = "LandingZoneGitHubRSA"
 }
 
@@ -1384,7 +1246,6 @@ tfr_modules_subnets = {
   netnum_root = 4054
 }
 
-<<<<<<< HEAD
 tfr_api_users = {
   cc       = {}
   genomics = {}
@@ -1453,21 +1314,13 @@ sso_assumable_roles = {
 audit_sso_associations = {
   "Grp.Aws.Console.LandingZone.Production.Audit.ReadOnly" = ["ReadOnly"]
 }
-=======
-config_kms_key_deletion_enabled = false
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 
 # NOTE: The Opsgenie endpoints are different depending on the integration
 # target, so this is specifically for SNS based alerts...
 primary_alerts_opsgenie_sns = {
   enable               = true
-<<<<<<< HEAD
   endpoint_critical    = "https://api.eu.opsgenie.com/v1/json/amazonsns?apiKey=4f08043d-a939-4a01-9b55-25617f38c6e6"
   endpoint_noncritical = "https://api.eu.opsgenie.com/v1/json/amazonsns?apiKey=32a28669-9a07-4388-90c9-a4d7e361c64a"
-=======
-  endpoint_critical    = "https://api.eu.opsgenie.com/v1/json/amazonsns?apiKey=77571f9e-6a81-4e18-8d3b-06091d2a9f93"
-  endpoint_noncritical = "https://api.eu.opsgenie.com/v1/json/amazonsns?apiKey=888774a3-37a1-4426-b2aa-c6820aa68174"
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 }
 
 ##
@@ -1496,7 +1349,6 @@ azure_data_factory_enabled = true
 # IPAM
 ##
 
-<<<<<<< HEAD
 # effectively "10.0.0.0/9", but "10.0.0.0/24" historically not used
 ipam_available_cidr_ranges = {
   main = [
@@ -1507,11 +1359,6 @@ ipam_available_cidr_ranges = {
     "10.16.0.0/12",
     "10.32.0.0/11",
     "10.64.0.0/10",
-=======
-ipam_available_cidr_ranges = {
-  main = [
-    "10.0.0.0/9",
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
   ]
   ukhsa = [
     "172.25.128.0/17",
@@ -1536,18 +1383,10 @@ opsgenie_api = {
 
 tfr_opsgenie_integrations_sns = {
   tfr_noncritical = {
-<<<<<<< HEAD
     alert_priority = "P3"
 
     # Automatic Integration
     team_name = "UKHSA Cloud Platform - AWS"
-=======
-    alert_priority = "P4"
-
-    # Automatic Integration
-    # TESTING - removed as opsgenie has been discontinued, and causing Pipelines to fail
-    team_name = null
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 
     # Manual Integrations
     api_keys = []
@@ -1559,7 +1398,6 @@ tfr_opsgenie_integrations_sns = {
 ##
 
 notification_schedules = {
-<<<<<<< HEAD
   managed-desktops-api-user     = { deadline = "2024-10-16", title = "Renew Managed Desktops API User", description = "Renew password for Managed Desktop API user (userid.api) on the Palo Alto Firewalls - password stored in Systems Manager in MDSK accounts" },
   managed-desktops-jira-api-key = { deadline = "2024-06-02", title = "Renew Jira API key for in Prod", description = "Renew Jira API key for svc_AwsHosting service account in production Jira environment and update ssm param in MDSK Tooling account." },
   pr-identity-centre-scim       = { deadline = "2024-11-15", title = "Renew Identity Centre SCIM access token in PR", description = "Renew SCIM access token in PR - HAH-5949" },
@@ -1568,20 +1406,11 @@ notification_schedules = {
 }
 
 
-=======
-  managed-desktops-jira-api-key = { deadline = "2024-06-02", title = "Renew Jira API key for in Dev and Test", description = "Renew Jira API key for svc_AwsHosting service account in test2 and test3 jira environments and update ssm param in MDSK Tooling account.." },
-  np-identity-centre-scim       = { deadline = "2024-11-15", title = "Renew Identity Centre SCIM access token in NP", description = "Renew SCIM access token in NP - HAH-5949" },
-  np-managed-desktops-saml      = { deadline = "2026-11-27", title = "Renew SAML Certificate in Managed Desktops Test", description = "Renew the SAML Signing Certificate for the Managed Desktops Test Enterprise Application in Azure, and update it in the MDSK Testing2 AWS account" },
-  np-contact-centre-saml        = { deadline = "2026-11-29", title = "Renew SAML Certificate in Contact Centre Test", description = "Renew the SAML Signing Certificate for the Contact Centre Test Enterprise Application in Azure, and update it in the CC Dev2 AWS account" },
-}
-
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 ##
 # EC2 Usage Report
 ##
 
 ec2_usage_report_email_subscriptions = [
-<<<<<<< HEAD
   "frankie.rudd@ukhsa.gov.uk",
   "Sara.Bottom@ukhsa.gov.uk",
   "Ollie.Subramanian@ukhsa.gov.uk",
@@ -1591,40 +1420,9 @@ ec2_usage_report_email_subscriptions = [
 ##
 # CLoudOps Email Subscriptions
 # To receive Alarms originally sent to Opsgenie
-=======
-  "UCPCloudOps-AWS@ukhsa.gov.uk",
-]
-
-##
-# CLoudOps Email Subscriptions
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 ##
 email_subscriptions = [
   "UCPCloudOps-AWS@ukhsa.gov.uk"
 ]
 
-<<<<<<< HEAD
-=======
-email_subscriptions_lambda = [
-  {
-    protocol = "email"
-    endpoint = "UCPCloudOps-AWS@ukhsa.gov.uk"
-  }
-
-]
-
-##
-# SSO
-##
-
-sso_assumable_roles = {
-  "CMPTest"         = { CustomerManagedPolicy = true }
-  "ApplicationUser" = {}
-}
-
-# SSO mapping/s for *audit* account only
-audit_sso_associations = {
-  "Grp.Aws.Console.LandingZone.NonProduction.Audit.ReadOnly" = ["ReadOnly"]
-}
->>>>>>> 2be493d (cvm-145 - add workflow to allow creation of aws workloads)
 
