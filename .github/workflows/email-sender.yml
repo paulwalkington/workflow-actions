@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  CreateNewWorkload:
+  SendAnEmail:
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
@@ -19,8 +19,8 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 465
-          # username: ${{secrets.GMAIL_USERNAME}}
-          # password: ${{secrets.GMAIL_PASSWORD}}
+          username: ${{secrets.GMAIL_USERNAME}}
+          password: ${{secrets.GMAIL_PASSWORD}}
           subject: Message from github actions.
           to: prwalkington@gmail.com
           from: paul walkington
