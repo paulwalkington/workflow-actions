@@ -15,7 +15,7 @@ on:
 
 jobs:
   secondJob:
-    if: ${{ github.event.inputs.booleanOne == 'true' || github.event.inputs.booleanTwo == 'true' }}
+    if: ${{ (github.event.inputs.booleanOne == 'true' || github.event.inputs.booleanTwo == 'true') && github.ref == 'refs/heads/develop' }}
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
