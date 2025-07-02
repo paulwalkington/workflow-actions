@@ -1,0 +1,26 @@
+name: Skip step checker
+
+on:
+  workflow_dispatch:
+    inputs:
+      booleanOne:
+        type: boolean
+        required: true
+      booleanTwo:
+        type: boolean
+        required: true
+      booleanThree:
+        type: boolean
+        required: true
+
+jobs:
+  secondJob:
+    if: ${{ github.event.inputs.booleanOne == 'true' || github.event.inputs.booleanTwo == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+
+      - name: Hello World
+        run: |
+          echo "Hello World"
