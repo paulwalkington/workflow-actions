@@ -1,0 +1,28 @@
+name: Send an email
+
+on:
+  workflow_dispatch:
+
+jobs:
+  CreateNewWorkload:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+
+      - name: Hello World
+        run: |
+          echo "Hello World"
+
+      - name: Send email
+        uses: dawidd6/action-send-mail@v6
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          # username: ${{secrets.GMAIL_USERNAME}}
+          # password: ${{secrets.GMAIL_PASSWORD}}
+          subject: Message from github actions.
+          to: prwalkington@gmail.com
+          from: paul walkington
+          secure: true
+          body: workflow for ${{github.repository}} completed successfully!
