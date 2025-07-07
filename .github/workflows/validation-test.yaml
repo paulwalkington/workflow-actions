@@ -58,6 +58,8 @@ jobs:
 
       - name: validate
         id: validate
+        env:
+          TITLE: ${{ github.event.inputs.vend_vpc_requestor }}
         run: |
           echo "Validating inputs..."
 
