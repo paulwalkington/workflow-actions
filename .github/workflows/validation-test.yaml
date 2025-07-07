@@ -74,10 +74,10 @@ jobs:
 
           echo "Roles: ${{ github.event.inputs.vend_roles }}"
 
-          if [[ -n "${{ github.event.inputs.vend_roles }}" && ! "${{ github.event.inputs.vend_roles }}" =~ ^[a-zA-Z0-9]+$ ]]; then
-            echo "Error: vend_roles must only contain alphanumeric characters."
+            if [[ -n "${{ github.event.inputs.vend_roles }}" && ! "${{ github.event.inputs.vend_roles }}" =~ ^[a-zA-Z0-9,]+$ ]]; then
+            echo "Error: vend_roles must only contain alphanumeric characters or commas."
             exit 1
-          fi
+            fi
 
           echo "DNS Sub Domains: ${{ github.event.inputs.vend_dns_sub_domain }}"
 
