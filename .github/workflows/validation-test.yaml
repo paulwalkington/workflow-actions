@@ -123,6 +123,7 @@ jobs:
 
 
           echo "VPC Requestor: "$TITLE""
+          echo "VPC Requestor: "${{ github.event.inputs.vend_vpc_requestor }}""
 
       - name: Say hello
         id: say-hello
