@@ -73,43 +73,48 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # - name: Log in to Azure using federated credentials
-      #   uses: azure/login@v2
-      #   with:
-      #     client-id: ${{ secrets.AZURE_CLIENT_ID }}
-      #     tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-      #     allow-no-subscriptions: true
+      - name: Log in to Azure using federated credentials
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          allow-no-subscriptions: true
 
-      # - name: Authenticate with Microsoft Graph (Federated Credentials)
-      #   shell: pwsh
-      #   run: |
-      #     $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
-      #     $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
-      #     Connect-MgGraph -AccessToken $secureToken
+      - name: Authenticate with Microsoft Graph (Federated Credentials)
+        shell: pwsh
+        run: |
+          $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
+          $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
+          Connect-MgGraph -AccessToken $secureToken
 
       - name: Set environment variables from payload
         shell: pwsh
+        env:
+          WORKLOAD_SHORT_NAME: ${{ inputs.vend_workload_short_name }}
+          ENVIRONMENT_TYPE: ${{ inputs.vend_environment_type }}
+          ENVIRONMENT_NAME: ${{ inputs.vend_environment_name }}
+          ROLES: ${{ inputs.vend_roles }}
         run: |
 
-          $workloadShortName = "${{ github.event.inputs.vend_workload_short_name }}"
+          $workloadShortName = "$Env:WORKLOAD_SHORT_NAME"
           $workloadShortName = $workloadShortName.Substring(0,1).ToUpper() + $workloadShortName.Substring(1).ToLower()
 
-          $environment = "${{ github.event.inputs.vend_environment_type }}"
-          $environmentName = "${{ github.event.inputs.vend_environment_name }}"
+          $environment = "$Env:ENVIRONMENT_TYPE"
+          $environmentName = "$Env:ENVIRONMENT_NAME"
 
           if ("$environmentName") {
               $environment = $environment + ".$environmentName"
           }
 
-          $roles = "${{ github.event.inputs.vend_roles }}"
+          $roles = "$Env:ROLES"
 
           echo $workloadShortName
           echo $environment
-          echo $Roles
+          echo $roles
 
           echo "WORKLOAD_SHORT_NAME=$workloadShortName" | Out-File -FilePath $Env:GITHUB_ENV -Append
           echo "ENVIRONMENT=$environment" | Out-File -FilePath $Env:GITHUB_ENV -Append
-          echo "ROLES=$Roles" | Out-File -FilePath $Env:GITHUB_ENV -Append
+          echo "ROLES=$roles" | Out-File -FilePath $Env:GITHUB_ENV -Append
 
       - name: Create Groups and Distribution Lists
         id: create-groups-and-distribution-lists
@@ -123,33 +128,37 @@ jobs:
           $roles="${{ env.ROLES }}"
           $environment="${{ env.ENVIRONMENT }}"
 
+          write-host "Workload Short Name: $workloadShortName"
+          write-host "Environment: $environment"
+          write-host "Roles: $roles"
+
           # # Connect to Microsoft Graph
           # $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
           # $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
           # Connect-MgGraph -AccessToken $secureToken
 
-          # Get existing groups in Entra ID
+          # # Get existing groups in Entra ID
           # $groups = Get-MgGroup -All:$true
 
-          # Create distribution lists in Entra ID
+          # # Create distribution lists in Entra ID
           # $securityDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Security" -Description "Security Contact email address for $workloadShortName AWS accounts" -Groups $groups
           # $opsDl = Get-DistributionList -Name "AWS-Hosting-$workloadShortName-Operations" -Description "Operations Contact email address for $workloadShortName AWS accounts" -Groups $groups
 
-          # Define Enterprise App configuration for AWS SSO
-          $enterpriseAppConfig = @{
-            ObjectId = '${{ env.UkhsaAwsEnterpriseAppObjectId }}'
-            UserRoleId = '${{ env.UkhsaAwsEnterpriseAppUserRoleId }}'
-          }
+          # # Define Enterprise App configuration for AWS SSO
+          # $enterpriseAppConfig = @{
+          #   ObjectId = '${{ env.UkhsaAwsEnterpriseAppObjectId }}'
+          #   UserRoleId = '${{ env.UkhsaAwsEnterpriseAppUserRoleId }}'
+          # }
 
-          # Create workload groups in Entra ID
-          Add-RoleGroups -roles "${{ env.ROLES }}" `
-                         -ownerSPNs @('${{ env.AwsVendingEnterpriseAppObjectId }}', '${{ env.MoverWorkflowEnterpriseAppObjectId }}') `
-                         -workloadShortName $workloadShortName `
-                         -environment $environment `
-                         -enterpriseAppConfig $enterpriseAppConfig `
-                         -tenantId "hello" `
-                         -isUkhsaGroupFormat $true `
-                         -groups ""
+          # # Create workload groups in Entra ID
+          # Add-RoleGroups -roles "${{ env.ROLES }}" `
+          #                -ownerSPNs @('${{ env.AwsVendingEnterpriseAppObjectId }}', '${{ env.MoverWorkflowEnterpriseAppObjectId }}') `
+          #                -workloadShortName $workloadShortName `
+          #                -environment $environment `
+          #                -enterpriseAppConfig $enterpriseAppConfig `
+          #                -tenantId "${{ secrets.AZURE_TENANT_ID }}" `
+          #                -isUkhsaGroupFormat $true `
+          #                -groups $groups
 
           # $opsDlEmailAddress = $opsDl.Mail.ToLower()
           # $securityDlEmailAddress = $securityDl.Mail.ToLower()
