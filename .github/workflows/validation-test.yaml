@@ -56,6 +56,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: powershell test
+        shell: pwsh
+        env:
+          TITLE: ${{ github.event.inputs.vend_vpc_requestor }}
+        run: |
+
+          Write-Host "TITLE: $TITLE"
+
       - name: validate
         id: validate
         env:
