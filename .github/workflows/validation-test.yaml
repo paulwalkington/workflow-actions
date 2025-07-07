@@ -57,11 +57,37 @@ jobs:
         uses: actions/checkout@v4
 
       - name: validate
-        shell: pwsh
+        id: validate
         run: |
-          $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
-          $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
-          Connect-MgGraph -AccessToken $secureToken
+          echo "Validating inputs..."
+
+          echo "Workload Short Name: ${{ github.event.inputs.vend_workload_short_name }}"
+
+          if [[ ! "${{ github.event.inputs.vend_workload_short_name }}" =~ ^[a-z]{3,6}$ ]]; then
+            echo "Error: vend_workload_short_name must be between 3 and 6 characters long and all lowercase."
+            exit 1
+          fi
+
+          echo "Environment Name: ${{ github.event.inputs.vend_environment_name }}"
+
+
+
+          echo "Roles: ${{ github.event.inputs.vend_roles }}"
+
+          if [[ -n "${{ github.event.inputs.vend_roles }}" && ! "${{ github.event.inputs.vend_roles }}" =~ ^[a-zA-Z0-9]+$ ]]; then
+            echo "Error: vend_roles must only contain alphanumeric characters."
+            exit 1
+          fi
+
+          echo "DNS Sub Domains: ${{ github.event.inputs.vend_dns_sub_domain }}"
+
+
+
+          echo "SES Sub Domains: ${{ github.event.inputs.vend_ses_sub_domain }}"
+
+
+
+          echo "VPC Requestor: ${{ github.event.inputs.vend_vpc_requestor }}"
 
       - name: Say hello
         id: say-hello
