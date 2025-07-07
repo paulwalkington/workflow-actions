@@ -1,0 +1,69 @@
+name: Test Validation of inputs
+
+on:
+  workflow_dispatch:
+    inputs:
+      vend_workload_short_name:
+        description: Workload Short Name
+        type: string
+        required: true
+      vend_environment_type:
+        description: Environment Type
+        type: choice
+        required: true
+        options:
+          - Sandbox
+          - Dev
+          - Test
+          - Preprod
+          - Prod
+          - Tooling
+      vend_environment_name:
+        description: Environment Name
+        type: string
+        required: false
+      vend_roles:
+        description: Roles
+        type: string
+        required: true
+      vend_dns_sub_domain:
+        description: DNS Sub Domains
+        type: string
+        required: false
+      vend_ses_sub_domain:
+        description: SES Sub Domains
+        type: string
+        required: false
+      vend_vpc_size:
+        description: VPC Size
+        type: choice
+        required: true
+        options:
+          - Small
+          - Medium
+          - Large
+          - X-Large
+      vend_vpc_requestor:
+        description: VPC Requestor
+        type: string
+        required: true
+
+jobs:
+  First_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: validate
+        shell: pwsh
+        run: |
+          $token = (az account get-access-token --resource https://graph.microsoft.com | ConvertFrom-Json).accessToken
+          $secureToken = ConvertTo-SecureString $token -AsPlainText -Force
+          Connect-MgGraph -AccessToken $secureToken
+
+      - name: Say hello
+        id: say-hello
+        run: |
+          echo "Hello World"
