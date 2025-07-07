@@ -59,7 +59,7 @@ jobs:
       - name: powershell test
         shell: pwsh
         env:
-          TITLE: ${{ github.event.inputs.vend_vpc_requestor }}
+          TITLE: ${{ inputs.vend_vpc_requestor }}
         run: |
 
           Write-Host "TITLE: $Env:TITLE"
@@ -67,7 +67,7 @@ jobs:
       - name: validate
         id: validate
         env:
-          TITLE: ${{ github.event.inputs.vend_vpc_requestor }}
+          TITLE: ${{ inputs.vend_vpc_requestor }}
         run: |
           echo "Validating inputs..."
 
