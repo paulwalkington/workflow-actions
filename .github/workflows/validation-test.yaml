@@ -64,6 +64,31 @@ jobs:
 
           Write-Host "TITLE: $Env:TITLE"
 
+      - name: calculate-terraform-environment
+        id: calculate-terraform-environment
+        env:
+          WORKLOAD_SHORT_NAME: ${{ inputs.vend_workload_short_name }}
+          ENVIRONMENT_TYPE: ${{ inputs.vend_environment_type }}
+          ENVIRONMENT_NAME: ${{ inputs.vend_environment_name }}
+
+        run: |
+          vend_environment_name="$ENVIRONMENT_NAME"
+
+          echo  "vend_workload_short_name "$WORKLOAD_SHORT_NAME""
+          echo  "vend_environment_type "$ENVIRONMENT_TYPE""
+          echo  "vend_environment_name "$ENVIRONMENT_NAME""
+
+
+          terraformEnvironment=""$WORKLOAD_SHORT_NAME"-"$ENVIRONMENT_TYPE""
+
+          if [[ -n "$ENVIRONMENT_NAME" ]];
+          then
+              terraformEnvironment=""$terraformEnvironment"-"$ENVIRONMENT_NAME""
+          fi
+
+          echo "terraformEnvironment: $terraformEnvironment"
+          echo "terraformEnvironment=$terraformEnvironment" >> $GITHUB_OUTPUT
+
       - name: validate
         id: validate
         env:
