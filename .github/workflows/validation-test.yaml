@@ -62,7 +62,7 @@ jobs:
           TITLE: ${{ github.event.inputs.vend_vpc_requestor }}
         run: |
 
-          Write-Host "TITLE: $TITLE"
+          Write-Host "TITLE: $Env:TITLE"
 
       - name: validate
         id: validate
