@@ -62,7 +62,7 @@ jobs:
           VEND_VPC_REQUESTOR: ${{ inputs.vend_vpc_requestor }}
         run: |
 
-          Write-Host "VEND_VPC_REQUESTOR: ${{env.VEND_VPC_REQUESTOR}}"
+          Write-Host "VEND_VPC_REQUESTOR: "${{env.VEND_VPC_REQUESTOR}}""
 
       - name: powershellActionTest
         uses: azure/powershell@v2
