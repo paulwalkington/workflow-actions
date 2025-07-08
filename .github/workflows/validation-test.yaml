@@ -56,6 +56,26 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: powershellActionTest
+        uses: azure/powershell@v2
+        env:
+          VEND_VPC_SIZE: ${{ inputs.vend_vpc_size }}
+        with:
+          inlineScript: |
+
+            Write-Host "Running PowerShell script with GROUPS_TO_ADD: $Env:VEND_VPC_SIZE"
+            Write-Host "This is a test of the PowerShell action in GitHub Actions."
+
+            $dataObj = @{
+              GroupsToAdd = ($Env:VEND_VPC_SIZE.replace('\"', '"') | ConvertFrom-Json)
+              GroupsToRemove = ($Env:VEND_VPC_SIZE.replace('\"', '"') | ConvertFrom-Json)
+              UserPrincipalName = $Env:VEND_VPC_SIZE
+            }
+
+            write-host "Data Object: $($dataObj | ConvertTo-Json -Depth 10)"
+
+          azPSVersion: "latest"
+
       - name: powershell test
         shell: pwsh
         env:
