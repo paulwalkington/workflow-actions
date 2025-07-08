@@ -56,6 +56,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: powershell test
+        shell: pwsh
+        env:
+          TITLE: ${{ inputs.vend_vpc_requestor }}
+        run: |
+
+          Write-Host "TITLE: $Env:TITLE"
+
       - name: powershellActionTest
         uses: azure/powershell@v2
         env:
@@ -75,14 +83,6 @@ jobs:
             write-host "Data Object: $($dataObj | ConvertTo-Json -Depth 10)"
 
           azPSVersion: "latest"
-
-      - name: powershell test
-        shell: pwsh
-        env:
-          TITLE: ${{ inputs.vend_vpc_requestor }}
-        run: |
-
-          Write-Host "TITLE: $Env:TITLE"
 
       - name: calculate-terraform-environment
         id: calculate-terraform-environment
