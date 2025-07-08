@@ -22,18 +22,6 @@ on:
         description: Environment Name
         type: string
         required: false
-      vend_roles:
-        description: Roles
-        type: string
-        required: true
-      vend_dns_sub_domain:
-        description: DNS Sub Domains
-        type: string
-        required: false
-      vend_ses_sub_domain:
-        description: SES Sub Domains
-        type: string
-        required: false
       vend_vpc_size:
         description: VPC Size
         type: choice
@@ -47,6 +35,21 @@ on:
         description: VPC Requestor
         type: string
         required: true
+      groupsToAdd:
+        type: string
+        required: false
+        default: "[]"
+      groupsToRemove:
+        type: string
+        required: false
+        default: "[]"
+      userPrincipalName:
+        type: string
+        required: true
+      definition:
+        type: string
+        required: false
+        default: "{}"
 
 jobs:
   First_job:
@@ -67,7 +70,10 @@ jobs:
       - name: powershellActionTest
         uses: azure/powershell@v2
         env:
-          VEND_VPC_SIZE: ${{ inputs.vend_vpc_size }}
+          GROUPS_TO_ADD: ${{ inputs.groupsToAdd }}
+          GROUPS_TO_REMOVE: ${{ inputs.groupsToRemove }}
+          USER_PRINCIPAL_NAME: ${{ inputs.userPrincipalName }}
+          DEFINITION: ${{ inputs.definition }}
         with:
           inlineScript: |
 
@@ -75,12 +81,17 @@ jobs:
             Write-Host "This is a test of the PowerShell action in GitHub Actions."
 
             $dataObj = @{
-              GroupsToAdd = (${env:VEND_VPC_SIZE}.replace('\"', '"') | ConvertFrom-Json)
-              GroupsToRemove = (${env:VEND_VPC_SIZE}.replace('\"', '"') | ConvertFrom-Json)
-              UserPrincipalName = ${env:VEND_VPC_SIZE}
+              GroupsToAdd = (${env:GROUPS_TO_ADD}.replace('\"', '"') | ConvertFrom-Json)
+              GroupsToRemove = (${env:GROUPS_TO_REMOVE}.replace('\"', '"') | ConvertFrom-Json)
+              UserPrincipalName = ${env:USER_PRINCIPAL_NAME}
             }
 
-            write-host "Data Object: $($dataObj | ConvertTo-Json -Depth 10)"
+            $definitionJson = ${env:DEFINITION}
+            $definitionObj = ConvertFrom-Json -InputObject $definitionJson
+
+            Write-Host "Definition: $($definitionObj | ConvertTo-Json -Depth 10)"
+            Write-Host "Data Object: $($dataObj | ConvertTo-Json -Depth 10)"
+            Write-Host "Groups to Add: $($dataObj.GroupsToAdd | ConvertTo-Json -Depth 10)"
 
           azPSVersion: "latest"
 
@@ -125,20 +136,6 @@ jobs:
 
           echo "Environment Name: ${{ github.event.inputs.vend_environment_name }}"
 
-
-
-          echo "Roles: ${{ github.event.inputs.vend_roles }}"
-
-            if [[ -n "${{ github.event.inputs.vend_roles }}" && ! "${{ github.event.inputs.vend_roles }}" =~ ^[a-zA-Z0-9,]+$ ]]; then
-            echo "Error: vend_roles must only contain alphanumeric characters or commas."
-            exit 1
-            fi
-
-          echo "DNS Sub Domains: ${{ github.event.inputs.vend_dns_sub_domain }}"
-
-
-
-          echo "SES Sub Domains: ${{ github.event.inputs.vend_ses_sub_domain }}"
 
 
 
