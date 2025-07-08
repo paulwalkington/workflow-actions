@@ -71,13 +71,13 @@ jobs:
         with:
           inlineScript: |
 
-            Write-Host "Running PowerShell script with GROUPS_TO_ADD: $Env:VEND_VPC_SIZE"
+            Write-Host "Running PowerShell script with GROUPS_TO_ADD: ${env:VEND_VPC_SIZE}"
             Write-Host "This is a test of the PowerShell action in GitHub Actions."
 
             $dataObj = @{
-              GroupsToAdd = ($Env:VEND_VPC_SIZE.replace('\"', '"') | ConvertFrom-Json)
-              GroupsToRemove = ($Env:VEND_VPC_SIZE.replace('\"', '"') | ConvertFrom-Json)
-              UserPrincipalName = $Env:VEND_VPC_SIZE
+              GroupsToAdd = (${env:VEND_VPC_SIZE}.replace('\"', '"') | ConvertFrom-Json)
+              GroupsToRemove = (${env:VEND_VPC_SIZE}.replace('\"', '"') | ConvertFrom-Json)
+              UserPrincipalName = ${env:VEND_VPC_SIZE}
             }
 
             write-host "Data Object: $($dataObj | ConvertTo-Json -Depth 10)"
