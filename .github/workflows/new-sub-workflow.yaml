@@ -9,7 +9,7 @@ on:
       name:
         required: false
         type: string
-      data:
+      size:
         required: true
         type: string
 
@@ -24,6 +24,6 @@ jobs:
 
       - name: echo values
         run: |
-          echo "${{ github.event.inputs.environment }}"
-          echo "${{ github.event.inputs.name }}"
-          echo "${{ github.event.inputs.data }}"
+          echo "${{ inputs.environment }}"
+          echo "${{ inputs.name }}"
+          echo "${{ inputs.size }}"
