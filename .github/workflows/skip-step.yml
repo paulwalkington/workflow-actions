@@ -9,13 +9,25 @@ on:
       booleanTwo:
         type: boolean
         required: true
-      booleanThree:
+      vend_bypass_approval_step:
         type: boolean
         required: true
 
 jobs:
-  secondJob:
-    if: ${{ (github.event.inputs.booleanOne == 'true' || github.event.inputs.booleanTwo == 'true') && github.ref == 'refs/heads/main' }}
+  approvalStep:
+    if: ${{inputs.vend_bypass_approval_step == false }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Git clone the repository
+        uses: actions/checkout@v4
+
+      - name: approval step
+        run: |
+          echo "perform approval step"
+
+  DeployTerraform:
+    needs: approvalStep
+    if: always() && (needs.approvalStep.result == 'success' || needs.approvalStep.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
       - name: Git clone the repository
@@ -23,4 +35,4 @@ jobs:
 
       - name: Hello World
         run: |
-          echo "Hello World"
+          echo "Deploying terraform"
