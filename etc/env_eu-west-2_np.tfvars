@@ -48,6 +48,7 @@ org_ous = {
   "network"    = {}
 
   "workloads" = {
+    "a" = {}
     "foo" = {}
     "adfc" = {}
     "testbox" = {}
