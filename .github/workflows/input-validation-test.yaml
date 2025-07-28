@@ -44,7 +44,7 @@ jobs:
             exit 1
           fi
 
-          if [[ ! "${{ inputs.vend_workload_tags }}" =~ ^Department:[a-zA-Z_0-9]+,Team:[a-z A-Z_0-9]+,Support:[a-zA-Z]+,DataClassification:[a-zA-Z]+$ ]]; then
+          if [[ ! "${{ inputs.vend_workload_tags }}" =~ ^Department:[a-zA-Z_0-9]+,Team:[a-zA-Z_0-9  -_+:\/()]+,Support:[a-zA-Z]+,DataClassification:[a-zA-Z]+$ ]]; then
             echo "Error: vend_workload_tags does not match the required format."
             exit 1
           fi
