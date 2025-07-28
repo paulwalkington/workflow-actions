@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: validate inputs
+        shell: bash
+
         run: |
           echo "VEND_WORKLOAD_NAME=${{ inputs.vend_workload_name }}"
           echo "VEND_INSTANCE=${{ inputs.vend_instance }}"
