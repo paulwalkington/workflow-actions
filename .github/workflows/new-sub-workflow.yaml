@@ -31,3 +31,7 @@ jobs:
           echo "ENVIRONMENT="${{ env.environment }}""
           echo "NAME="${{ env.name }}""
           echo "SIZE="${{ env.size }}""
+
+          echo "ENVIRONMENT="${{ inputs.environment }}""
+          echo "NAME="${{ inputs.name }}""
+          echo "SIZE="${{ inputs.size }}""
