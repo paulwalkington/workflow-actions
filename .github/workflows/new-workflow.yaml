@@ -30,9 +30,9 @@ jobs:
     steps:
       - name: echo out env vars
         run: |
-          echo "ENVIRONMENT=${{ inputs.environment }}"
-          echo "NAME=${{ inputs.name }}"
-          echo "SIZE=${{ inputs.size }}"
+          echo "ENVIRONMENT=${{ env.environment }}"
+          echo "NAME=${{ env.name }}"
+          echo "SIZE=${{ env.size }}"
 
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
