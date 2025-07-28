@@ -19,7 +19,7 @@ on:
 permissions: write-all
 
 jobs:
-  set-env-vars:
+  validate-inputs:
     runs-on: ubuntu-latest
     steps:
       - name: validate inputs
@@ -34,7 +34,7 @@ jobs:
             exit 1
           fi
 
-          if [[ ! "${{ inputs.vend_workload_contact }}" =~ [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} ]]; then
+          if [[ ! "${{ inputs.vend_workload_contact }}" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
             echo "Error: vend_workload_contact must be a valid email address."
             exit 1
           fi
