@@ -23,7 +23,11 @@ jobs:
         uses: actions/checkout@v4
 
       - name: echo values
+        env:
+          environment: ${{ inputs.environment }}
+          name: ${{ inputs.name }}
+          size: ${{ inputs.size }}
         run: |
-          echo "${{ inputs.environment }}"
-          echo "${{ inputs.name }}"
-          echo "${{ inputs.size }}"
+          echo "ENVIRONMENT=${{ env.environment }}"
+          echo "NAME=${{ env.name }}"
+          echo "SIZE=${{ env.size }}"
