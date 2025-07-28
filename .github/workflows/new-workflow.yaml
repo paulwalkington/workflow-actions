@@ -34,18 +34,9 @@ jobs:
           echo "NAME=${{ env.name }}"
           echo "SIZE=${{ env.size }}"
 
-      - name: Check out the repository to the runner
-        uses: actions/checkout@v4
-
-      - name: Set environment variables
-        run: |
-          echo "ENVIRONMENT=${{ inputs.environment }}" >> $GITHUB_ENV
-          echo "NAME=${{ inputs.name }}" >> $GITHUB_ENV
-          echo "SIZE=${{ inputs.size }}" >> $GITHUB_ENV
-
   sub-workflow:
     uses: ./.github/workflows/new-sub-workflow.yaml
     with:
-      environment: "${{ inputs.environment }}"
-      name: ${{ inputs.name }}
-      size: ${{ inputs.size }}
+      environment: "${{ env.environment }}"
+      name: ${{ env.name }}
+      size: ${{ env.size }}
