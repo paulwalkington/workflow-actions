@@ -14,19 +14,28 @@ on:
         required: true
 
 jobs:
-  approvalStep:
-    if: ${{inputs.vend_bypass_approval_step == false }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Git clone the repository
-        uses: actions/checkout@v4
+  # approvalStep:
+  #   if: ${{inputs.vend_bypass_approval_step == false }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Git clone the repository
+  #       uses: actions/checkout@v4
 
-      - name: approval step
-        run: |
-          echo "perform approval step"
+  #     - name: approval step
+  #       run: |
+  #         echo "perform approval step"
+
+  approval_gate:
+    if: ${{inputs.vend_bypass_approval_step == false }}
+    runs-on:
+      labels: azure-landing-zone
+    environment: "dev"
+    steps:
+      - run: |
+          echo "Approval from dev_approvers environment to proceed with the deployment."
 
   DeployTerraform:
-    needs: approvalStep
+    needs: approval_gate
     if: always() && (needs.approvalStep.result == 'success' || needs.approvalStep.result == 'skipped')
     runs-on: ubuntu-latest
     steps:
