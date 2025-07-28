@@ -20,6 +20,7 @@ on:
 env:
   environment: ${{ inputs.environment }}
   name: ${{ inputs.name }}
+  size: ${{ inputs.size }}
 
 permissions: write-all
 
@@ -27,6 +28,12 @@ jobs:
   set-env-vars:
     runs-on: ubuntu-latest
     steps:
+      - name: echo out env vars
+        run: |
+          echo "ENVIRONMENT=${{ inputs.environment }}"
+          echo "NAME=${{ inputs.name }}"
+          echo "SIZE=${{ inputs.size }}"
+
       - name: Check out the repository to the runner
         uses: actions/checkout@v4
 
