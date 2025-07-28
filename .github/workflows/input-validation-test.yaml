@@ -1,0 +1,45 @@
+name: Input Validation
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      vend_workload_name:
+        type: string
+        required: true
+      vend_instance:
+        type: string
+        required: true
+      vend_workload_contact:
+        type: string
+        required: true
+      vend_workload_tags:
+        type: string
+        required: true
+
+permissions: write-all
+
+jobs:
+  set-env-vars:
+    runs-on: ubuntu-latest
+    steps:
+      - name: validate inputs
+        run: |
+          echo "VEND_WORKLOAD_NAME=${{ inputs.vend_workload_name }}"
+          echo "VEND_INSTANCE=${{ inputs.vend_instance }}"
+          echo "VEND_WORKLOAD_CONTACT=${{ inputs.vend_workload_contact }}"
+          echo "VEND_WORKLOAD_TAGS=${{ inputs.vend_workload_tags }}"
+
+          if [[ ! "${{ inputs.vend_workload_name }}" =~ ^[a-z]{3,6}$ ]]; then
+            echo "Error: vend_workload_name must be all lowercase, between 3 and 6 characters, and contain no spaces."
+            exit 1
+          fi
+
+          if [[ ! "${{ inputs.vend_workload_contact }}" =~ [a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,} ]]; then
+            echo "Error: vend_workload_contact must be a valid email address."
+            exit 1
+          fi
+
+          if [[ ! "${{ inputs.vend_instance }}" =~ ^[a-z0-9]{0,10}$ ]]; then
+            echo "Error: vend_instance must be between 0 and 10 lower case characters or numbers, and contain no spaces."
+            exit 1
+          fi
