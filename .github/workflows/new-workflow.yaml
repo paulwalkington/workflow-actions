@@ -37,6 +37,6 @@ jobs:
   sub-workflow:
     uses: ./.github/workflows/new-sub-workflow.yaml
     with:
-      environment: "${{ env.environment }}"
-      name: ${{ env.name }}
-      size: ${{ env.size }}
+      environment: ${{ inputs.environment }}
+      name: ${{ inputs.name }}
+      size: ${{ inputs.size }}
