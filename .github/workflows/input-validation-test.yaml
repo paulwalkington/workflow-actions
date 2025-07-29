@@ -49,3 +49,14 @@ jobs:
             echo "Error: vend_workload_tags does not match the required format."
             exit 1
           fi
+
+  do-stuff:
+    runs-on: ubuntu-latest
+    steps:
+      - name: stuff
+
+        run: |
+          echo "VEND_WORKLOAD_NAME=${{ inputs.vend_workload_name }}"
+          echo "VEND_INSTANCE=${{ inputs.vend_instance }}"
+          echo "VEND_WORKLOAD_CONTACT=${{ inputs.vend_workload_contact }}"
+          echo "VEND_WORKLOAD_TAGS=${{ inputs.vend_workload_tags }}"
