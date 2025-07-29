@@ -7,7 +7,7 @@ if [[ ! "$vend_instance" =~ ^[a-z0-9]{0,10}$ ]]; then
     exit 1
 fi
 
-vend_workload_tags="Department:departmentName,Team:team  Name,Support:supportLevel,DataClassification:dataClassification"  
+vend_workload_tags="Department:department&Name,Team:team  Name,Support:supportLevel,DataClassification:dataClassification"  
 # vend_workload_tags="Department:Engineering,Team:DevOps,Support:High,DataClassification:Confidential"
 
 
