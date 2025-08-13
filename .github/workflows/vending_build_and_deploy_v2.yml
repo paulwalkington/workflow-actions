@@ -82,15 +82,16 @@ jobs:
         run: |
 
           vend_secondary=false
+          vend_secondary_virtual_network_size=${{ inputs.vend_secondary_virtual_network_size }}
           if [ -n "${{ github.event.inputs.vend_secondary_virtual_network_size }}" ]; then
             vend_secondary=true
+            # Set secondary virtual network size to small if not specified otherwise it will break downstream terraform
+            # terraform requires a value for vend_secondary_virtual_network_size
+            vend_secondary_virtual_network_size=small
           fi
 
-          echo "vend_secondary=$vend_secondary" | tee -a "$GITHUB_STEP_SUMMARY"
-          echo "vend_secondary_virtual_network_size=${{ github.event.inputs.vend_secondary_virtual_network_size }}" | tee -a "$GITHUB_STEP_SUMMARY"
-          echo "vend_instance=${{ github.event.inputs.vend_instance }}" >> "$GITHUB_OUTPUT"
-
           echo "vend_secondary=$vend_secondary" >> "$GITHUB_OUTPUT"
+          echo "vend_secondary_virtual_network_size=$vend_secondary_virtual_network_size" >> "$GITHUB_OUTPUT"
 
   Display_workload_details:
     runs-on: ubuntu-latest
