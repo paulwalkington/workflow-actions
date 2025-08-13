@@ -73,6 +73,8 @@ on:
 jobs:
   Calculate_if_second_virtual_network_is_needed:
     runs-on: ubuntu-latest
+    outputs:
+      vend_secondary: ${{ steps.Calculate_if_second_virtual_network_is_needed.outputs.vend_secondary }}
 
     steps:
       - name: calculate vend_secondary value
@@ -100,7 +102,7 @@ jobs:
 
           echo "hello world"
           echo "Secondary Virtual Network Size: ${{ github.event.inputs.vend_secondary_virtual_network_size }}"
-          echo "vend_secondary: ${{ fromJSON(needs.Calculate_if_second_virtual_network_is_needed.outputs.vend_secondary) }}"
+          echo ${{ fromJSON(needs.Calculate_if_second_virtual_network_is_needed.outputs.vend_secondary) }}
 
   # Display_workload_details:
   #   runs-on: ubuntu-latest
