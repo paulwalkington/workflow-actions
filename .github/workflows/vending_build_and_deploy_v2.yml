@@ -83,7 +83,7 @@ jobs:
 
           vend_secondary=false
           vend_secondary_virtual_network_size=${{ inputs.vend_secondary_virtual_network_size }}
-          if [ -n "${{ github.event.inputs.vend_secondary_virtual_network_size }}" ]; then
+          if [ -n "$vend_secondary_virtual_network_size" ]; then
             vend_secondary=true
           fi
 
