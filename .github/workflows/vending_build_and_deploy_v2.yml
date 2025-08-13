@@ -53,7 +53,6 @@ on:
       vend_secondary_virtual_network_size:
         description: Secondary Region Virtual Network Size
         type: choice
-        default: small
         options:
           - small
           - medium
@@ -85,9 +84,12 @@ jobs:
           vend_secondary_virtual_network_size=${{ inputs.vend_secondary_virtual_network_size }}
           if [ -n "${{ github.event.inputs.vend_secondary_virtual_network_size }}" ]; then
             vend_secondary=true
-            # Set secondary virtual network size to small if not specified otherwise it will break downstream terraform
+          fi
+
+          if [ -z "$vend_secondary_virtual_network_size" ]; then
+            # Set secondary virtual network size to small if vend_secondary_virtual_network_size not specified otherwise it will break downstream terraform
             # terraform requires a value for vend_secondary_virtual_network_size
-            vend_secondary_virtual_network_size=small
+            vend_secondary_virtual_network_size="small"
           fi
 
           echo "vend_secondary=$vend_secondary" >> "$GITHUB_OUTPUT"
