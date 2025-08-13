@@ -97,6 +97,8 @@ jobs:
     steps:
       - name: Display Workload Details
         run: |
+
+
           # echo "Workload Name: ${{ github.event.inputs.vend_workload_name }}"
           # echo "Environment: ${{ github.event.inputs.vend_environment }}"
           # echo "Instance: ${{ github.event.inputs.vend_instance }}"
