@@ -92,13 +92,31 @@ jobs:
 
   Display_workload_details:
     runs-on: ubuntu-latest
-    needs: Calculate_if_second_virtual_network_is_needed
 
     steps:
-      - name: Display Workload Details
+      - name: display details
         run: |
 
-          echo "hello world"
+          vend_secondary=false
+          if [ -n "${{ github.event.inputs.vend_secondary_virtual_network_size }}" ]; then
+            vend_secondary=true
+          fi
 
-          # echo "Secondary Virtual Network Size: ${{ github.event.inputs.vend_secondary_virtual_network_size }}"
-          # echo "vend_secondary: ${{ fromJSON(needs.Calculate_if_second_virtual_network_is_needed.outputs.vend_secondary) }}"
+          echo "vend_secondary=$vend_secondary" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "vend_secondary_virtual_network_size=${{ github.event.inputs.vend_secondary_virtual_network_size }}" | tee -a "$GITHUB_STEP_SUMMARY"
+          echo "vend_instance=${{ github.event.inputs.vend_instance }}" >> "$GITHUB_OUTPUT"
+
+          echo "vend_secondary=$vend_secondary" >> "$GITHUB_OUTPUT"
+
+  # Display_workload_details:
+  #   runs-on: ubuntu-latest
+  #   needs: Calculate_if_second_virtual_network_is_needed
+
+  #   steps:
+  #     - name: Display Workload Details
+  #       run: |
+
+  #         echo "hello world"
+
+  #         # echo "Secondary Virtual Network Size: ${{ github.event.inputs.vend_secondary_virtual_network_size }}"
+  #         # echo "vend_secondary: ${{ fromJSON(needs.Calculate_if_second_virtual_network_is_needed.outputs.vend_secondary) }}"
