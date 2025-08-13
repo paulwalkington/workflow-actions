@@ -82,7 +82,7 @@ jobs:
         run: |
 
           vend_secondary=true
-          # vend_secondary_virtual_network_size=${{ inputs.vend_secondary_virtual_network_size }}
+          vend_secondary_virtual_network_size=${{ inputs.vend_secondary_virtual_network_size }}
           # if [ -n "$vend_secondary_virtual_network_size" ]; then
           #   vend_secondary=true
           # fi
