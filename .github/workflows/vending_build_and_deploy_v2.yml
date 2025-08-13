@@ -98,16 +98,7 @@ jobs:
       - name: display details
         run: |
 
-          vend_secondary=false
-          if [ -n "${{ github.event.inputs.vend_secondary_virtual_network_size }}" ]; then
-            vend_secondary=true
-          fi
-
-          echo "vend_secondary=$vend_secondary" | tee -a "$GITHUB_STEP_SUMMARY"
-          echo "vend_secondary_virtual_network_size=${{ github.event.inputs.vend_secondary_virtual_network_size }}" | tee -a "$GITHUB_STEP_SUMMARY"
-          echo "vend_instance=${{ github.event.inputs.vend_instance }}" >> "$GITHUB_OUTPUT"
-
-          echo "vend_secondary=$vend_secondary" >> "$GITHUB_OUTPUT"
+          echo "hello world"
 
   # Display_workload_details:
   #   runs-on: ubuntu-latest
