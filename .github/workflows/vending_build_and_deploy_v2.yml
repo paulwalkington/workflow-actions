@@ -92,6 +92,7 @@ jobs:
 
   Display_workload_details:
     runs-on: ubuntu-latest
+    needs: Calculate_if_second_virtual_network_is_needed
 
     steps:
       - name: display details
